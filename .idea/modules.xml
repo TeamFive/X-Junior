@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/X-Junior.iml" filepath="$PROJECT_DIR$/X-Junior.iml" />
+      <module fileurl="file://$PROJECT_DIR$/X-Junior-core/X-Junior-core.iml" filepath="$PROJECT_DIR$/X-Junior-core/X-Junior-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/X-Junior-dao/X-Junior-dao.iml" filepath="$PROJECT_DIR$/X-Junior-dao/X-Junior-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/X-Junior-rest/X-Junior-rest.iml" filepath="$PROJECT_DIR$/X-Junior-rest/X-Junior-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/X-Junior-service/X-Junior-service.iml" filepath="$PROJECT_DIR$/X-Junior-service/X-Junior-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/X-Junior-web/X-Junior-web.iml" filepath="$PROJECT_DIR$/X-Junior-web/X-Junior-web.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -1,0 +1,132 @@
+package controller;
+
+
+import com.google.gson.Gson;
+import exceptions.EntityException;
+import org.hibernate.exception.JDBCConnectionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import service.BaseService;
+
+
+/**
+ * Created by Administrator on 24.07.2014.
+ */
+@org.springframework.stereotype.Controller
+@RequestMapping("/")
+
+//TODO need to fix DAO add check;
+public class Controller {
+
+    @Autowired
+    EntityServiceChooser serviceChooser;
+
+    public void setServiceChooser(EntityServiceChooser serviceChooser) {
+        this.serviceChooser = serviceChooser;
+    }
+
+    @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getEntity(@PathVariable("entity") String entity, @PathVariable("id") long id) {
+        BaseService baseService = serviceChooser.serviceChooser(entity);
+        String json;
+        Gson gson = new Gson();
+        try {
+            json = gson.toJson(baseService.find(id));
+            return "{\n" +
+                    "    status : \"success\",\n" +
+                    "    data : " + json + "}\n" +
+                    "}";
+        } catch (JDBCConnectionException ex){
+            return "{\n" +
+                    "    status: \"error\" , \n" +
+                    "    message: \"Database is offline\" }\n";
+        } catch (EntityException ex){
+            return "{\n" +
+                    "    status: \"error\" , \n" +
+                    "    message: \"" + ex.getMessage() + "\" }\n";
+        }
+
+
+    }
+
+    @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteEntity(@PathVariable("entity") String entity, @PathVariable("id") long id){
+        BaseService baseService = serviceChooser.serviceChooser(entity);
+        try {
+            return "{ \n" +
+                    "     status: \"" + baseService.delete(id) + "}\n";
+        } catch (JDBCConnectionException ex){
+            return "{ \n" +
+                    "     status: \" error }\n" +
+                    "     message: \" Database is offline\" \n";
+        } catch (EntityException ex){
+            return "{ \n" +
+                    "     status: \" error }\n" +
+                    "     message: \" " + ex.getMessage() + " \" \n";
+        }
+
+    }
+
+//    @RequestMapping(value = "/{entity}/create", method = RequestMethod.POST, produces = "application/json")
+//    @ResponseBody
+//    public String createEntity(@PathVariable("entity") String entity, @RequestBody String str){
+//        setEntityService(entity);
+//        JSONParser parser = new JSONParser();
+//        try {
+//            Object object = parser.parse(str);
+//            JSONObject jsonObject = (JSONObject) object;
+//            User user = new User(jsonObject.get("name").toString(), jsonObject.get("password").toString(), jsonObject.get("email").toString());
+//            try {
+//                return "{ \n" +
+//                        "     status: \"" + entityService.createEntity(user) + "} \n";
+//            } catch (JDBCConnectionException ex) {
+//                return "{ \n" +
+//                        "     status: \" error }\n" +
+//                        "     message: \" Database is offline\" \n";
+//            } catch (EntityException ex) {
+//                return "{ \n" +
+//                        "     status: \" error }\n" +
+//                        "     message: \" " + ex.getMessage() + "\" \n";
+//            }
+//        }catch (ParseException ex){
+//            return "{ \n" +
+//                    "     status: \" error }\n" +
+//                    "     message: \" Soo invalid JSON \" \n";
+//        }
+//    }
+//
+//    @RequestMapping(value = "/{entity}/update", method = RequestMethod.POST, produces = "application/json")
+//    @ResponseBody
+//    public String updateEntity(@PathVariable("entity") String entity, @RequestBody String str){
+//        setEntityService(entity);
+//        JSONParser parser = new JSONParser();
+//        try {
+//            Object object = parser.parse(str);
+//            JSONObject jsonObject = (JSONObject) object;
+//            User user = new User(jsonObject.get("name").toString(), jsonObject.get("password").toString(), jsonObject.get("email").toString());
+//            try{
+//                return "{ \n" +
+//                        "     status: \"" + entityService.updateEntity(user) + "} \n";
+//            } catch (JDBCConnectionException ex){
+//                return "{ \n" +
+//                        "     status: \" error }\n" +
+//                        "     message: \" Database is offline\" \n";
+//            } catch (EntityException ex){
+//                return "{ \n" +
+//                        "     status: \" error }\n" +
+//                        "     message: \" " + ex.getMessage() + " \" \n";
+//            }
+//        } catch (ParseException ex){
+//            return "{ \n" +
+//                    "     status: \" error }\n" +
+//                    "     message: \" Soo invalid JSON \" \n";
+//        }
+//    }
+
+
+}
