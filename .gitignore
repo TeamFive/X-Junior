@@ -1,3 +1,10 @@
-X-Junior.iml
+
 .idea
+X-Junior.iml
 out
+X-Junior-core/X-Junior-core.iml
+X-Junior-dao/X-Junior-dao.iml
+X-Junior-rest/X-Junior-rest.iml
+X-Junior-service/X-Junior-service.iml
+X-Junior-web/X-Junior-web.iml
+*/target/

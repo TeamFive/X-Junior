@@ -54,8 +54,8 @@
     <orderEntry type="library" name="Maven: com.mysema.commons:mysema-commons-lang:0.2.4" level="project" />
     <orderEntry type="library" name="Maven: com.infradna.tool:bridge-method-annotation:1.11" level="project" />
     <orderEntry type="library" name="Maven: com.mysema.querydsl:querydsl-jpa:3.4.1" level="project" />
-    <orderEntry type="module" module-name="X-Junior-dao" />
     <orderEntry type="module" module-name="X-Junior-core" />
+    <orderEntry type="module" module-name="X-Junior-dao" />
   </component>
 </module>
 
