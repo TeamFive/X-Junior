@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
+import java.util.Queue;
 
 @Repository
 public class BaseDAOImpl<T> implements BaseDAO<T> {
@@ -57,5 +60,15 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
     @Override
     public String update(T t) {
         return "Success";
+    }
+
+    @Override
+    public List<T> getList() throws EntityException {
+        Query query = em.createQuery("from " + type.getName());
+        List<T> resultList = query.getResultList();
+        if (resultList.size() == 0)
+            throw new EntityException("Entities not found");
+        return resultList;
+
     }
 }

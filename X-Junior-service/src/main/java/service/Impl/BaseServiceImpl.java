@@ -6,6 +6,8 @@ import exceptions.EntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.BaseService;
 
+import java.util.List;
+
 public class BaseServiceImpl<T> implements BaseService<T> {
 
     @Autowired
@@ -37,4 +39,6 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     public String update(T t) {
         return baseDAO.update(t);
     }
+
+    public List<T> getList() throws EntityException {return baseDAO.getList(); }
 }

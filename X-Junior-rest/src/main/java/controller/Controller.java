@@ -72,6 +72,27 @@ public class Controller {
 
     }
 
+    @RequestMapping(value = "{entity}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getListEntity(@PathVariable("entity") String entity){
+        BaseService baseService = serviceChooser.serviceChooser(entity);
+        Gson gson = new Gson();
+        try {
+            return "{\n" +
+                    "    status : \"success\",\n" +
+                    "    data : " + gson.toJson(baseService.getList()) + "}\n" +
+                    "}";
+        } catch (EntityException ex){
+            return "{ \n" +
+                    "     status: \" error }\n" +
+                    "     message: \" " + ex.getMessage() + "\" \n";
+        } catch (JDBCConnectionException ex){
+            return "{ \n" +
+                    "     status: \" error }\n" +
+                    "     message: \" Database is offline\" \n";
+        }
+    }
+
 //    @RequestMapping(value = "/{entity}/create", method = RequestMethod.POST, produces = "application/json")
 //    @ResponseBody
 //    public String createEntity(@PathVariable("entity") String entity, @RequestBody String str){
