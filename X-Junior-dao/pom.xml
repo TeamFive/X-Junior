@@ -11,5 +11,12 @@
 
     <artifactId>xjunior-dao</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>TeamFive</groupId>
+            <artifactId>xjunior-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

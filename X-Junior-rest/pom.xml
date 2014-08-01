@@ -12,6 +12,17 @@
     <artifactId>xjunior-rest</artifactId>
 
     <packaging>war</packaging>
+    <build>
+        <finalName>X-Junior-rest</finalName>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>TeamFive</groupId>
+            <artifactId>xjunior-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

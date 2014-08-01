@@ -11,5 +11,12 @@
 
     <artifactId>xjunior-service</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>TeamFive</groupId>
+            <artifactId>xjunior-dao</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

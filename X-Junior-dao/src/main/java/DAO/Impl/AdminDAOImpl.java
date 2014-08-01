@@ -1,6 +1,5 @@
 package DAO.Impl;
 
-import DAO.Impl.BaseDAOImpl;
 import entity.Admin;
 import org.springframework.stereotype.Repository;
 
