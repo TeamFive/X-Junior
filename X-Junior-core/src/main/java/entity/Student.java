@@ -50,30 +50,39 @@ public class Student {
     @JoinColumn(name = "User_id")
     private User user;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<StudentGroup> studentGroupList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<StudentCustomField> studentCustomFieldList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<StudentCertificate> studentCertificateList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<TechnologyStudentNow> technologyStudentNowList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<TechnologyStudentFuture> technologyStudentFutureList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<Interview> interviewList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<StudentCurator> studentCuratorList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<StudentProject> studentProjectList;
 
+    @Transient
     @OneToMany(mappedBy = "student")
     private List<Feedback> feedbackList;
 
@@ -91,7 +100,16 @@ public class Student {
                    String skype,
                    boolean wantEnglishTraining,
                    String currentEnglishTraining,
-                   User user) {
+                   User user,
+                   List<StudentGroup> studentGroupList,
+                   List<StudentCustomField> studentCustomFieldList,
+                   List<StudentCertificate> studentCertificateList,
+                   List<TechnologyStudentNow> technologyStudentNowList,
+                   List<TechnologyStudentFuture> technologyStudentFutureList,
+                   List<Interview> interviewList,
+                   List<StudentCurator> studentCuratorList,
+                   List<StudentProject> studentProjectList,
+                   List<Feedback> feedbackList) {
         this.startedWorkDate = startedWorkDate;
         this.hadProbation = hadProbation;
         this.startAtCourse = startAtCourse;
@@ -104,6 +122,15 @@ public class Student {
         this.wantEnglishTraining = wantEnglishTraining;
         this.currentEnglishTraining = currentEnglishTraining;
         this.user = user;
+        this.studentGroupList = studentGroupList;
+        this.studentCustomFieldList = studentCustomFieldList;
+        this.studentCertificateList = studentCertificateList;
+        this.technologyStudentNowList = technologyStudentNowList;
+        this.technologyStudentFutureList = technologyStudentFutureList;
+        this.interviewList = interviewList;
+        this.studentCuratorList = studentCuratorList;
+        this.studentProjectList = studentProjectList;
+        this.feedbackList = feedbackList;
     }
 
     public Long getId() {

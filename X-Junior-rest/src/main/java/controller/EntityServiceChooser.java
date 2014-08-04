@@ -131,7 +131,7 @@ public class EntityServiceChooser {
             return settingService;
         if (entity.equalsIgnoreCase("student"))
             return studentService;
-        if(entity.equalsIgnoreCase("studentsertificate"))
+        if(entity.equalsIgnoreCase("studentcertificate"))
             return studentCertificateService;
         if (entity.equalsIgnoreCase("studentcurator"))
             return studentCuratorService;
