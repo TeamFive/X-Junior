@@ -95,29 +95,29 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "/add/{entity}", method = RequestMethod.GET)
-    @ResponseBody
-    public String addEntity(@PathVariable("entity") String entity) {
-        BaseService baseService = serviceChooser.serviceChooser(entity);
-        String json;
-        Gson gson = new Gson();
-        User user = new User("n","p","e");
-        try {
-            json = gson.toJson(baseService.add(user));
-            return "{\n" +
-                    "    status : \"success\",\n" +
-                    "    data : " + json + "}\n" +
-                    "}";
-        } catch (JDBCConnectionException ex){
-            return "{\n" +
-                    "    status: \"error\" , \n" +
-                    "    message: \"Database is offline\" }\n";
-        } catch (EntityException ex){
-            return "{\n" +
-                    "    status: \"error\" , \n" +
-                    "    message: \"" + ex.getMessage() + "\" }\n";
-        }
-    }
+//    @RequestMapping(value = "/add/{entity}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String addEntity(@PathVariable("entity") String entity) {
+//        BaseService baseService = serviceChooser.serviceChooser(entity);
+//        String json;
+//        Gson gson = new Gson();
+//        User user = new User("n","p","e");
+//        try {
+//            json = gson.toJson(baseService.add(user));
+//            return "{\n" +
+//                    "    status : \"success\",\n" +
+//                    "    data : " + json + "}\n" +
+//                    "}";
+//        } catch (JDBCConnectionException ex){
+//            return "{\n" +
+//                    "    status: \"error\" , \n" +
+//                    "    message: \"Database is offline\" }\n";
+//        } catch (EntityException ex){
+//            return "{\n" +
+//                    "    status: \"error\" , \n" +
+//                    "    message: \"" + ex.getMessage() + "\" }\n";
+//        }
+//    }
 
 //    @RequestMapping(value = "/update/{entity}/{id}", method = RequestMethod.GET)
 //    @ResponseBody
