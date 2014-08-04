@@ -4,6 +4,7 @@ import DAO.BaseDAO;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -52,13 +53,16 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
     }
 
     @Override
+    @Transactional
     public String add(T t) throws JDBCConnectionException, EntityException {
-
+        em.persist(t);
         return "Success";
     }
 
     @Override
+    @Transactional
     public String update(T t) {
+        em.merge(t);
         return "Success";
     }
 
