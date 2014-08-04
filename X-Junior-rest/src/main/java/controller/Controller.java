@@ -6,7 +6,8 @@ import entity.Technology;
 import entity.User;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,7 +148,7 @@ public class Controller {
 //    }
     @RequestMapping(value = "/{entity}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public String createEntity(@PathVariable("entity") String entity, @RequestBody String str){
+    public String createEntity(@PathVariable("entity") String entity, @RequestBody String str)  {
         BaseService baseService = serviceChooser.serviceChooser(entity);
         JSONParser parser = new JSONParser();
         try {
@@ -156,7 +157,7 @@ public class Controller {
             Technology technology = new Technology(jsonObject.get("technology_name").toString());
             try {
                 return "{ \n" +
-                        "     status: \"" + baseService.add(technology) + "} \n";
+                        "     status: \"" + baseService.add(technology) + "\" \n}";
             } catch (JDBCConnectionException ex) {
                 return "{ \n" +
                         "     status: \" error }\n" +
@@ -166,11 +167,14 @@ public class Controller {
                         "     status: \" error }\n" +
                         "     message: \" " + ex.getMessage() + "\" \n";
             }
-        }catch (ParseException ex){
+        } catch (ParseException ex){
             return "{ \n" +
                     "     status: \" error }\n" +
-                    "     message: \" Soo invalid JSON \" \n";
+                    "     message: \" Invalid JSON \" \n";
         }
+
+
+
     }
 //
 //    @RequestMapping(value = "/{entity}/update", method = RequestMethod.POST, produces = "application/json")
