@@ -36,7 +36,7 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
-    public String update(T t) {
+    public String update(T t) throws EntityException {
         return baseDAO.update(t);
     }
 
