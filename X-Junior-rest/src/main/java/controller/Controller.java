@@ -39,7 +39,7 @@ public class Controller {
             json = gson.toJson(baseService.find(id));
             return "{\n" +
                     "    status : \"success\",\n" +
-                    "    data : " + json + "}\n" +
+                    "    data : " + json + "\n" +
                     "}";
         } catch (JDBCConnectionException ex){
             return "{\n" +
@@ -81,16 +81,16 @@ public class Controller {
         try {
             return "{\n" +
                     "    status : \"success\",\n" +
-                    "    data : " + gson.toJson(baseService.getList()) + "}\n" +
+                    "    data : " + gson.toJson(baseService.getList()) + "\n" +
                     "}";
         } catch (EntityException ex){
-            return "{ \n" +
-                    "     status: \" error }\n" +
-                    "     message: \" " + ex.getMessage() + "\" \n";
-        } catch (JDBCConnectionException ex){
-            return "{ \n" +
-                    "     status: \" error }\n" +
-                    "     message: \" Database is offline\" \n";
+            return "{\n" +
+                    "    status: \"error\" , \n" +
+                    "    message: \"" + ex.getMessage() + "\" }\n";
+        } catch (JDBCConnectionException ex) {
+            return "{\n" +
+                    "    status: \"error\" , \n" +
+                    "    message: \"Database is offline\" }\n";
         }
     }
 
@@ -105,7 +105,7 @@ public class Controller {
             json = gson.toJson(baseService.add(user));
             return "{\n" +
                     "    status : \"success\",\n" +
-                    "    data : " + json + "}\n" +
+                    "    data : " + json + "\n" +
                     "}";
         } catch (JDBCConnectionException ex){
             return "{\n" +
@@ -129,7 +129,7 @@ public class Controller {
             json = gson.toJson(baseService.update(id));
             return "{\n" +
                     "    status : \"success\",\n" +
-                    "    data : " + json + "}\n" +
+                    "    data : " + json + "\n" +
                     "}";
         } catch (JDBCConnectionException ex){
             return "{\n" +
