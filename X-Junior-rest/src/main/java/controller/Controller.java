@@ -145,7 +145,7 @@ public class Controller {
 //
 //
 //    }
-    @RequestMapping(value = "/{entity}/create", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/{entity}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public String createEntity(@PathVariable("entity") String entity, @RequestBody String str){
         BaseService baseService = serviceChooser.serviceChooser(entity);
