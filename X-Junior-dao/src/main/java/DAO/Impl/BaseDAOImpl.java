@@ -63,7 +63,7 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
             }
             em.remove(t);
             logger.info("Removed " + t.getClass());
-            return "Success";
+            return "success";
         } catch (PersistenceException ex){
             logger.error(ex.getMessage());
             throw new EntityException("Database is offline");
@@ -78,7 +78,7 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
         try {
             em.persist(t);
             logger.info("Added " + t.getClass());
-            return "Success";
+            return "success";
         } catch (ConstraintViolationException ex){
             throw new EntityException("Duplicate entity");
         } catch (PersistenceException ex){
@@ -94,7 +94,7 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
         try {
             em.merge(t);
             logger.info("Updated " + t.getClass());
-            return "Success";
+            return "success";
         } catch (PersistenceException ex) {
             logger.error(ex.getMessage());
             throw new EntityException("Database is offline");
