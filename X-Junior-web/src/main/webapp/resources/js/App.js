@@ -23,7 +23,9 @@ define(["underscore", "Backbone", "jquery", "Config"],function(_, Backbone, $, C
                 $.when.apply($, routes).done(function(){
                 Backbone.history.start();
                 window.App = Application;
-                Application.trigger("start");
+                $("body").on("view:show", _.once(function(){
+                    Application.trigger("start");
+                }));
                 });
             });
         });
