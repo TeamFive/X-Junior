@@ -1,0 +1,16 @@
+<div class="page page-student">
+    <view data-id="header" data-constructor="Views/Base" data-options='{"tpl": {"src": "header.html?v=1" }}' />
+    <view data-id='pageDescription' data-constructor='Views/PageDescription' data-options="{
+        pageTitle: '{%- data.model.get('name') %}',
+        pageDescription: 'Full information'
+    }"/>
+    <view data-id='breadcrumbs' data-constructor='Views/Breadcrumb' data-options="{path:[
+        {
+            href: '#students',
+            title: 'Students'
+        }, {
+            href: '#students/{%- data.model.id %}',
+            title: '{%- data.model.get('name') %}'
+        }
+    ]}"/>
+</div>
