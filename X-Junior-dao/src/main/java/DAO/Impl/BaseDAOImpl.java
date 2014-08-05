@@ -53,6 +53,7 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
     }
 
     @Override
+    @Transactional
     public String delete(Long id) throws EntityException {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         try {

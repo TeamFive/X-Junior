@@ -3,9 +3,11 @@ package controller;
 
 import com.google.gson.Gson;
 import entity.Technology;
+import entity.User;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class Controller {
             json = gson.toJson(baseService.find(id));
             return "{\n" +
                     "    status : \"success\",\n" +
-                    "    data : " + json + "}\n" +
+                    "    data : " + json + "\n" +
                     "}";
         } catch (JDBCConnectionException ex){
             return "{\n" +
@@ -60,17 +62,16 @@ public class Controller {
         BaseService baseService = serviceChooser.serviceChooser(entity);
         try {
             return "{ \n" +
-                    "     status: \"" + baseService.delete(id) + "}\n";
+                    "     status: \"" + baseService.delete(id) + "\"}\n";
         } catch (JDBCConnectionException ex){
             return "{ \n" +
-                    "     status: \" error }\n" +
+                    "     status: \" error \"}\n" +
                     "     message: \" Database is offline\" \n";
         } catch (EntityException ex){
             return "{ \n" +
-                    "     status: \" error }\n" +
-                    "     message: \" " + ex.getMessage() + " \" \n";
+                    "     status: \" error \",\n" +
+                    "     message: \" " + ex.getMessage() + " \"} \n";
         }
-
     }
 
     @RequestMapping(value = "{entity}", method = RequestMethod.GET)
@@ -81,7 +82,7 @@ public class Controller {
         try {
             return "{\n" +
                     "    status : \"success\",\n" +
-                    "    data : " + gson.toJson(baseService.getList()) + "}\n" +
+                    "    data : " + gson.toJson(baseService.getList()) + "\n" +
                     "}";
         } catch (EntityException ex){
             return "{ \n" +
