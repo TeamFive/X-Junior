@@ -1,7 +1,7 @@
 /**
  * Created by dmantsevich on 7/25/2014.
  */
-define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request", "App"], function(View, Field, $, _, Request, App){
+define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request"], function(View, Field, $, _, Request){
 
     return View.extend({
         events: {
@@ -20,8 +20,6 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
             this.__initFields();
             this.$el.trigger("view:ready");
             (this.options.disable) && (this.disable());
-            this.Config = App.Config.request;
-            this.Model =  null;
         },
 
         /**
@@ -77,16 +75,32 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * @private
          */
         __sendData: function(data){
-            debugger;
+            var self = this;
+            var def = $.Deferred();
             if (this.model) {
-                return this.model.set(data).save() || $.Deferred().reject(data);
+                //TODO привести к общему виду reject первым сообщение, вторым дата
+                var modelSave = this.model.set(data).save();
+                if(modelSave.message === "fail"){
+                    modelSave.fail(function(message, data, model){
+                       return self.def.reject(message , data, model)
+                    });
+                }
+                return modelSave || def.reject("Invalid data verification", data, this.model);
+            } else if(this.collection){
+                this.collection.create(data,{
+                    success: def.resolve,
+                    error: function(model, message){
+                        def.reject(message, data, model);
+                    },
+                    wait: true
+                });
+                return def;
             } else {
-                var self = this;
                 return (new Request({
-                    url: self.Config.restUrl+self.options.url || self.$el.attr("action"),
-                    type: self.$el.attr("method") || "POST",
+                    url: this.options.url || this.$el.attr("action"),
+                    type: this.$el.attr("method") || "POST",
                     dataType: "json"
-                })).send(data);
+                })).submit(data);
             }
         },
 
@@ -106,8 +120,8 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
         /**
          * Run when __sendData is fail
          */
-        onFailSubmit: function(){
-            App.Error(this.options.failSubmitMessage);
+        onFailSubmit: function(message, data){
+            App.Error(this.options.failSubmitMessage+" : "+message);
             this.$el.trigger("form:submit:fail");
         },
 

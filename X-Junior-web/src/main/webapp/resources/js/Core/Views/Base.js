@@ -287,7 +287,9 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
          */
         __prepareCollection: function(){
             if (this.collection && this.options.prepareCollection) {
-                return this.collection.fetch();
+                return this.collection.fetch({
+                    reset: true
+                });
             }
             return null;
         },

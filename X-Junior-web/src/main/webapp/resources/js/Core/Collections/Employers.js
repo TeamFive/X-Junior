@@ -12,6 +12,9 @@ define(["Collections/Base", "Models/Employer"], function(Base, Employer){
                this.constructor._instance = this;
            }
        },
+       fetch: function(){
+           return $.Deferred().resolve();
+       },
        /*
        function get employers from server
         */
