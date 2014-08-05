@@ -15,7 +15,7 @@ public class Course extends BaseEntity {
     @Column(name = "course_name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "Faculty_id")
     private Faculty faculty;
 

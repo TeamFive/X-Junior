@@ -21,7 +21,7 @@ public class Setting extends BaseEntity{
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "User_id")
     private User user;
 

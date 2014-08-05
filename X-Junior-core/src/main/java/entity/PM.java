@@ -12,7 +12,7 @@ public class PM extends BaseEntity {
     @GenericGenerator(name = "increment", strategy = "increment")
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "User_id")
     private User user;
 

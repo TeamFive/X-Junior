@@ -12,11 +12,11 @@ public class StudentCustomField {
     @GenericGenerator(name = "increment", strategy = "increment")
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "Student_id")
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "CustomField_id")
     private CustomField customField;
 

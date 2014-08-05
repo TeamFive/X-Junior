@@ -18,11 +18,11 @@ public class Marks extends BaseEntity {
     @Column(name = "date")
     private String date;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "Student_id")
     private Student student;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "Group_id")
     private Group group;
 

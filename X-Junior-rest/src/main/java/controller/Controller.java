@@ -63,6 +63,7 @@ public class Controller {
             return "{\"status\":\"error\"," +
                     "\"message\":\"" + ex.getMessage() + "\"}";
         }
+
     }
 
     @RequestMapping(value = "{entity}", method = RequestMethod.GET)
@@ -106,6 +107,9 @@ public class Controller {
             return "{\"status\":\"error\"," +
                     "\"message\":\"invalid JSON\"}";
         }
+
+
+
     }
 //
 //    @RequestMapping(value = "/{entity}/update", method = RequestMethod.POST, produces = "application/json")
