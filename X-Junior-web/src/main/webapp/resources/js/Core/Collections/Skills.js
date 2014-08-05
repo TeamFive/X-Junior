@@ -1,6 +1,7 @@
 define(["Models/Skill", "Collections/Base", "underscore"], function(Skill, Collection, _){
     return Collection.extend({
         model:Skill,
+        url: '/technology',
         /**
          * Singleton
          * @returns {*|Collection.constructor._instance}
@@ -13,9 +14,6 @@ define(["Models/Skill", "Collections/Base", "underscore"], function(Skill, Colle
                 this.constructor._instance = this;
             }
         }
-
-
-
 
     });
 });

@@ -1,7 +1,8 @@
 /**
  * Created by dmantsevich on 7/25/2014.
  */
-define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request"], function(View, Field, $, _, Request){
+define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request", "App"], function(View, Field, $, _, Request, App){
+
     return View.extend({
         events: {
             "submit": "__resolveSubmit",
@@ -19,6 +20,8 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
             this.__initFields();
             this.$el.trigger("view:ready");
             (this.options.disable) && (this.disable());
+            this.Config = App.Config.request;
+            this.Model =  null;
         },
 
         /**
@@ -74,14 +77,16 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * @private
          */
         __sendData: function(data){
+            debugger;
             if (this.model) {
                 return this.model.set(data).save() || $.Deferred().reject(data);
             } else {
+                var self = this;
                 return (new Request({
-                    url: self.options.url || self.$el.attr("action"),
+                    url: self.Config.restUrl+self.options.url || self.$el.attr("action"),
                     type: self.$el.attr("method") || "POST",
                     dataType: "json"
-                })).submit(data);
+                })).send(data);
             }
         },
 

@@ -1,9 +1,6 @@
 define(["Models/Field", "Collections/Base", "underscore"], function(Field, Collection, _){
     return Collection.extend({
         model:Field,
-
-
-
         constructor: function(){
             if (this.constructor._instance) {
                 return this.constructor._instance;
@@ -12,10 +9,5 @@ define(["Models/Field", "Collections/Base", "underscore"], function(Field, Colle
                 this.constructor._instance = this;
             }
         }
-
-
-
-
-
     });
 });

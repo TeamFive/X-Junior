@@ -44,10 +44,9 @@ define(["Views/Base", "Collections/Employers", "Models/Employer", "underscore", 
         },
 
         isStudentFilter:function(field, students){
-            this.field = field;
-            return _.some(students.pluck('name'), function(value){
-                return (new RegExp(this.field, 'i')).test(value);
-            }, this);
+            return students.some(function(student){
+                return (new RegExp(field, 'i')).test(student.get('name'));
+            });
         },
 
         filterRow: function(row){

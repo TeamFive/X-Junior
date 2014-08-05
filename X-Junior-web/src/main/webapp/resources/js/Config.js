@@ -9,6 +9,9 @@ define({
     readyClass: "app-ready",
     disableStorage: true,
     request: {
+        restUrl: "/rest",
+        successStatuses: ["success"],
+        failStatuses: ["error"]
     },
     pages: {
         titlePrefix: "Exadel Students - ",
@@ -42,7 +45,8 @@ define({
             "Routes/Core",
             "Routes/Settings",
             "Routes/Employers",
-            "Routes/Students"
+            "Routes/Students",
+            "Routes/Managers"
             /*,
             "Routes/StudentProfile",
             "Routes/Settings"*/
@@ -50,6 +54,7 @@ define({
     },
     preloadModules: [
         "Views/Notification",
-        "Views/Spooler"
+        "Views/Spooler",
+        "Core/Request.Rest"
     ]
 });

@@ -10,7 +10,7 @@ define(["Views/Form", "App", "Collections/Skills", "Models/Skill"], function(For
 
         __sendData:function(skill){
             debugger;
-            return $.Deferred().resolve(skill);
+            return Form.prototype.__sendData.apply(this,arguments);
         },
 
         onSuccessSubmit: function(skill){
@@ -35,7 +35,9 @@ define(["Views/Form", "App", "Collections/Skills", "Models/Skill"], function(For
             tpl: {
                 src: "form.newskill.html?v=1"
             },
-            formTitle :"new skill"
+            prepareCollection: false,
+            formTitle :"new skill",
+            url: "/technology"
 
 
         })

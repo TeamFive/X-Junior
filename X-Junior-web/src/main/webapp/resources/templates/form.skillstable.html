@@ -5,7 +5,7 @@
 {% data.collection.forEach(function(skill, i){  %}
 
     <li>
-        {%- skill.get('name') %}
+        {%- skill.get('technology_name') %}
         <i id="{%- skill.get('id') %}" class="fa fa-times"/>
     </li>
 

@@ -3,7 +3,10 @@ define(["Models/Base", "underscore", "Collections/Skills"], function(Model, _, S
 
     return Model.extend({
         defaults:{
-           name:""
+           technology_name: ""
+
+        },
+        save: function(){
 
         }
 

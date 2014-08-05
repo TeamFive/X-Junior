@@ -6,9 +6,6 @@ define(["Backbone", "Models/Base", "jquery"], function(Backbone, Model, $){
         model: Model,
         at: function(position){
             return Backbone.Collection.prototype.at.call(this, position || 0);
-        },
-        fetch: function(){
-            return $.Deferred().resolve([]);
         }
     });
 });
