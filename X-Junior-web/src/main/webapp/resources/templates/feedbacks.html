@@ -1,0 +1,155 @@
+<script type="text/template" id="list">
+    <div class="feedback-list">
+        {%? data.collection && data.collection.length %}
+        <div class="accordion">
+            <view data-constructor="Views/FeedbackForm" data-options="{ model: new data.collection.model(), disable: false, cancelLabel: '' }"/>
+            {% data.collection.forEach(function(el, i){ %}
+                <view data-constructor="Views/FeedbackForm" data-options="{ model: data.collection.at({%- i %}) }"/>
+            {% }); %}
+        </div>
+        {%??%}
+        <div class="no-feeds">
+            No feeds...
+        </div>
+        {%?%}
+    </div>
+</script>
+
+<script type="text/template" id="item">
+    <div class="feedback-item">
+        <div class="accordion-group">
+            <div class="panel-heading accordion-heading">
+                <a class="accordion-toggle" data-parent="#accordion2" href="#collapseSeven">
+                    {%- data.model.get('date') || ((new Date).toDateString()) %}
+                    {%? data.model.get('curator')%}
+                        - {%- data.model.get('curator') %}
+                    {%?%}
+                </a>
+            </div>
+            <div id="collapseSeven" class="accordion-body collapse in">
+                <h3 >{%- data.model.get('curator') %}</h3>
+                <table class="table table-striped table-hover ">
+                    <thead>
+                        <tr>
+                            <th>Criterion</th>
+                            <th>Mark</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Relations in the team</td>
+                            <td>
+                                <view data-id="relationsInTheTeam" data-constructor="Views/Fields/Selectable" data-options="{
+                                    name: 'relationsInTheTeam',
+                                    value: data.model.get('relationsInTheTeam') || '',
+                                    rules: {
+                                        required: true
+                                    },
+                                    items: [{
+                                        value: '',
+                                        label: 'One'
+                                    },{
+                                        value: 'two',
+                                        label: 'Two'
+                                    },{
+                                        value: 'three',
+                                        label: 'Three'
+                                    },{
+                                        value: 'four',
+                                        label: 'Its last element'
+                                    }]
+                                }" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Professional suitability</td>
+                            <td>
+                                <view data-id="professionalSuitability" data-constructor="Views/Fields/Dropdown" data-options="{
+                                    name: 'professionalSuitability',
+                                    value: data.model.get('professionalSuitability') || '',
+                                    rules: {
+                                        required: true
+                                    },
+                                    items: [{
+                                        value: '',
+                                        label: 'One'
+                                    },{
+                                        value: 'two',
+                                        label: 'Two'
+                                    },{
+                                        value: 'three',
+                                        label: 'Three'
+                                    },{
+                                        value: 'four',
+                                        label: 'Its last element'
+                                    }]
+                                }" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Attitude to work</td>
+                            <td>
+                                Normal
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Professional progress</td>
+                            <td>
+                                Huge
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Increase working hours</td>
+                            <td>
+                                No
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Works at real project</td>
+                            <td>
+                                Yes
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Current status</td>
+                            <td>
+                                Works
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <label class="control-label">Note</label>
+                    <view data-id="note" data-constructor="Views/Fields/Textarea" data-options="{
+                        className: 'form-control',
+                        value: data.model.get('note'),
+                        name: 'note',
+                        rules: {
+                            required: true
+                        },
+                        value: '{%- data.model.get('note') %}'
+                    }"/>
+                </div>
+
+                <div class="form-buttons-container">
+                    <div class="edit-button-container">
+                        <button type="button" class="btn btn-primary btn-sm enable-form">{%- data.editLabel %}</button>
+                    </div>
+                    <div class="save-button-container">
+                        {%? data.cancelLabel %}
+                        <button type="button" class="btn btn-default btn-sm cancel-submit">{%- data.cancelLabel %}</button>
+                        {%?%}
+                        <button type="button" class="btn btn-primary btn-sm submit-button">{%- data.saveLabel %}</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
