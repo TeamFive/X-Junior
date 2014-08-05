@@ -3,11 +3,9 @@ package controller;
 
 import com.google.gson.Gson;
 import entity.Technology;
-import entity.User;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,18 +37,14 @@ public class Controller {
         Gson gson = new Gson();
         try {
             json = gson.toJson(baseService.find(id));
-            return "{\n" +
-                    "    status : \"success\",\n" +
-                    "    data : " + json + "\n" +
-                    "}";
+            return "{\"status\":\"success\"," +
+                    "\"data\":" + json + "}";
         } catch (JDBCConnectionException ex){
-            return "{\n" +
-                    "    status: \"error\" , \n" +
-                    "    message: \"Database is offline\" }\n";
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"Database is offline\"}";
         } catch (EntityException ex){
-            return "{\n" +
-                    "    status: \"error\" , \n" +
-                    "    message: \"" + ex.getMessage() + "\" }\n";
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"" + ex.getMessage() + "\"}";
         }
 
 
@@ -61,16 +55,13 @@ public class Controller {
     public String deleteEntity(@PathVariable("entity") String entity, @PathVariable("id") long id){
         BaseService baseService = serviceChooser.serviceChooser(entity);
         try {
-            return "{ \n" +
-                    "     status: \"" + baseService.delete(id) + "\"}\n";
+            return "{\"status\":\"" + baseService.delete(id) + "\"}";
         } catch (JDBCConnectionException ex){
-            return "{ \n" +
-                    "     status: \" error \"}\n" +
-                    "     message: \" Database is offline\" \n";
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"Database is offline\"}";
         } catch (EntityException ex){
-            return "{ \n" +
-                    "     status: \" error \",\n" +
-                    "     message: \" " + ex.getMessage() + " \"} \n";
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"" + ex.getMessage() + "\"}";
         }
     }
 
@@ -80,18 +71,14 @@ public class Controller {
         BaseService baseService = serviceChooser.serviceChooser(entity);
         Gson gson = new Gson();
         try {
-            return "{\n" +
-                    "    status : \"success\",\n" +
-                    "    data : " + gson.toJson(baseService.getList()) + "\n" +
-                    "}";
+            return "{\"status\":\"success\"," +
+                    "\"data\":" + gson.toJson(baseService.getList()) + "}";
         } catch (EntityException ex){
-            return "{ \n" +
-                    "     status: \" error }\n" +
-                    "     message: \" " + ex.getMessage() + "\" \n";
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"" + ex.getMessage() + "\"}";
         } catch (JDBCConnectionException ex){
-            return "{ \n" +
-                    "     status: \" error }\n" +
-                    "     message: \" Database is offline\" \n";
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"Database is offline\"}";
         }
     }
 
@@ -107,25 +94,18 @@ public class Controller {
             JSONObject jsonObject = (JSONObject) object;
             Technology technology = new Technology(jsonObject.get("technology_name").toString());
             try {
-                return "{ \n" +
-                        "     status: \"" + baseService.add(technology) + "\" \n}";
+                return "{\"status\":\"" + baseService.add(technology) + "\"}";
             } catch (JDBCConnectionException ex) {
-                return "{ \n" +
-                        "     status: \" error }\n" +
-                        "     message: \" Database is offline\" \n";
+                return "{\"status\":\"error\"," +
+                        "\"message\":\"Database is offline\"}";
             } catch (EntityException ex) {
-                return "{ \n" +
-                        "     status: \" error }\n" +
-                        "     message: \" " + ex.getMessage() + "\" \n";
+                return "{\"status\":\"error\"," +
+                        "\"message\":\"" + ex.getMessage() + "\"}";
             }
         } catch (ParseException ex){
-            return "{ \n" +
-                    "     status: \" error }\n" +
-                    "     message: \" invalid JSON \" \n";
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"invalid JSON\"}";
         }
-
-
-
     }
 //
 //    @RequestMapping(value = "/{entity}/update", method = RequestMethod.POST, produces = "application/json")
