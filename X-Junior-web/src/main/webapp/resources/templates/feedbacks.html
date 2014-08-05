@@ -2,7 +2,7 @@
     <div class="feedback-list">
         {%? data.collection && data.collection.length %}
         <div class="accordion">
-            <view data-constructor="Views/FeedbackForm" data-options="{ model: new data.collection.model(), disable: false, cancelLabel: '' }"/>
+            <view data-constructor="Views/FeedbackForm" data-options="{ collection: data.collection, disable: false, cancelLabel: '' }"/>
             {% data.collection.forEach(function(el, i){ %}
                 <view data-constructor="Views/FeedbackForm" data-options="{ model: data.collection.at({%- i %}) }"/>
             {% }); %}
