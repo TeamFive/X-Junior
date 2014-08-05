@@ -20,7 +20,7 @@ define(["Routes/Base", "App"], function(Router, App){
          */
         "checkPageIsExists": function(path){
             if (!this.routeExists(path)) {
-                this.navigate("404");
+                this.navigate("404", {trigger: true, replace: true});
             } else {
                 this.navigate(path);
             }

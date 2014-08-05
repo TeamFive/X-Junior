@@ -1,91 +1,47 @@
-define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], function(View, $, _, Validator, bootstrap){
+define(["Views/Fields/Base", "jquery", "underscore"], function(View, $, _){
     return View.extend({
-
-        __ready: function(){
-            var $el = this.$el;
-            _.each(this.options.attrs || {}, function(val, key){
-                $el.attr(key, val);
-            });
-            if (this.options.disable === true) {
-                this.disable();
-            } else {
-                this.enable();
-            }
-            View.prototype.__ready.apply(this, arguments);
-            return this;
+        events:{
+            "change {items}":"edited"
         },
 
-        serialize: function(){
-            var result = {};
-            result[this.options.name] = this.getValue();
-            return result;
+
+
+        edited:function(){
+            this.$el.trigger("field:changed");
+        },
+
+
+        setValue: function(value){
+            debugger;
+            this.$(".radio-button").removeAttr("checked");
+
+            var i=0;
+            if (value!="") {
+                _.each(this.options.buttons || [], function (button) {
+                    if (value == button.label) {
+                       this.$(".radio-button")[i].checked = true;
+                    }
+                    i++;
+                });
+            };
+
         },
 
         getValue: function(){
-            return this.$el.val();
-        },
-
-        setValue: function(value){
-            this.$el.val(value);
-        },
-
-        verify: function(){
-            this.dropLastVerificationResult();
-            var validationResult = Validator.check(this.getValue(), this.options.rules || null);
-            this.setVerificationResult(validationResult);
-            return (validationResult === true)? true : false;
-        },
-
-        dropLastVerificationResult: function(){
-            this.$el.parent().removeClass("has-error has-success");
-            this.$el.tooltip('destroy');
-        },
-
-        setVerificationResult: function(result){
-            if (result !== true) {
-                this.$el.parent().addClass("has-error");
-                this.$el.tooltip({
-                    title: result,
-                    trigger: "focus",
-                    placement: "bottom"
-                }).focus();
-            } else {
-                this.$el.parent().addClass("has-success");
-            }
-        },
-
-        disable: function(){
-            this.disabled = true;
-            this.dropLastVerificationResult();
-            this.$el
-                .attr("disabled", "disabled")
-                .addClass(this.options.disableClass);
-        },
-
-        enable: function(){
-            this.disabled = false;
-            this.dropLastVerificationResult();
-            this.$el
-                .removeAttr("disabled")
-                .removeClass(this.options.disableClass);
-        },
-
-        reset: function(){
-            this.setValue(this.options.value);
+            return this.$(":checked").val();
         }
+
+
+
     },{
         defaults: $.extend(true, {}, View.defaults, {
-            disableClass: "field-disabled",
-            disable: false,
-            name: "",
-            value: null,
-            attrs: {},
-            type: "hidden",
-            title: "",
-            rules: null,
+            buttons:[],
+            value: "",
+            items: ".radio-button",
+            name:"",
             tpl: {
                 src: "fields.html?v=1",
-                $: "field"
+                $: "field-radio"
             }
         })
     });

@@ -1,70 +1,71 @@
-define(["Views/Base", "jquery", "Views/AddTextFieldForm", "Views/AddRadioFieldForm", "Views/AddCheckboxFieldForm"], function (View, $, AddTextFieldForm, AddRadioFieldForm, AddCheckFieldForm) {
-    return View.extend({
-        events: {
-            "click .choise-text": "addTextForm",
-            "click .choise-radio": "addRadioForm",
-            "click .choise-check": "addCheckForm"
+define(["Views/Form", "App", "jquery", "Collections/Fields", "Models/Field"], function (Form, App, $, Fields, Field) {
+    return Form.extend({
 
-        },
-
-
-        addTextForm: function (event) {
-
-            $("div").remove(".check-form");
-            $("div").remove(".radio-form");
-            $("div").remove(".text-form");
-            var form = new AddTextFieldForm({
-                "container": this.$el,
-                "containerResolveMethod": "append"
+        constructor: function (options) {
+            options.collection = new Fields();
+            Form.prototype.constructor.apply(this, [options]);
+            debugger;
+            $( document ).ready(function() {
+                debugger;
+                //alert("sdfc");
+                //this.reset();
             });
 
-            form.show();
         },
 
-        addRadioForm: function (event) {
 
-            $("div").remove(".check-form");
-            $("div").remove(".radio-form");
-            $("div").remove(".text-form");
-            var form = new AddRadioFieldForm({
-                "container": this.$el,
-                "containerResolveMethod": "append"
+
+        serialize: function () {
+            var result = {};
+            _.each(this.fields || [], function (field) {
+                if (field.$el.is(':visible'))
+                    _.extend(result, field.serialize());
             });
-
-            form.show();
+            return result;
         },
 
-        addCheckForm: function (event) {
-            $("div").remove(".check-form");
-            $("div").remove(".radio-form");
-            $("div").remove(".text-form");
+        __ready: function () {
+            Form.prototype.__ready.apply(this, arguments);
+            this.hideAllTypesForm();
+            debugger;
+            this.getFieldByName("fieldType").$el.on("field:changed", this.showTypeForm.bind(this));
+            //this.reset();
+        },
 
-            var form = new AddCheckFieldForm({
-                "container": this.$el,
-                "containerResolveMethod": "append"
-            });
+        showTypeForm: function () {
+            var value = this.getFieldByName("fieldType").getValue();
+            this.hideAllTypesForm();
+            this.$("." + value + "-form").show();
 
-            form.show();
+        },
+
+        hideAllTypesForm: function () {
+            this.$(".type-form").hide();
+        },
+
+        __sendData: function (field) {
+
+            return $.Deferred().resolve(field);
         },
 
 
-        alertIt: function (field) {
-            alert(JSON.stringify(field.name));
+        onSuccessSubmit: function (field) {
+
+            this.hideAllTypesForm();
+            if (this.collection.where({name: field.name}).length == 0)
+                this.collection.add(field);
+            this.reset();
         }
 
 
 
-
-
-
     }, {
-
-
-        defaults: $.extend(true, {}, View.defaults, {
+        defaults: $.extend(true, {}, Form.defaults, {
             tpl: {
                 src: "form.newfield.html?v=1"
             },
-            "submitButton": ".submit-button",
+            formTitle: "new field"
+
 
         })
     });

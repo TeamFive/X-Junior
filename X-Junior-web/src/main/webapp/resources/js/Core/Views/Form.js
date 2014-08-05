@@ -6,6 +6,8 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
         events: {
             "submit": "__resolveSubmit",
             "{submitEvent} {submitButton}": "submit",
+            "{enableEvent} {enableButton}": "enable",
+            "{cancelEvent} {cancelButton}": "cancel",
             "{resetEvent} {resetButton}": "reset"
         },
 
@@ -16,6 +18,7 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
         __ready: function(){
             this.__initFields();
             this.$el.trigger("view:ready");
+            (this.options.disable) && (this.disable());
         },
 
         /**
@@ -27,7 +30,6 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
             this.fields = _.filter(this.childrenViews || [], function(view){
                 return !!((view instanceof Field) && view.options.name);
             }) || [];
-            window.f = this;
             return this;
         },
 
@@ -59,6 +61,7 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * @returns {*|boolean}
          */
         verify: function(){
+            this.dropLastVerificationResult();
             return _.all(this.fields || [], function(field){
                 return field.verify();
             });
@@ -71,11 +74,15 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * @private
          */
         __sendData: function(data){
-            return (new Request({
-                url: self.options.url || self.$el.attr("action"),
-                type: self.$el.attr("method") || "POST",
-                dataType: "json"
-            })).submit(data);
+            if (this.model) {
+                return this.model.set(data).save() || $.Deferred().reject(data);
+            } else {
+                return (new Request({
+                    url: self.options.url || self.$el.attr("action"),
+                    type: self.$el.attr("method") || "POST",
+                    dataType: "json"
+                })).submit(data);
+            }
         },
 
         onBeforeSubmit: function(){
@@ -86,14 +93,16 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
         /**
          *   Run when __sendData is done
          */
-        onSuccessSubmit: function(){
-            this.$el.trigger("form:submit:success");
+        onSuccessSubmit: function(data){
+            this.__updateFieldsDefaultValue();
+            this.$el.trigger("form:submit:success", data);
         },
 
         /**
          * Run when __sendData is fail
          */
         onFailSubmit: function(){
+            App.Error(this.options.failSubmitMessage);
             this.$el.trigger("form:submit:fail");
         },
 
@@ -108,16 +117,18 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * Submit data to the server
          */
         submit: function(e){
-            e.preventDefault();
-            var self = this;
-            if (this.verify() === true) {
-                this.onBeforeSubmit();
-                this.__sendData(this.serialize())
-                    .always(self.onCompleteSubmit.bind(self))
-                    .done(self.onSuccessSubmit.bind(self))
-                    .fail(self.onFailSubmit.bind(self));
-            } else {
-                this.onVerificationError();
+            if (e && e.preventDefault && e.type.indexOf('key') != 0) {e.preventDefault();}
+            if (!this.__disabled) {
+                var self = this;
+                if (this.verify() === true) {
+                    this.onBeforeSubmit();
+                    this.__sendData(this.serialize())
+                        .always(self.onCompleteSubmit.bind(self))
+                        .done(self.onSuccessSubmit.bind(self))
+                        .fail(self.onFailSubmit.bind(self));
+                } else {
+                    this.onVerificationError();
+                }
             }
         },
 
@@ -133,7 +144,7 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * Reset form
          */
         reset: function(e){
-            e.preventDefault();
+           // e.preventDefault();
             _.each(this.fields || [], function(field){
                 field.reset();
             });
@@ -156,24 +167,62 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
         /**
          * Disable form fields
          */
-        disable: function(){
+        disable: function(e){
+            if (e && e.preventDefault) {e.preventDefault();}
             _.each(this.fields || [], function(field){
                 field.disable();
             });
+            this.__disabled = true;
+            this.$el.addClass(this.options.disabledClass);
         },
 
         /**
          * Enable form fields
          */
-        enable: function(){
+        enable: function(e){
+            if (e && e.preventDefault) {e.preventDefault();}
             _.each(this.fields || [], function(field){
                 field.enable();
+            });
+            this.__disabled = false;
+            this.$el.removeClass(this.options.disabledClass);
+        },
+
+        /**
+         * Reset and disable form
+         * @param e
+         */
+        cancel: function(e){
+            if (e && e.preventDefault) {e.preventDefault();}
+            this.reset();
+            this.disable();
+        },
+
+        /**
+         * Set as default last submit data
+         */
+        __updateFieldsDefaultValue: function(){
+            _.each(this.fields || [], function(field){
+                field.options.value = field.getValue();
+            });
+        },
+
+        dropLastVerificationResult: function(){
+            _.each(this.fields || [], function(field){
+                field.dropLastVerificationResult();
             });
         }
 
     }, {
         defaults: $.extend(true, {}, View.defaults, {
             "url": "",
+            "failSubmitMessage": "Can not save data",
+            "disable": false,
+            "disabledClass": "form-disabled",
+            "enableEvent": "click",
+            "enableButton": ".enable-form",
+            "cancelEvent": "click",
+            "cancelButton": ".cancel-submit",
             "resetButton": ".reset-button",
             "resetEvent": "click",
             "submitButton": ".submit-button",

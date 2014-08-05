@@ -31,81 +31,12 @@
             <div class="jumbotron">
 
                 <view data-id='addFieldForm' data-constructor='Views/NewFieldForm' />
+                <view data-id='addFieldTable' data-constructor='Views/FieldsTable' />
 
 
-                <table class="table table-striped table-hover ">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Default</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    {% var length = data.allfields.length; %}
-                    {{~ data.allfields :link:position }}
-                    {%? (position >= length) %}
-                    <tr>
-
-
-
-
-
-                        {%??%}
-                        <td>
-                            {%- position+1 %}
-                        </td>
-
-
-
-                        <td>
-                            {%- link.name %}
-                        </td>
-
-
-                        <td>
-                            {%- link.type %}
-                        </td>
-
-
-                        <td>
-                            {%- link.default %}
-                        </td>
-
-
-                    </tr>
-
-                    {%?%}
-
-                    {{~}}
-
-
-
-                    </tbody>
-                </table>
 
             </div>
-            <view data-id="AddNewRadio"
-                  data-constructor="Views/Overlay"
-                  data-options="{className: 'add-radio-popup', title: 'Enter button names'}">
-                <view data-id='addField' data-constructor='Views/AddRadioFieldForm'/>
-            </view>
 
-
-            <view data-id="AddNewCheckbox"
-                  data-constructor="Views/Overlay"
-                  data-options="{className: 'add-checkbox-popup', title: 'Enter default value'}">
-                <view data-id='addField' data-constructor='Views/AddCheckboxFieldForm'/>
-            </view>
-
-
-            <view data-id="AddNewText"
-                  data-constructor="Views/Overlay"
-                  data-options="{className: 'add-text-popup', title: 'Enter default value'}">
-                <view data-id='addField' data-constructor='Views/AddTextFieldForm'/>
-            </view>
 
 
         </div>

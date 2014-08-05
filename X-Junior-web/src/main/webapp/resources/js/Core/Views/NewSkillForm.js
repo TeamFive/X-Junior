@@ -14,6 +14,13 @@ define(["Views/Form", "App", "Collections/Skills", "Models/Skill"], function(For
         },
 
         onSuccessSubmit: function(skill){
+            if (this.verify() === true)
+            {
+                _.each(this.fields || [], function(field){
+                    debugger;
+                    field.reset();
+                });
+            }
 
            if(this.collection.where({name:skill.name}).length==0)
            this.collection.add(skill);

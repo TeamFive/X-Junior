@@ -3,8 +3,8 @@ define(["Routes/Base", "App"], function(Router, App){
         routes: {
 
             "settings":"showSettingsPage",
-            "setting/fields":"showNewFieldPage",
-            "setting/skills":"showNewSkillPage"
+            "settings/fields":"showNewFieldPage",
+            "settings/skills":"showNewSkillPage"
         },
 
 

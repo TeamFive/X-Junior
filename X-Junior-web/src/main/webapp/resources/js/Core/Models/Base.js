@@ -11,6 +11,10 @@ define(["Backbone", "jquery"], function(Backbone, $){
         fetch: function(){
             //TODO: Realize
             return $.Deferred().resolve();
+        },
+
+        save: function(){
+            return $.Deferred().resolve(this);
         }
     });
 });

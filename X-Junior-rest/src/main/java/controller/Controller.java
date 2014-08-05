@@ -3,11 +3,9 @@ package controller;
 
 import com.google.gson.Gson;
 import entity.Technology;
-import entity.User;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;

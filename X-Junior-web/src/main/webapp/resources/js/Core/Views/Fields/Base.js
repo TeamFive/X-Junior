@@ -3,9 +3,11 @@
  */
 define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], function(View, $, _, Validator, bootstrap){
     return View.extend({
-
+        events: {
+            "{dropVerificationStatusEvent}": "dropLastVerificationResult"
+        },
         __ready: function(){
-            var $el = this.$el;
+           var $el = this.$el;
             _.each(this.options.attrs || {}, function(val, key){
                 $el.attr(key, val);
             });
@@ -15,6 +17,7 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
                 this.enable();
             }
             View.prototype.__ready.apply(this, arguments);
+            this.$el.trigger("field:ready");
             return this;
         },
 
@@ -29,14 +32,20 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
         },
 
         setValue: function(value){
-            this.$el.val(value);
+            if (!this.__disabled) {
+                this.$el.val(value);
+            }
         },
 
         verify: function(){
             this.dropLastVerificationResult();
-            var validationResult = Validator.check(this.getValue(), this.options.rules || null);
-            this.setVerificationResult(validationResult);
-            return (validationResult === true)? true : false;
+            if (!this.__disabled) {
+                var validationResult = Validator.check(this.getValue(), this.options.rules || null);
+                this.setVerificationResult(validationResult);
+                return (validationResult === true)? true : false;
+            } else {
+                return true;
+            }
         },
 
         dropLastVerificationResult: function(){
@@ -49,16 +58,21 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
                 this.$el.parent().addClass("has-error");
                 this.$el.tooltip({
                     title: result,
-                    trigger: "focus",
-                    placement: "bottom"
-                }).focus();
+                    trigger: this.options.tooltipEvent,
+                    placement: this.options.tooltipPlacement
+                });
+                if (this.options.tooltipEvent){
+                    this.$el.trigger(this.options.tooltipEvent);
+                } else {
+                    this.$el.tooltip("show");
+                }
             } else {
                 this.$el.parent().addClass("has-success");
             }
         },
 
         disable: function(){
-            this.disabled = true;
+            this.__disabled = true;
             this.dropLastVerificationResult();
             this.$el
                 .attr("disabled", "disabled")
@@ -66,7 +80,7 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
         },
 
         enable: function(){
-            this.disabled = false;
+            this.__disabled = false;
             this.dropLastVerificationResult();
             this.$el
                 .removeAttr("disabled")
@@ -79,6 +93,9 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
     },{
         defaults: $.extend(true, {}, View.defaults, {
             disableClass: "field-disabled",
+            dropVerificationStatusEvent: "change",
+            tooltipEvent: "focus",
+            tooltipPlacement: "bottom",
             disable: false,
             name: "",
             value: null,
@@ -86,6 +103,8 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
             type: "hidden",
             title: "",
             rules: null,
+            className:"",
+            placeHolderName:"",
             tpl: {
                 src: "fields.html?v=1",
                 $: "field"

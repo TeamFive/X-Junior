@@ -73,6 +73,19 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
         },
 
         /**
+         * Move element to container
+         * @param container
+         * @param method
+         * @private
+         */
+        __moveToContainer: function(container, method){
+            if (container && method) {
+                $(container)[method](this.$el);
+                this.$el.trigger("view:moved", this);
+            }
+        },
+
+        /**
          * Inner method for resolving render view
          * @param xhr
          * @param template
@@ -89,10 +102,7 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
                         self.setElement(viewMarkup); // Update element
                         self.isRendered = true;
                         self.__ready();
-                        if (self.options.container &&
-                            self.options.containerResolveMethod) { // If container exists append element to it
-                            $(self.options.container)[self.options.containerResolveMethod](self.$el);
-                        }
+                        self.__moveToContainer(self.options.container, self.options.containerResolveMethod);
                         xhr.resolveWith(this, []);
                     }
                 }).fail(function(){
@@ -137,7 +147,7 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
                 views.push(xhr);
                 // Parse options
                 try {
-                    options = (new Function("return " + options + ";"))() || {};
+                    options = (new Function(App.Config.templates.exportName, "return " + options + ";"))(self.options) || {};
                 } catch (e) {
                     options = {};
                 }
@@ -182,6 +192,29 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
          */
         __isRenderStopped: function(){
             return this.__renderStopped;
+        },
+
+        /**
+         * Rerender view. It's not safely
+         * @returns {*}
+         */
+        rerender: function(){
+            var options = this.options,
+                container = options.container,
+                method = options.containerResolveMethod,
+                xhr;
+            if (!this.isRendered) {
+                xhr = this.render();
+            } else {
+                this.isRendered = false;
+                options.container = this.$el;
+                options.containerResolveMethod = "replaceWith";
+                xhr = this.render().done(function(){
+                    options.container = container;
+                    options.containerResolveMethod = method;
+                });
+            }
+            return xhr;
         },
 
         /**
@@ -241,7 +274,7 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
          * @private
          */
         __prepareModel: function(){
-            if (this.model) {
+            if (this.model && this.options.prepareModel) {
                 return this.model.fetch();
             }
             return null;
@@ -253,7 +286,7 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
          * @returns {*}
          */
         __prepareCollection: function(){
-            if (this.collection) {
+            if (this.collection && this.options.prepareCollection) {
                 return this.collection.fetch();
             }
             return null;
@@ -306,7 +339,10 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
         defaults: {
             // Use it on your tpl
             className: "",
-
+            // Fetch model before render or not
+            prepareModel: true,
+            // Fetch collection before render or not
+            prepareCollection: true,
             // Settings for show/hide animation
             fx: {
                 show: {

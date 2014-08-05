@@ -26,6 +26,8 @@ define(["Collections/Skills", "Views/Base", "App", "jquery"], function (Skills, 
 
 
         addline:function(skill){
+
+
             this.$el.append("<li>" + skill.get("name") + "<i data-id='"+ skill.get('id') +"' class='fa fa-times'></i></li>");
         }
 

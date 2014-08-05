@@ -38,10 +38,10 @@ define(["underscore", "Backbone", "jquery", "Config"],function(_, Backbone, $, C
     // Error dispatcher
     Application.Error = function(error){
         (_.isString(error)) && (error = new Error(error));
-        //Application.trigger("error", error); // You can subscribe on error event.
+        Application.trigger("error", error); // You can subscribe on error event.
     };
 
-    //window.onerror = Application.Error;
+    window.onerror = Application.Error;
 
     // Authors
     Application.authors = [

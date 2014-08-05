@@ -1,13 +1,13 @@
-<notification>
+<script type="text/template" id="notification">
     <div class='alert alert-{%- data.theme %} {%- data.className %}' style='display: none;'>
         {% if(data.title){ %}
             <strong>{%- data.title %}</strong>
         {% } %}
         {%- data.message %}
     </div>
-</notification>
+</script>
 
-<spooler>
+<script type="text/template" id="spooler">
     <div class='spooler {%- data.size %} {% if (data.text) { %} has-text {% } %}' style='display: none;'>
         <div class='spooler-bg'></div>
         <div class='spooler-container'>
@@ -17,4 +17,4 @@
             </div>
         </div>
     </div>
-</spooler>
+</script>

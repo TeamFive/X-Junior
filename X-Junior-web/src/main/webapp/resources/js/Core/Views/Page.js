@@ -13,13 +13,13 @@ define(["App", "Views/Base", "jquery"], function(App, View, $){
         PagesManager = {
             __current: null,
             show: function(page){
-                if (this.__current !== page) {
+                //if (this.__current !== page) {
                     this.__current && (this.__current.remove());
                     pageWrapper.append(page.$el);
                     page.__showComplete();
                     this.__current = page;
                     $("title").text(Config.titlePrefix + page.options.title + Config.titleSuffix);
-                }
+                //}
             }
         },
 

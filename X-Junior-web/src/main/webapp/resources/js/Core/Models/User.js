@@ -5,7 +5,7 @@ define(["Backbone","Models/Base","crypto","jquery", "Core/Request"], function(Ba
     var User = Backbone.Model.extend({
         defaults: {
             defaultPage: "login",
-            avatar: "images/user-avatar.png",
+            avatar: "resources/images/user-avatar.png",
             name: "Janne",
             canDo: []
 
@@ -72,6 +72,11 @@ define(["Backbone","Models/Base","crypto","jquery", "Core/Request"], function(Ba
                     })
                 */
             return deferred;
+        },
+
+        logout: function(){
+            delete App.user;
+            App.user = new User();
         }
 
     });

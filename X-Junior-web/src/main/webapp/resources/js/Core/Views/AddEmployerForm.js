@@ -13,13 +13,18 @@ define(["Views/Form", "App", "jquery", "Collections/Employers", "Models/Employer
         },
 
         __sendData: function(data){
-            return $.Deferred().resolve(data);
+            this.model = new Employer();
+            return Form.prototype.__sendData.apply(this,arguments);
         },
 
         onSuccessSubmit: function(data){
             this.collection.add(data);
-            //alert(JSON.stringify(this.collection));
             Form.prototype.onSuccessSubmit.apply(this, arguments);
+        },
+
+        onCompleteSubmit: function(){
+            delete this.model;
+            Form.prototype.onCompleteSubmit.apply(this, arguments);
         }
 
     }, {
@@ -33,7 +38,7 @@ define(["Views/Form", "App", "jquery", "Collections/Employers", "Models/Employer
             submitButtonText: "Create",
             nameText: "Curator's name",
             emailText: "Curator's email",
-            emailPlaceholder: "matr369@gmail.com",
+            emailPlaceholder: "matr369@exadel.com",
             namePlaceholder: "Evgene Ivashkevich"
         })
     });

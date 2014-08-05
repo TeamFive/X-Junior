@@ -1,8 +1,12 @@
 /**
  * Created by dmantsevich on 7/18/2014.
  */
-define(["Backbone", "jquery"], function(Backbone, $){
+define(["Backbone", "Models/Base", "jquery"], function(Backbone, Model, $){
     return Backbone.Collection.extend({
+        model: Model,
+        at: function(position){
+            return Backbone.Collection.prototype.at.call(this, position || 0);
+        },
         fetch: function(){
             return $.Deferred().resolve([]);
         }

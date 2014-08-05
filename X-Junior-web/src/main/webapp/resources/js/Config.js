@@ -41,7 +41,8 @@ define({
         list: [
             "Routes/Core",
             "Routes/Settings",
-            "Routes/Employers"
+            "Routes/Employers",
+            "Routes/Students"
             /*,
             "Routes/StudentProfile",
             "Routes/Settings"*/

@@ -11,6 +11,7 @@ require.config({
         "Backbone": "libs/backbone",
         "jquery": "libs/jquery-2.1.1",
         "bootstrap": "libs/bootstrap.min",
+        "typeahead": "libs/typeahead.jquery",
         "crypto": "libs/sha3",
         "Models": "Core/Models",
         "Collections": "Core/Collections",
@@ -19,6 +20,9 @@ require.config({
     },
     shim: {
         "bootstrap": {
+            deps: ["jquery"]
+        },
+        "typeahead": {
             deps: ["jquery"]
         }
     },
