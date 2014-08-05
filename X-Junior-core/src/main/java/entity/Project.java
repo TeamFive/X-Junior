@@ -15,11 +15,11 @@ public class Project extends BaseEntity {
     @Column(name = "project_name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "PM_id")
     private PM pm;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "TeamLeader_id")
     private TeamLeader teamLeader;
 

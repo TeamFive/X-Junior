@@ -1,6 +1,8 @@
 package DAO.Impl;
 
 import DAO.BaseDAO;
+import entity.Admin;
+import entity.User;
 import exceptions.EntityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +64,7 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
                 logger.error("Entity not found");
                 throw new EntityException("Entity not found");
             }
-            em.remove(t);
+            em.remove(em.contains(t) ? t : em.merge(t));
             logger.info("Removed " + t.getClass());
             return "success";
         } catch (PersistenceException ex){
@@ -78,6 +80,7 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         try {
             em.persist(t);
+
             logger.info("Added " + t.getClass());
             return "success";
         } catch (ConstraintViolationException ex){

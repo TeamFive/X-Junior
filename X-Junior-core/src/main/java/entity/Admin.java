@@ -13,7 +13,8 @@ public class Admin extends BaseEntity {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "User_id")
     private User user;
 

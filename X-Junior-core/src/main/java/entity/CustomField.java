@@ -18,21 +18,33 @@ public class CustomField extends BaseEntity {
     @Column(name = "default_value")
     private String defaultValue;
 
-    @ManyToOne
+    @Column(name = "field_type")
+    private String fieldType;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "FieldsGroup_id")
     private FieldsGroup fieldsGroup;
 
     public CustomField() {
     }
 
-    public CustomField(String name, String defaultValue, FieldsGroup fieldsGroup) {
+    public CustomField(String name, String defaultValue, FieldsGroup fieldsGroup, String fieldType) {
         this.name = name;
         this.defaultValue = defaultValue;
         this.fieldsGroup = fieldsGroup;
+        this.fieldType = fieldType;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(String fieldType) {
+        this.fieldType = fieldType;
     }
 
     public void setId(Long id) {

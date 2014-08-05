@@ -33,11 +33,11 @@ public class Feedback extends BaseEntity {
     @Column(name = "proff_suitab")
     private int proffSuitab;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "Curator_id")
     private Curator curator;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "Student_id")
     private Student student;
 
