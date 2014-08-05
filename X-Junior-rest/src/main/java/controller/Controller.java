@@ -168,7 +168,7 @@ public class Controller {
         } catch (ParseException ex){
             return "{ \n" +
                     "     status: \" error }\n" +
-                    "     message: \" Invalid JSON \" \n";
+                    "     message: \" invalid JSON \" \n";
         }
 
 
