@@ -17,6 +17,7 @@ public class Curator extends BaseEntity {
     @JoinColumn(name = "User_id")
     private User user;
 
+    @Transient
     @ManyToMany
     @JoinTable(name = "student_curator",
     joinColumns = @JoinColumn(name = "Student_id"),
@@ -25,6 +26,10 @@ public class Curator extends BaseEntity {
 
 
     public Curator() {
+    }
+
+    public Curator(User user) {
+        this.user = user;
     }
 
     public Curator(User user, List<Student> studentList) {
