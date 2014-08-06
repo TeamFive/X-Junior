@@ -6,7 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="JaneList" value="8d44a266-bdf0-4543-b439-3bbeb2119b29" />
+          <factory-entry name="JaneList" value="cd0676ff-0006-45e1-a438-7a3346498296" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
