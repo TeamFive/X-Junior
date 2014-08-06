@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Group", schema = "janelist")
+@Table(name = "Group")
 public class Group extends BaseEntity {
     @Id
     @GeneratedValue(generator = "increment")
@@ -15,7 +15,7 @@ public class Group extends BaseEntity {
     @Column(name = "group_name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "Course_id")
     private Course course;
 
