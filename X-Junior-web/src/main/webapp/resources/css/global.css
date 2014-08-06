@@ -358,3 +358,6 @@ h4 {
 .sub-btn{
     margin-top: 5px;
 }
+.curs{
+    cursor: pointer;
+}
