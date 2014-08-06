@@ -4,6 +4,7 @@
 define(["Collections/Base", "Models/Employer"], function(Base, Employer){
    return Base.extend({
        model: Employer,
+       url: "/curator",
        constructor: function(){
            if (this.constructor._instance) {
                return this.constructor._instance;
