@@ -203,6 +203,7 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
                 container = options.container,
                 method = options.containerResolveMethod,
                 xhr;
+            options.prepareCollection = false;
             if (!this.isRendered) {
                 xhr = this.render();
             } else {

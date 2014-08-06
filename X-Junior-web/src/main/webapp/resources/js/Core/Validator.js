@@ -29,6 +29,39 @@ define(["underscore"], function (_) {
                 required: true,
                 minsize: 5,
                 emailExadel: true
+            },
+            fieldName: {
+                required: true,
+                minsize: 2
+            },
+            studentChange:{
+                requiredRadio: true
+            },
+            textField: {
+                required: true,
+                minsize: 2
+            },
+            radioChoose: {
+                required: true,
+                radioChoose: true
+            },
+            checkField: {
+                requiredRadio: true,
+                minsize: 2
+            },
+            fieldType: {
+                requiredRadio: true
+            },
+            fieldLook: {
+                requiredRadio: true
+            },
+            chosen: {
+                minsize: 1,
+                required: true
+            },
+            ids: {
+                radioChoose: true,
+                required: true
             }
         },
 
@@ -64,7 +97,14 @@ define(["underscore"], function (_) {
 
         // Проверка на обязательность
         $required: function(value, rule, name){
+            debugger;
+
             return (value.trim() !== "")? true : "Field "+name+" are required.";
+        },
+        $requiredRadio: function(value, rule, name){
+            debugger;
+
+            return (value !== undefined)? true : "Field "+name+" are required.";
         },
         $condition: function(){
             return true;
@@ -114,6 +154,10 @@ define(["underscore"], function (_) {
         //проверка email на домен exadel.com
         $emailExadel: function(value, rule, name){
             return (this.$equal(value,'^[a-z0-9]+[-\\._a-z0-9][a-z0-9]@exadel.com$', name)=== true)? true: "Field "+name+" must be youremail@exadel.com";
+        },
+
+        $radioChoose: function(value, rule, name){
+            return (this.$equal(value,'([a-zA-Z_0-9]*\\=[a-zA-Z_0-9]*\\;\\s){1,}', name)=== true)? true: "Field "+name+" must be Index1=Name1;...";
         }
     }
 });

@@ -64,6 +64,7 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
         verify: function(){
             this.dropLastVerificationResult();
             return _.all(this.fields || [], function(field){
+
                 return field.verify();
             });
         },

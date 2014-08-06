@@ -13,7 +13,7 @@ define(["Collections/Skills", "Views/Base", "App", "jquery"], function (Skills, 
         constructor: function(options){
             options.collection = new Skills();
             this.listenTo(options.collection, "add remove", this.rerender);
-            Base.prototype.constructor.apply(this, [options]);
+            Base.prototype.constructor.apply(this, arguments);
         }
 
     }, {
@@ -22,7 +22,6 @@ define(["Collections/Skills", "Views/Base", "App", "jquery"], function (Skills, 
                 src: "form.skillstable.html?v=1"
             },
             formTitle :"skills table"
-
 
         })
     });

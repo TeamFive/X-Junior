@@ -5,42 +5,74 @@
     <div class="panel-body">
 
 
-        <h4>Name of the field</h4>
-        <view data-id="defaultField" data-constructor="Views/Fields/Base"
-              data-options="{name:'name', type:'text', className:'form-control'}"/>
-        <h4>Can be changed by student</h4>
-        <view data-id="change" data-constructor="Views/Fields/Radio"
-              data-options="{buttons:[{label:'Yes', id:'yes'},{label:'No', id:'no'}],  name:'change'}"/>
+        <table class="table table-striped table-hover ">
+            <tbody>
+            <tr>
+                <td>
+                Name of the field
+                <td>
+                    <view data-id="defaultField" data-constructor="Views/Fields/Base"
+                          data-options="{name:'name', type:'text', className:'form-control', rules:'fieldName'}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Can be changed by student
+                <td>
+                <view data-id="change" data-constructor="Views/Fields/Radio"
+                      data-options="{buttons:[{label:'Yes', id:'yes'},{label:'No', id:'no'}],  name:'change', rules:'studentChange'}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Can be changed by student
+                <td>
+                <view data-id="fieldType" data-constructor="Views/Fields/Radio"
+                      data-options="{buttons:[{label:'Selectable', id:'select'},{label:'Checkbox', id:'check'},{label:'Text', id:'text'}],  name:'fieldType', rules:'fieldType'}"/>
+                </td>
+            </tr>
+            </tbody>
 
-        <h4>Type of the field</h4>
+<!--
+            <tbody>
+            <tr>
+                <td>
+                <view data-id="defaultField" data-constructor="Views/Fields/Base"
+                      data-options="{name:'name', type:'text', className:'form-control', rules:'fieldName'}"/>
+            </td></tr>
+            </tbody>-->
+        </table>
 
-        <view data-id="fieldType" data-constructor="Views/Fields/Radio"
-              data-options="{buttons:[{label:'Radio button', id:'radio'},{label:'Checkbox', id:'check'},{label:'Text', id:'text'}],  name:'fieldType'}"/>
 
-        <div class="type-form radio-form">
-            <h5>Enter id's of your radio buttons</h5>
+
+
+        <div class="type-form select-form">
+            <h5>Enter id's and names of your radio buttons</h5>
             <view data-id="radioIds" data-constructor="Views/Fields/Base"
-                  data-options="{name:'radioIds', type:'text', className:'form-control', placeHolderName:'Id1, Id2, Id3...'}"/>
-            <h5>Enter names's of your radio buttons</h5>
-            <view data-id="radioOptions" data-constructor="Views/Fields/Base"
-                  data-options="{name:'radioOptions', type:'text', className:'form-control', placeHolderName:'Name1, Name2, Name3...'}"/>
+                  data-options="{name:'radioIds', type:'text', className:'form-control', placeHolderName:'Id1=Name1; Id2=Name2; Id3=Name3;...', rules:'ids'}"/>
+           <h5>Enter it's look</h5>
+            <view data-id="fieldLook" data-constructor="Views/Fields/Radio"
+                  data-options="{buttons:[{label:'selectable', id:'select'},{label:'radio', id:'radio'},{label:'dropdown', id:'dropdown'}],  name:'fieldLook', rules:'fieldLook'}"/>
             <h5>Enter default value of your radio buttons</h5>
             <view data-id="defaultValue1" data-constructor="Views/Fields/Base"
-                  data-options="{name:'defaultValue', type:'text', className:'form-control', placeHolderName:'Default value (Name2)'}"/>
-
+                  data-options="{name:'defaultValue', type:'text', className:'form-control', placeHolderName:'Default value (Name2)', rules:'chosen'}"/>
         </div>
+
 
         <div class='type-form text-form'>
             <h5>Enter default value of your text field</h5>
             <view data-id="defaultValue2" data-constructor="Views/Fields/Base"
-                  data-options="{name:'defaultValue', type:'text', className:'form-control'}"/>
+                  data-options="{name:'defaultValue', type:'text', className:'form-control', rules:'textField'}"/>
         </div>
+
 
         <div class="type-form check-form">
             <h5>Enter default value of your checkbox</h5>
             <view data-id="defaultValue3" data-constructor="Views/Fields/CheckBox"
-                  data-options="{name:'defaultValue', type:'text', className:'form-control', yes:'yes', no:'no'}"/>
+                  data-options="{name:'defaultValue', type:'text', className:'form-control', yes:'yes', no:'no', rules:'checkField'}"/>
         </div>
-        <button type="button" class="btn btn-primary submit-button">Create</button>
+
+
+        <button type="button" class="btn btn-primary submit-button sub-btn">Create</button>
     </div>
 </div>

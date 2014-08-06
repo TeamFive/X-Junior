@@ -1,16 +1,43 @@
 define(["Views/Form", "App", "jquery", "Collections/Fields", "Models/Field"], function (Form, App, $, Fields, Field) {
     return Form.extend({
+        events:{
+            "keyup": "submitWithKey",
+            "click .submit-button": "submit"
+        },
+
+
+        submitWithKey: function(e){
+            if (e && e.keyCode==13) {
+                this.submit();
+            }
+        },
 
         constructor: function (options) {
             options.collection = new Fields();
             Form.prototype.constructor.apply(this, [options]);
             debugger;
             $( document ).ready(function() {
-                debugger;
-                //alert("sdfc");
-                //this.reset();
+
             });
 
+        },
+
+
+
+
+        verify: function(){
+            this.dropLastVerificationResult();
+            return _.all(this.fields || [], function(field){
+                debugger;
+                if (field.$el.is(':visible'))
+                {
+                    debugger;
+                    return field.verify();
+                }
+                else {
+                    return true;
+                }
+            });
         },
 
 
@@ -40,6 +67,7 @@ define(["Views/Form", "App", "jquery", "Collections/Fields", "Models/Field"], fu
         },
 
         hideAllTypesForm: function () {
+
             this.$(".type-form").hide();
         },
 
