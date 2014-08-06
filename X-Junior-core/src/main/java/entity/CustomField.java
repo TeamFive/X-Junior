@@ -21,7 +21,7 @@ public class CustomField extends BaseEntity {
     @Column(name = "field_type")
     private String fieldType;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "FieldsGroup_id")
     private FieldsGroup fieldsGroup;
 

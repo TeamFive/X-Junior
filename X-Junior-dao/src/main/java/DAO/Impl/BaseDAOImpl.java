@@ -80,7 +80,6 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         try {
             em.persist(t);
-
             logger.info("Added " + t.getClass());
             return "success";
         } catch (ConstraintViolationException ex){

@@ -75,11 +75,17 @@ public class EntityChooser {
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
-            Gson gson = new Gson();
-            JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(), jsonUser.get("email").toString());
+            user = new User(jsonObject.get("name").toString(), "11111", jsonObject.get("email").toString());
             curator = new Curator(user);
             return curator;
+//            jsonParser = new JSONParser();
+//            Object object = jsonParser.parse(json);
+//            JSONObject jsonObject = (JSONObject) object;
+//            Gson gson = new Gson();
+//            JSONObject jsonUser = (JSONObject) jsonObject.get("user");
+//            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(), jsonUser.get("email").toString());
+//            curator = new Curator(user);
+//            return curator;
         }
         if(entity.equalsIgnoreCase("customfield")){
             jsonParser = new JSONParser();

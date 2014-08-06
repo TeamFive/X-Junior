@@ -2,6 +2,7 @@ package controller;
 
 
 import com.google.gson.Gson;
+import entity.BaseEntity;
 import entity.Technology;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
@@ -89,13 +90,11 @@ public class Controller {
     @ResponseBody
     public String createEntity(@PathVariable("entity") String entity, @RequestBody String str)  {
         BaseService baseService = serviceChooser.serviceChooser(entity);
-        JSONParser parser = new JSONParser();
+        EntityChooser entityChooser = new EntityChooser();
         try {
-            Object object = parser.parse(str);
-            JSONObject jsonObject = (JSONObject) object;
-            Technology technology = new Technology(jsonObject.get("technology_name").toString());
+            BaseEntity baseEntity = entityChooser.choseEntity(entity, str);
             try {
-                return "{\"status\":\"" + baseService.add(technology) + "\"}";
+                return "{\"status\":\"" + baseService.add(baseEntity) + "\"}";
             } catch (JDBCConnectionException ex) {
                 return "{\"status\":\"error\"," +
                         "\"message\":\"Database is offline\"}";

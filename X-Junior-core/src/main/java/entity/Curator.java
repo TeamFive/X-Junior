@@ -3,6 +3,7 @@ package entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Curator")
@@ -12,15 +13,28 @@ public class Curator extends BaseEntity {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "User_id")
     private User user;
+
+    @Transient
+    @ManyToMany
+    @JoinTable(name = "student_curator",
+    joinColumns = @JoinColumn(name = "Student_id"),
+    inverseJoinColumns = @JoinColumn(name = "Curator_id"))
+    private List<Student> studentList;
+
 
     public Curator() {
     }
 
     public Curator(User user) {
         this.user = user;
+    }
+
+    public Curator(User user, List<Student> studentList) {
+        this.user = user;
+        this.studentList = studentList;
     }
 
     public Long getId() {
@@ -37,5 +51,13 @@ public class Curator extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
     }
 }
