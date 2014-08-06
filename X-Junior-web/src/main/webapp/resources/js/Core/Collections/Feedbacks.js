@@ -6,5 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 define(["Collections/Base"], function(Collection){
-    return Collection;
+    return Collection.extend({
+        url:"/technology"
+    });
 });

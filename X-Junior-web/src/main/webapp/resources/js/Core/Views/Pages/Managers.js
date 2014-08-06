@@ -6,7 +6,7 @@ define(["Views/Page", "jquery"], function(Page, $){
             },
 
             title: "Managers",
-            managers: []
+            textAddManager: "Add Manager"
         })
     });
 });
