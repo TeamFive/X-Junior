@@ -2,6 +2,7 @@ package DAO.Impl;
 
 
 import entity.Curator;
+import entity.Interview;
 import entity.Student;
 import entity.User;
 import exceptions.EntityException;
@@ -53,13 +54,32 @@ public class CuratorDAOImpl extends BaseDAOImpl<Curator> {
 
             User user = query.getSingleResult();
 
-            return new Curator(user);
+            return getCuratorByUser(user);
         } catch (NoResultException ex){
             throw new EntityException("Entity not found");
         } catch (PersistenceException ex){
             throw new EntityException("Database is offline");
         }
+    }
 
+    public Curator getCuratorByUser(User user){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Curator> criteriaQuery = criteriaBuilder.createQuery(Curator.class);
+
+        Root<Curator> root = criteriaQuery.from(Curator.class);
+        criteriaQuery.select(root);
+
+        ParameterExpression<User> parameterExpression = criteriaBuilder.parameter(User.class);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("User_id"), parameterExpression));
+
+        TypedQuery<Curator> query = entityManager.createQuery(criteriaQuery);
+        query.setParameter(parameterExpression, user);
+
+        Curator curator = query.getSingleResult();
+        return curator;
     }
 
 }
