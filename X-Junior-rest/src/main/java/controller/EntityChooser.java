@@ -50,12 +50,11 @@ public class EntityChooser {
 
 
     public BaseEntity choseEntity(String entity, String json) throws ParseException{
-
+        Gson gson = new Gson();
         if(entity.equalsIgnoreCase("admin")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
-            Gson gson = new Gson();
             user = new User();
             JSONObject jsonUser = (JSONObject) jsonObject.get("user");
             user.setName(jsonUser.get("name").toString());
@@ -72,20 +71,10 @@ public class EntityChooser {
             return certificate;
         }
         if(entity.equalsIgnoreCase("curator")){
-            jsonParser = new JSONParser();
-            Object object = jsonParser.parse(json);
-            JSONObject jsonObject = (JSONObject) object;
-            user = new User(jsonObject.get("name").toString(), "11111", jsonObject.get("email").toString());
-            curator = new Curator(user);
+            curator = new Curator();
+            curator.setUser(gson.fromJson(json, User.class));
+            curator.getUser().setPassword("11111");
             return curator;
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            Gson gson = new Gson();
-//            JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-//            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(), jsonUser.get("email").toString());
-//            curator = new Curator(user);
-//            return curator;
         }
         if(entity.equalsIgnoreCase("customfield")){
             jsonParser = new JSONParser();
@@ -113,10 +102,10 @@ public class EntityChooser {
                 JSONObject jsonCurator = (JSONObject) jsonObject;
                 JSONObject jsonStudent = (JSONObject) jsonObject;
                 JSONObject jsonUser = (JSONObject) jsonCurator;
-                user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(), jsonUser.get("email").toString());
+                user = new User(jsonUser.get("name").toString(), jsonUser.get("email").toString());
                 curator = new Curator(user);
                 JSONObject jsonStudentUser = (JSONObject) jsonStudent;
-                User studentUser = new User(jsonStudentUser.get("name").toString(), jsonStudentUser.get("password").toString(), jsonStudentUser.get("email").toString());
+                User studentUser = new User(jsonStudentUser.get("name").toString(), jsonStudentUser.get("email").toString());
 
                 student = new Student();
             } catch (ParseException ex){
@@ -148,7 +137,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(),
+            user = new User(jsonUser.get("name").toString(),
                     jsonUser.get("email").toString());
             hr = new HR(user);
             return hr;
@@ -164,7 +153,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(),
+            user = new User(jsonUser.get("name").toString(),
                     jsonUser.get("email").toString());
             interviewer = new Interviewer(user);
             return interviewer;
@@ -174,7 +163,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(),
+            user = new User(jsonUser.get("name").toString(),
                     jsonUser.get("email").toString());
             pm = new PM(user);
             return pm;
@@ -187,9 +176,9 @@ public class EntityChooser {
             JSONObject jsonPM = (JSONObject) jsonObject.get("pm");
             JSONObject jsonTLUser = (JSONObject) jsonTL.get("user");
             JSONObject jsonPMUser = (JSONObject) jsonPM.get("user");
-            User userPM = new User(jsonPMUser.get("name").toString(), jsonPMUser.get("password").toString(),
+            User userPM = new User(jsonPMUser.get("name").toString(),
                     jsonPMUser.get("email").toString());
-            User userTL = new User(jsonTLUser.get("name").toString(), jsonPMUser.get("password").toString(),
+            User userTL = new User(jsonTLUser.get("name").toString(),
                     jsonTLUser.get("email").toString());
             teamLeader = new TeamLeader(userTL);
             pm = new PM(userPM);
@@ -201,7 +190,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(),
+            user = new User(jsonUser.get("name").toString(),
                     jsonUser.get("email").toString());
             setting = new Setting(jsonObject.get("name").toString(), jsonObject.get("value").toString(),
                     jsonObject.get("description").toString(), user);
@@ -212,7 +201,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-            user = new User(jsonUser.get("name").toString(), jsonUser.get("password").toString(),
+            user = new User(jsonUser.get("name").toString(),
                     jsonUser.get("email").toString());
             teamLeader = new TeamLeader(user);
             return teamLeader;
@@ -235,7 +224,7 @@ public class EntityChooser {
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
-            user = new User(jsonObject.get("name").toString(), jsonObject.get("password").toString(),
+            user = new User(jsonObject.get("name").toString(),
                     jsonObject.get("email").toString());
             return user;
         }

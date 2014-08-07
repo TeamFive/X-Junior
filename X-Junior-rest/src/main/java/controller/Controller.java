@@ -1,6 +1,7 @@
 package controller;
 
 
+import DAO.Impl.CuratorDAOImpl;
 import com.google.gson.Gson;
 import entity.BaseEntity;
 import entity.Technology;
@@ -48,6 +49,24 @@ public class Controller {
                     "\"message\":\"" + ex.getMessage() + "\"}";
         }
 
+
+    }
+
+    @RequestMapping(value = "/getcurator/{name}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getEntityByName(@PathVariable("name") String name){
+        CuratorDAOImpl curatorDAO = new CuratorDAOImpl();
+        Gson gson = new Gson();
+
+        try {
+            String result = gson.toJson(curatorDAO.getCuratorByName(name));
+
+            return "{\"status\":\"success\"," +
+                    "\"data\":" + result + "}";
+        } catch (EntityException ex){
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"" + ex.getMessage() + "\"}";
+        }
 
     }
 
@@ -106,9 +125,6 @@ public class Controller {
             return "{\"status\":\"error\"," +
                     "\"message\":\"invalid JSON\"}";
         }
-
-
-
     }
 //
 //    @RequestMapping(value = "/{entity}/update", method = RequestMethod.POST, produces = "application/json")
