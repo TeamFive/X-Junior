@@ -13,8 +13,8 @@ define(["Views/Base", "Collections/Employers", "Models/Employer", "underscore", 
         },
 
         showAllEmployers: function(){
+            debugger;
             this.collection.forEach(this.showEmployer, this);
-            return this;
         },
 
         showEmployer: function(model){
@@ -62,11 +62,15 @@ define(["Views/Base", "Collections/Employers", "Models/Employer", "underscore", 
         doFilter: function(event, filter){
             this.filter = filter;
             this.rows.forEach(this.filterRow, this);
+        },
+        __ready: function(){
+            this.$el.trigger("view:ready");
         }
 
     },{
         defaults: $.extend(true, {}, Base.defaults, {
             tpl: null
-        })
+        }),
+        prepareCollection :false
     });
 });

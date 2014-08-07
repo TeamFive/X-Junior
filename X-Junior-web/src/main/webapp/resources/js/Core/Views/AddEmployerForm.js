@@ -10,21 +10,6 @@ define(["Views/Form", "App", "jquery", "Collections/Employers", "Models/Employer
         constructor: function(options){
             options.collection = new Employers();
             Form.prototype.constructor.apply(this,[options]);
-        },
-
-        __sendData: function(data){
-            this.model = new Employer();
-            return Form.prototype.__sendData.apply(this,arguments);
-        },
-
-        onSuccessSubmit: function(data){
-            this.collection.add(data);
-            Form.prototype.onSuccessSubmit.apply(this, arguments);
-        },
-
-        onCompleteSubmit: function(){
-            delete this.model;
-            Form.prototype.onCompleteSubmit.apply(this, arguments);
         }
 
     }, {

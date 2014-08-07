@@ -10,6 +10,7 @@ define(["Views/Base","underscore", "Views/FilterEmployerForm", "Views/ListEmploy
             Base.prototype.constructor.apply(this, arguments);
        },
         initSubViews: function(){
+            debugger;
             var filterEmployer = new FilterEmployerForm({
                 el: this.$(".filter-container")
             });

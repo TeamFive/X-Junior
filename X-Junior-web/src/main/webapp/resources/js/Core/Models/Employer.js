@@ -7,10 +7,10 @@ define(["Models/Base", "Collections/Students"],function(Base, Students){
             return {
                 name: "",
                 email: "",
-                students: []
+                students: new Students([])
             };
         },
-        url: "/curator",
+        urlRoot: "/curator",
         constructor: function(){
             this.on("change:students", function(model, value){
                 this.set("students", new Students(value), {silent: true});

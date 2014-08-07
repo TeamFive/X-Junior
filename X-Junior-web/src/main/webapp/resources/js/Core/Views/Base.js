@@ -94,7 +94,13 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
          */
         __resolveRender: function(xhr, template){
             var self = this,
-                viewMarkup = $(template(this.options)).addClass(this.options.className);
+                viewMarkup;
+            if (_.isFunction(template)) {
+                viewMarkup = $(template(this.options));
+            } else {
+                viewMarkup = this.$el;
+            }
+            viewMarkup.addClass(this.options.className);
             if (!this.__isRenderStopped()) {
                 // Try to find children views and render it
                 this.__renderChildrenViews(viewMarkup).done(function(){
@@ -288,9 +294,7 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
          */
         __prepareCollection: function(){
             if (this.collection && this.options.prepareCollection) {
-                return this.collection.fetch({
-                    reset: true
-                });
+                return this.collection.fetch();
             }
             return null;
         },
