@@ -3,6 +3,8 @@
  */
 define(["App", "underscore"], function(App, _){
 
+    var runtimeStorage = {};
+
     // Helper
     var isDisable = function(){
         return App.Config.disableStorage;
@@ -44,8 +46,9 @@ define(["App", "underscore"], function(App, _){
          * @returns {*}
          */
         get: function(key){
-            var result = null;
-            if (!isDisable() && key) {
+            key = this._getFullNS(key);
+            var result = runtimeStorage[key] || null;
+            if (!result && !isDisable() && key) {
                 try {
                     result = JSON.parse(localStorage.getItem(this._getFullNS(key)));
                 } catch (e){}
@@ -60,9 +63,12 @@ define(["App", "underscore"], function(App, _){
          * @returns {*}
          */
         set: function(key, value){
+            key = this._getFullNS(key);
+            runtimeStorage[key] = value;
+            debugger;
             if (!isDisable() && key) {
                 try {
-                    localStorage.setItem(this._getFullNS(key), JSON.stringify(value));
+                    localStorage.setItem(key, JSON.stringify(value));
                 } catch (e){}
             }
             return value;
@@ -75,9 +81,11 @@ define(["App", "underscore"], function(App, _){
          */
         remove: function(key){
             var result = this.get(key);
+            key = this._getFullNS(key);
+            delete runtimeStorage[key];
             if (!isDisable() && key) {
                 try {
-                    localStorage.removeItem(this._getFullNS(key));
+                    localStorage.removeItem(key);
                 } catch (e) {}
             }
             return result;
