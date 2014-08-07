@@ -2,10 +2,7 @@ package controller;
 
 import VO.*;
 import entity.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import service.BaseService;
-import service.Impl.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +21,14 @@ public class VOConverter {
             return new CertificateVO((Certificate) baseEntity);
         if(baseEntity instanceof Course)
             return new CourseVO((Course) baseEntity);
+        if(baseEntity instanceof CustomField)
+            return new CustomFieldVO((CustomField) baseEntity);
+        if(baseEntity instanceof HR)
+            return new HRVO((HR) baseEntity);
+        if(baseEntity instanceof Faculty)
+            return new FacultyVO((Faculty) baseEntity);
+        if (baseEntity instanceof Feedback)
+            return new FeedbackVO((Feedback) baseEntity);
         return null;
     }
 
@@ -56,6 +61,30 @@ public class VOConverter {
         if (entity.equalsIgnoreCase("course")) {
             for (BaseEntity item : entityList){
                 baseVOList.add(new CourseVO((Course) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("customfield")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new CustomFieldVO((CustomField) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("hr")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new HRVO((HR) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("faculty")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new FacultyVO((Faculty) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("feedback")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new FeedbackVO((Feedback) item));
             }
             return baseVOList;
         }

@@ -19,12 +19,10 @@ public class CuratorVO implements BaseVO{
     private class StudentListItem{
         private Long id;
         private String name;
-        private String email;
 
         private StudentListItem(Student student) {
             this.id = student.getId();
             this.name = student.getUser().getName();
-            this.email = student.getUser().getEmail();
         }
 
         public Long getId() {
@@ -41,14 +39,6 @@ public class CuratorVO implements BaseVO{
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
         }
     }
 
