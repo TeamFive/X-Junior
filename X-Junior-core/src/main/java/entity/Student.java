@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Student")
-public class Student {
+public class Student extends BaseEntity {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")

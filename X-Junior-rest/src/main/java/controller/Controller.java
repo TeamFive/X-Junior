@@ -27,6 +27,9 @@ public class Controller {
     @Autowired
     EntityServiceChooser serviceChooser;
 
+    @Autowired
+    VOSetter voSetter;
+
     public void setServiceChooser(EntityServiceChooser serviceChooser) {
         this.serviceChooser = serviceChooser;
     }
@@ -38,7 +41,7 @@ public class Controller {
         String json;
         Gson gson = new Gson();
         try {
-            json = gson.toJson(baseService.find(id));
+            json = gson.toJson(voSetter.voSetter(entity, (BaseEntity) baseService.find(id)));
             return "{\"status\":\"success\"," +
                     "\"data\":" + json + "}";
         } catch (JDBCConnectionException ex){

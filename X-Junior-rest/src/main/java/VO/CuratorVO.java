@@ -1,25 +1,34 @@
 package VO;
 
+import entity.BaseEntity;
 import entity.Curator;
 import entity.Student;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by ALEX on 06.08.2014.
  */
-public class CuratorVO {
+
+public class CuratorVO implements BaseVO{
+    private Long id;
     private String name;
     private String email;
-    private List<Student> studentList;
+    private List<StudentVO> studentList;
 
     public CuratorVO() {
     }
 
-    public CuratorVO(Curator curator) {
+    public CuratorVO (Curator curator) {
+        this.id = curator.getId();
         this.name = curator.getUser().getName();
         this.email = curator.getUser().getEmail();
-        this.studentList = curator.getStudentList();
+        this.studentList = new ArrayList<StudentVO>();
+        for (Student s: curator.getStudentList()){
+            this.studentList.add(new StudentVO(s));
+        }
     }
 
     public String getName() {
@@ -38,11 +47,11 @@ public class CuratorVO {
         this.email = email;
     }
 
-    public List<Student> getStudentList() {
+    public List<StudentVO> getStudentList() {
         return studentList;
     }
 
-    public void setStudentList(List<Student> studentList) {
+    public void setStudentList(List<StudentVO> studentList) {
         this.studentList = studentList;
     }
 }
