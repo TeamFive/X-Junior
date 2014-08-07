@@ -31,7 +31,9 @@ define(["Models/Base", "Collections/Feedbacks", "Collections/Interviews", "jquer
         disable: function(){
             this.set("enable", false);
         },
-
+        fetch: function(){
+            return $.Deferred().resolve({});
+        },
         fetchFeedbacks: function(){
             if (!this.__feedbacks) {
                 this.__feedbacks = $.Deferred();
