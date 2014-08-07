@@ -2,6 +2,7 @@ package DAO.Impl;
 
 import DAO.BaseDAO;
 import entity.Admin;
+import entity.Feedback;
 import entity.User;
 import exceptions.EntityException;
 import org.slf4j.Logger;

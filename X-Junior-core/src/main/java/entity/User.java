@@ -23,10 +23,23 @@ public class User extends BaseEntity {
     @Column(name = "email")
     private String email;
 
-    public User(String name, String email) {
+    @Column(name = "login")
+    private String login;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public User(String name, String email, String login) {
         this.name = name;
         this.password = "11111";
         this.email = email;
+        this.login = login;
+
     }
 
     public User() {

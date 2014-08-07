@@ -22,7 +22,7 @@ public class Marks extends BaseEntity {
     @JoinColumn(name = "Student_id")
     private Student student;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "Group_id")
     private Group group;
 
