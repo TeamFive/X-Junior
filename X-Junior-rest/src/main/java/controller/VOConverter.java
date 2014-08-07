@@ -29,6 +29,22 @@ public class VOConverter {
             return new FacultyVO((Faculty) baseEntity);
         if (baseEntity instanceof Feedback)
             return new FeedbackVO((Feedback) baseEntity);
+        if (baseEntity instanceof FieldsGroup)
+            return new FieldsGroupVO((FieldsGroup) baseEntity);
+        if (baseEntity instanceof Group)
+            return new GroupVO((Group) baseEntity);
+        if (baseEntity instanceof Interview)
+            return new InterviewVO((Interview) baseEntity);
+        if (baseEntity instanceof Interviewer)
+            return new InterviewerVO((Interviewer) baseEntity);
+        if (baseEntity instanceof Marks)
+            return new MarksVO((Marks) baseEntity);
+        if (baseEntity instanceof PM)
+            return new PMVO((PM) baseEntity);
+        if (baseEntity instanceof Project)
+            return new ProjectVO((Project) baseEntity);
+        if (baseEntity instanceof Setting)
+            return new SettingVO((Setting) baseEntity);
         return null;
     }
 
@@ -85,6 +101,54 @@ public class VOConverter {
         if (entity.equalsIgnoreCase("feedback")) {
             for (BaseEntity item : entityList){
                 baseVOList.add(new FeedbackVO((Feedback) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("fieldsgroup")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new FieldsGroupVO((FieldsGroup) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("group")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new GroupVO((Group) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("interview")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new InterviewVO((Interview) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("interviewer")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new InterviewerVO((Interviewer) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("marks")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new MarksVO((Marks) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("pm")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new PMVO((PM) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("project")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new ProjectVO((Project) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("setting")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new SettingVO((Setting) item));
             }
             return baseVOList;
         }
