@@ -9,6 +9,7 @@ public class StudentVO implements BaseVO {
     private Long id;
     private String name;
     private String email;
+    private String skype;
 
     public StudentVO() {
     }
@@ -17,6 +18,7 @@ public class StudentVO implements BaseVO {
         this.id = student.getId();
         this.name = student.getUser().getName();
         this.email = student.getUser().getEmail();
+        this.skype = student.getSkype();
     }
 
     public Long getId() {

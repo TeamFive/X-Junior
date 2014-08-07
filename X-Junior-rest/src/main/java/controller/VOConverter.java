@@ -1,11 +1,7 @@
 package controller;
 
-import VO.BaseVO;
-import VO.CuratorVO;
-import VO.StudentVO;
-import entity.BaseEntity;
-import entity.Curator;
-import entity.Student;
+import VO.*;
+import entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.BaseService;
@@ -22,6 +18,12 @@ public class VOConverter {
             return new CuratorVO((Curator) baseEntity);
         if(baseEntity instanceof Student)
             return new StudentVO((Student) baseEntity);
+        if(baseEntity instanceof Admin)
+            return new AdminVO((Admin) baseEntity);
+        if(baseEntity instanceof Certificate)
+            return new CertificateVO((Certificate) baseEntity);
+        if(baseEntity instanceof Course)
+            return new CourseVO((Course) baseEntity);
         return null;
     }
 
@@ -36,6 +38,24 @@ public class VOConverter {
         if (entity.equalsIgnoreCase("student")) {
             for (BaseEntity item : entityList){
                 baseVOList.add(new StudentVO((Student) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("admin")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new AdminVO((Admin) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("certificate")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new CertificateVO((Certificate) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("course")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new CourseVO((Course) item));
             }
             return baseVOList;
         }
