@@ -1,5 +1,17 @@
 define(["Views/Form", "App", "Collections/Skills", "Models/Skill"], function(Form, App, Skills, Skill){
     return Form.extend({
+        events:{
+            "keyup": "submitWithKey",
+            "click .submit-button": "submit"
+        },
+
+
+        submitWithKey: function(e){
+            if (e && e.keyCode==13) {
+                this.submit();
+            }
+        },
+
 
         constructor: function(options){
             options.collection = new Skills();

@@ -64,6 +64,7 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
         verify: function(){
             this.dropLastVerificationResult();
             return _.all(this.fields || [], function(field){
+
                 return field.verify();
             });
         },
@@ -75,17 +76,18 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * @private
          */
         __sendData: function(data){
-            var self = this;
-            var def = $.Deferred();
+            var self = this,
+                def = $.Deferred();
             if (this.model) {
-                //TODO привести к общему виду reject первым сообщение, вторым дата
-                var modelSave = this.model.set(data).save();
-                if(modelSave.message === "fail"){
-                    modelSave.fail(function(message, data, model){
-                       return self.def.reject(message , data, model)
+                var modelSave = this.model.save(data);
+                if (modelSave === false) {
+                    def.reject(this.model.validationError, data, this.model);
+                } else {
+                    modelSave.done(def.resolve).fail(function(message){
+                        def.reject(message, data, self.model);
                     });
                 }
-                return modelSave || def.reject("Invalid data verification", data, this.model);
+                return def;
             } else if(this.collection){
                 this.collection.create(data,{
                     success: def.resolve,
@@ -136,6 +138,7 @@ define(["Views/Base", "Views/Fields/Base", "jquery", "underscore", "Core/Request
          * Submit data to the server
          */
         submit: function(e){
+            debugger;
             if (e && e.preventDefault && e.type.indexOf('key') != 0) {e.preventDefault();}
             if (!this.__disabled) {
                 var self = this;

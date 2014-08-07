@@ -39,7 +39,8 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
 
         verify: function(){
             this.dropLastVerificationResult();
-            if (!this.__disabled) {
+            if (!this.__disabled ) {
+
                 var validationResult = Validator.check(this.getValue(), this.options.rules || null);
                 this.setVerificationResult(validationResult);
                 return (validationResult === true)? true : false;

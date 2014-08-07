@@ -7,6 +7,6 @@
  */
 define(["Collections/Base"], function(Collection){
     return Collection.extend({
-        url:"/technology"
+            url:"/technology"
     });
 });

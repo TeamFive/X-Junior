@@ -2,10 +2,12 @@
     <div class="feedback-list">
         {%? data.collection && data.collection.length %}
         <div class="accordion">
-            <view data-constructor="Views/FeedbackForm" data-options="{ collection: data.collection, disable: false, cancelLabel: '' }"/>
-            {% data.collection.forEach(function(el, i){ %}
-                <view data-constructor="Views/FeedbackForm" data-options="{ model: data.collection.at({%- i %}) }"/>
-            {% }); %}
+            <div class="panel-group" id="accordion">
+                <view data-constructor="Views/FeedbackForm" data-options="{ collection: data.collection, disable: false, cancelLabel: '' }"/>
+                {% data.collection.forEach(function(el, i){ %}
+                   <view data-constructor="Views/FeedbackForm" data-options="{ model: data.collection.at({%- i %}) }"/>
+                {% }); %}
+            </div>
         </div>
         {%??%}
         <div class="no-feeds">
@@ -18,7 +20,8 @@
 <script type="text/template" id="item">
     <div class="feedback-item">
         <div class="accordion-group">
-            <div class="panel-heading accordion-heading">
+            <div class="panel panel-default">
+                <div class="panel-heading accordion-heading">
                 <a class="accordion-toggle" data-parent="#accordion2" href="#collapseSeven">
                     {%- data.model.get('date') || ((new Date).toDateString()) %}
                     {%? data.model.get('curator')%}
@@ -26,7 +29,7 @@
                     {%?%}
                 </a>
             </div>
-            <div id="collapseSeven" class="accordion-body collapse in">
+            <div id="collapseSeven" class="panel-body collapse in">
                 <h3 >{%- data.model.get('curator') %}</h3>
                 <table class="table table-striped table-hover ">
                     <thead>
@@ -149,7 +152,7 @@
                     </div>
                 </div>
             </div>
-
+            </div>
         </div>
     </div>
 </script>

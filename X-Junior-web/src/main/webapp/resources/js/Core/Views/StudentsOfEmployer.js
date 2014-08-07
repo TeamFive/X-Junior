@@ -31,7 +31,8 @@ define(["Views/Base","jquery", "Views/Popover",  "bootstrap", "Models/Student", 
             tpl: {
                 src: "employerstable.html?v=1",
                 $: "students"
-            }
+            },
+            prepareCollection: false
         })
     });
 });
