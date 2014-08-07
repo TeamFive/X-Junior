@@ -62,20 +62,20 @@ public class EntityChooser {
             user.setPassword(jsonUser.get("password").toString());
             admin = new Admin(user);
             return admin;
-        }
+        } else
 
         if(entity.equalsIgnoreCase("certificate")){
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             certificate = new Certificate(jsonObject.get("certificate_name").toString(), jsonObject.get("date").toString());
             return certificate;
-        }
+        }else
         if(entity.equalsIgnoreCase("curator")){
             curator = new Curator();
             curator.setUser(gson.fromJson(json, User.class));
             curator.getUser().setPassword("11111");
             return curator;
-        }
+        }else
         if(entity.equalsIgnoreCase("customfield")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -84,7 +84,7 @@ public class EntityChooser {
             fieldsGroup = new FieldsGroup(jsonFieldsGroup.get("name").toString());
             customField = new CustomField(jsonObject.get("custom_field_name").toString(), jsonObject.get("default_value").toString(), fieldsGroup, jsonObject.get("field_type").toString());
             return customField;
-        }
+        }else
         if(entity.equalsIgnoreCase("faculty")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -93,7 +93,7 @@ public class EntityChooser {
             university = new University(jsonUniversity.get("university_name").toString());
             faculty = new Faculty(jsonObject.get("name").toString(), university);
             return faculty;
-        }
+        }else
         if(entity.equalsIgnoreCase("feedback")){
             try {
                 jsonParser = new JSONParser();
@@ -111,14 +111,14 @@ public class EntityChooser {
             } catch (ParseException ex){
                 return null;
             }
-        }
+        }else
         if(entity.equalsIgnoreCase("fieldsgroup")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             fieldsGroup = new FieldsGroup(jsonObject.get("name").toString());
             return fieldsGroup;
-        }
+        }else
         if(entity.equalsIgnoreCase("group")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -131,7 +131,7 @@ public class EntityChooser {
             course = new Course(jsonCourse.get("name").toString(), faculty);
             group = new Group(jsonObject.get("name").toString(), course);
             return group;
-        }
+        }else
         if(entity.equalsIgnoreCase("hr")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -141,13 +141,13 @@ public class EntityChooser {
                     jsonUser.get("email").toString());
             hr = new HR(user);
             return hr;
-        }
+        }else
         if(entity.equalsIgnoreCase("inverview")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             return null;
-        }
+        }else
         if(entity.equalsIgnoreCase("interviewer")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -157,7 +157,7 @@ public class EntityChooser {
                     jsonUser.get("email").toString());
             interviewer = new Interviewer(user);
             return interviewer;
-        }
+        }else
         if(entity.equalsIgnoreCase("pm")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -167,7 +167,7 @@ public class EntityChooser {
                     jsonUser.get("email").toString());
             pm = new PM(user);
             return pm;
-        }
+        }else
         if(entity.equalsIgnoreCase("project")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -184,7 +184,7 @@ public class EntityChooser {
             pm = new PM(userPM);
             project = new Project(jsonObject.get("name").toString(), pm, teamLeader);
             return project;
-        }
+        }else
         if(entity.equalsIgnoreCase("setting")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -195,7 +195,7 @@ public class EntityChooser {
             setting = new Setting(jsonObject.get("name").toString(), jsonObject.get("value").toString(),
                     jsonObject.get("description").toString(), user);
             return setting;
-        }
+        }else
         if(entity.equalsIgnoreCase("teamleader")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -205,21 +205,21 @@ public class EntityChooser {
                     jsonUser.get("email").toString());
             teamLeader = new TeamLeader(user);
             return teamLeader;
-        }
+        }else
         if(entity.equalsIgnoreCase("technology")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             technology = new Technology(jsonObject.get("technology_name").toString());
             return technology;
-        }
+        }else
         if(entity.equalsIgnoreCase("university")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             university = new University(jsonObject.get("university_name").toString());
             return university;
-        }
+        }else
         if(entity.equalsIgnoreCase("user")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
@@ -227,6 +227,14 @@ public class EntityChooser {
             user = new User(jsonObject.get("name").toString(),
                     jsonObject.get("email").toString());
             return user;
+        } else
+        if (entity.equalsIgnoreCase("student")){
+            jsonParser = new JSONParser();
+            Object object = jsonParser.parse(json);
+            JSONObject jsonObject = (JSONObject) object;
+            user = new User(jsonObject.get("name").toString(), jsonObject.get("email").toString());
+            student = new Student(user);
+            return student;
         }
         return null;
     }

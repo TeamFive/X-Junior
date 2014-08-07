@@ -46,7 +46,7 @@ public class Student extends BaseEntity {
     @Column(name = "current_english_training")
     private String currentEnglishTraining;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "User_id")
     private User user;
 
@@ -85,6 +85,10 @@ public class Student extends BaseEntity {
     @Transient
     @OneToMany(mappedBy = "student")
     private List<Feedback> feedbackList;
+
+    public Student(User user) {
+        this.user = user;
+    }
 
     public Student() {
     }
