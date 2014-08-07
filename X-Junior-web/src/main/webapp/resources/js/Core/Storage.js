@@ -65,7 +65,6 @@ define(["App", "underscore"], function(App, _){
         set: function(key, value){
             key = this._getFullNS(key);
             runtimeStorage[key] = value;
-            debugger;
             if (!isDisable() && key) {
                 try {
                     localStorage.setItem(key, JSON.stringify(value));
