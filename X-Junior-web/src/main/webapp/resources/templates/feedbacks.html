@@ -2,10 +2,10 @@
     <div class="feedback-list">
         {%? data.collection && data.collection.length %}
         <div class="accordion">
-            <div class="panel-group" id="accordion">
-                <view data-constructor="Views/FeedbackForm" data-options="{ collection: data.collection, disable: false, cancelLabel: '' }"/>
+            <div class="panel-group" id="feedbacksAccordion">
+                <view data-constructor="Views/FeedbackForm" data-options="{ prepareModel: false, model: new data.collection.model(), disable: false, cancelLabel: '' }"/>
                 {% data.collection.forEach(function(el, i){ %}
-                   <view data-constructor="Views/FeedbackForm" data-options="{ model: data.collection.at({%- i %}) }"/>
+                   <view data-constructor="Views/FeedbackForm" data-options="{ prepareModel: false, model: data.collection.at({%- i %}) }"/>
                 {% }); %}
             </div>
         </div>
@@ -22,14 +22,14 @@
         <div class="accordion-group">
             <div class="panel panel-default">
                 <div class="panel-heading accordion-heading">
-                <a class="accordion-toggle" data-parent="#accordion2" href="#collapseSeven">
+                <a class="accordion-toggle"  data-toggle="collapse" href="#feedback{%- data.model.get('id') %}">
                     {%- data.model.get('date') || ((new Date).toDateString()) %}
                     {%? data.model.get('curator')%}
                         - {%- data.model.get('curator') %}
                     {%?%}
                 </a>
             </div>
-            <div id="collapseSeven" class="panel-body collapse in">
+            <div id="feedback{%- data.model.get('id') %}" class="panel-body panel-collapse collapse">
                 <h3 >{%- data.model.get('curator') %}</h3>
                 <table class="table table-striped table-hover ">
                     <thead>
@@ -42,13 +42,14 @@
                         <tr>
                             <td>Relations in the team</td>
                             <td>
-                                <view data-id="relationsInTheTeam" data-constructor="Views/Fields/Selectable" data-options="{
+                                <view data-id="relationsInTheTeam" data-constructor="Views/Fields/Dropdown" data-options="{
                                     name: 'relationsInTheTeam',
                                     value: data.model.get('relationsInTheTeam') || '',
-                                    rules: {
-                                        required: true
-                                    },
+                                    rules:'required',
                                     items: [{
+                                        value: '',
+                                        label: 'Select one'
+                                    },{
                                         value: '',
                                         label: 'One'
                                     },{
@@ -71,10 +72,11 @@
                                 <view data-id="professionalSuitability" data-constructor="Views/Fields/Dropdown" data-options="{
                                     name: 'professionalSuitability',
                                     value: data.model.get('professionalSuitability') || '',
-                                    rules: {
-                                        required: true
-                                    },
+                                    rules:'required',
                                     items: [{
+                                        value: '',
+                                        label: 'Select one'
+                                    },{
                                         value: '',
                                         label: 'One'
                                     },{
@@ -94,35 +96,102 @@
                         <tr>
                             <td>Attitude to work</td>
                             <td>
-                                Normal
+                                <view data-id="attitudeToWork" data-constructor="Views/Fields/Dropdown" data-options="{
+                                    name: 'attitudeToWork',
+                                    value: data.model.get('attitudeToWork') || '',
+                                    rules:'required',
+                                    items: [{
+                                        value: '',
+                                        label: 'Select one'
+                                    },{
+                                        value: 'bad',
+                                        label: 'Bad'
+                                    },{
+                                        value: 'normal',
+                                        label: 'Normal'
+                                    },{
+                                        value: 'good',
+                                        label: 'Good'
+                                    }]
+                                }" />
                             </td>
                         </tr>
 
                         <tr>
                             <td>Professional progress</td>
                             <td>
-                                Huge
+                                <view data-id="professionalProgress" data-constructor="Views/Fields/Dropdown" data-options="{
+                                    name: 'professionalProgress',
+                                    value: data.model.get('professionalProgress') || '',
+                                    rules:'required',
+                                    items: [{
+                                        value: '',
+                                        label: 'Select one'
+                                    },{
+                                        value: 'Small',
+                                        label: 'Small'
+                                    },{
+                                        value: 'average',
+                                        label: 'Average'
+                                    },{
+                                        value: 'huge',
+                                        label: 'Huge'
+                                    }]
+                                }" />
                             </td>
                         </tr>
 
                         <tr>
                             <td>Increase working hours</td>
                             <td>
-                                No
+                                <view data-id="increaseWorkingHours" data-constructor="Views/Fields/Selectable" data-options="{
+                                    name: 'increaseWorkingHours',
+                                    value: data.model.get('increaseWorkingHours') || '',
+                                    rules:'required',
+                                    items: [{
+                                        value: 'No',
+                                        label: 'No'
+                                    },{
+                                        value: 'yes',
+                                        label: 'Yes'
+                                    }]
+                                }" />
                             </td>
                         </tr>
 
                         <tr>
                             <td>Works at real project</td>
                             <td>
-                                Yes
+                                <view data-id="worksAtRealProject" data-constructor="Views/Fields/Selectable" data-options="{
+                                    name: 'worksAtRealProject',
+                                    value: data.model.get('worksAtRealProject') || '',
+                                    rules:'required',
+                                    items: [{
+                                        value: '',
+                                        label: 'No'
+                                    },{
+                                        value: 'yes',
+                                        label: 'Yes'
+                                    }]
+                                }" />
                             </td>
                         </tr>
 
                         <tr>
                             <td>Current status</td>
                             <td>
-                                Works
+                                <view data-id="currentStatus" data-constructor="Views/Fields/Selectable" data-options="{
+                                    name: 'currentStatus',
+                                    value: data.model.get('currentStatus') || '',
+                                    rules:'required',
+                                    items: [{
+                                        value: '',
+                                        label: 'Work'
+                                    },{
+                                        value: 'internships',
+                                        label: 'Internships'
+                                    }]
+                                }" />
                             </td>
                         </tr>
                     </tbody>
@@ -131,7 +200,7 @@
                     <label class="control-label">Note</label>
                     <view data-id="note" data-constructor="Views/Fields/Textarea" data-options="{
                         className: 'form-control',
-                        value: data.model.get('note'),
+                        value: data.model.get('note') || '',
                         name: 'note',
                         rules: {
                             required: true
@@ -139,6 +208,7 @@
                         value: '{%- data.model.get('note') %}'
                     }"/>
                 </div>
+
 
                 <div class="form-buttons-container">
                     <div class="edit-button-container">

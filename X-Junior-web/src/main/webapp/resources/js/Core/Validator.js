@@ -62,6 +62,9 @@ define(["underscore"], function (_) {
             ids: {
                 radioChoose: true,
                 required: true
+            },
+            required:{
+                required: true
             }
         },
 
@@ -97,9 +100,7 @@ define(["underscore"], function (_) {
 
         // Проверка на обязательность
         $required: function(value, rule, name){
-            debugger;
-
-            return (value.trim() !== "")? true : "Field "+name+" are required.";
+            return (!_.isUndefined(value) && !_.isNull(value) && value.trim() !== "")? true : "Field "+name+" are required.";
         },
         $requiredRadio: function(value, rule, name){
             debugger;

@@ -4,11 +4,8 @@ package controller;
 import DAO.Impl.CuratorDAOImpl;
 import com.google.gson.Gson;
 import entity.BaseEntity;
-import entity.Technology;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +25,7 @@ public class Controller {
     EntityServiceChooser serviceChooser;
 
     @Autowired
-    VOSetter voSetter;
+    VOConverter voConverter;
 
     public void setServiceChooser(EntityServiceChooser serviceChooser) {
         this.serviceChooser = serviceChooser;
@@ -41,7 +38,7 @@ public class Controller {
         String json;
         Gson gson = new Gson();
         try {
-            json = gson.toJson(voSetter.voSetter(entity, (BaseEntity) baseService.find(id)));
+            json = gson.toJson(voConverter.convert((BaseEntity) baseService.find(id)));
             return "{\"status\":\"success\"," +
                     "\"data\":" + json + "}";
         } catch (JDBCConnectionException ex){
@@ -96,7 +93,7 @@ public class Controller {
         Gson gson = new Gson();
         try {
             return "{\"status\":\"success\"," +
-                    "\"data\":" + gson.toJson(baseService.getList()) + "}";
+                    "\"data\":" +         gson.toJson(voConverter.convertList(entity, baseService.getList())) + "}";
         } catch (EntityException ex){
             return "{\"status\":\"error\"," +
                     "\"message\":\"" + ex.getMessage() + "\"}";

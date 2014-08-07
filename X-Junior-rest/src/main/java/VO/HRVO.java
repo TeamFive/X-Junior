@@ -1,24 +1,19 @@
 package VO;
 
-import entity.Student;
+import entity.HR;
 
 /**
  * Created by ALEX on 07.08.2014.
  */
-public class StudentVO implements BaseVO {
+public class HRVO implements BaseVO {
     private Long id;
     private String name;
     private String email;
-    private String skype;
 
-    public StudentVO() {
-    }
-
-    public StudentVO(Student student) {
-        this.id = student.getId();
-        this.name = student.getUser().getName();
-        this.email = student.getUser().getEmail();
-        this.skype = student.getSkype();
+    public HRVO(HR hr) {
+        this.id = hr.getId();
+        this.name = hr.getUser().getName();
+        this.email = hr.getUser().getEmail();
     }
 
     public Long getId() {

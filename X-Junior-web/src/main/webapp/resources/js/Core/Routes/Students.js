@@ -31,7 +31,11 @@ define(["Routes/Base", "App"], function(Router){
         },
 
         showInterviews: function(id){
-
+            require(["Views/Pages/StudentInterviews"], function(Page){
+                (new Page({
+                    student: id
+                })).show();
+            });
         }
     });
 });
