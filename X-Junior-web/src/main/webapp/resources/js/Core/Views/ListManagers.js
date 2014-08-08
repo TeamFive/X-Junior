@@ -18,6 +18,7 @@ define(["Views/Base", "Collections/Managers", "Models/Manager", "underscore", "j
         },
 
         showManager: function(model){
+            debugger;
             var row = new Base({
                 tpl: {
                     src: "managerstable.html?v=1",

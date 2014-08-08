@@ -1,4 +1,4 @@
-define([ "Views/Form", "App", "jquery", "Views/Base", "underscore", "Core/PropertyList", "Views/Pages/StudentInfo"], function (Form, App, $, Base, _, propertyList, StudentInfo) {
+define([ "Views/Form", "App", "jquery", "Views/Base", "underscore", "Core/PropertyList", "Views/Pages/StudentInfo"], function (Form, App, $, Base, _, PropertyList, StudentInfo) {
 
 
     return Form.extend({
@@ -15,7 +15,7 @@ define([ "Views/Form", "App", "jquery", "Views/Base", "underscore", "Core/Proper
                         value: self.model.get(property),
                         userCanChange: true
                     }
-                }, propertyList[property]);
+                }, PropertyList[property]);
                 propConfig.options = JSON.stringify(propConfig.options);
                 return propConfig;
             });

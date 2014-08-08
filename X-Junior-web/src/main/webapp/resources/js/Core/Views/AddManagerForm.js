@@ -10,21 +10,6 @@ define(["Views/Form", "App", "jquery", "Collections/Managers", "Models/Manager"]
         constructor: function(options){
             options.collection = new Managers();
             Form.prototype.constructor.apply(this,[options]);
-        },
-
-        __sendData: function(data){
-            this.model = new Manager();
-            return Form.prototype.__sendData.apply(this,arguments);
-        },
-
-        onSuccessSubmit: function(data){
-            this.collection.add(data);
-            Form.prototype.onSuccessSubmit.apply(this, arguments);
-        },
-
-        onCompleteSubmit: function(){
-            delete this.model;
-            Form.prototype.onCompleteSubmit.apply(this, arguments);
         }
 
     }, {
