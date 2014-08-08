@@ -45,6 +45,10 @@ public class VOConverter {
             return new ProjectVO((Project) baseEntity);
         if (baseEntity instanceof Setting)
             return new SettingVO((Setting) baseEntity);
+        if (baseEntity instanceof TeamLeader)
+            return new TeamLeaderVO((TeamLeader) baseEntity);
+        if (baseEntity instanceof Technology)
+            return new TechnologyVO((Technology) baseEntity);
         return null;
     }
 
@@ -149,6 +153,18 @@ public class VOConverter {
         if (entity.equalsIgnoreCase("setting")) {
             for (BaseEntity item : entityList){
                 baseVOList.add(new SettingVO((Setting) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("teamleader")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new TeamLeaderVO((TeamLeader) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("technology")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new TechnologyVO((Technology) item));
             }
             return baseVOList;
         }
