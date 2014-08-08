@@ -12,7 +12,9 @@ define(["Models/Base", "Collections/Feedbacks", "Collections/Interviews", "jquer
             return {
                 name: "Petrov",
                 enable: true,
-                avatar: "resources/images/user-avatar.png"
+                status:'work',
+                avatar: "resources/images/default_avatar_male.jpg",
+                properties:[{name:'status', value:'work', change:'yes', see:'yes'}, {name:'Name', value:'Ivan', see:'yes', change:'yes'}, {name:'Surname', value:'Petrov', change:'yes', see:'yes'}]
             }
         },
 
@@ -22,6 +24,7 @@ define(["Models/Base", "Collections/Feedbacks", "Collections/Interviews", "jquer
                 this.set("feedbacksLink", "students/" + this.id + "/feedbacks");
                 this.set("interviewsLink", "students/" + this.id + "/interviews");
             });
+
             Base.prototype.constructor.apply(this, arguments);
         },
 

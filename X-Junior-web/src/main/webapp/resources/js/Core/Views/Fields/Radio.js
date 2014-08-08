@@ -12,7 +12,6 @@ define(["Views/Fields/Base", "jquery", "underscore"], function(View, $, _){
 
 
         setValue: function(value){
-            debugger;
             this.$(".radio-button").removeAttr("checked");
 
             var i=0;

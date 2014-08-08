@@ -12,6 +12,7 @@ define(["Routes/Base", "App"], function(Router){
 
         showList: function(){
 
+
         },
 
         showInfo: function(id){

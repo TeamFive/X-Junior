@@ -15,7 +15,6 @@ define(["Views/Form", "App", "jquery", "Collections/Fields", "Models/Field"], fu
         constructor: function (options) {
             options.collection = new Fields();
             Form.prototype.constructor.apply(this, [options]);
-            debugger;
             $( document ).ready(function() {
 
             });
@@ -28,10 +27,8 @@ define(["Views/Form", "App", "jquery", "Collections/Fields", "Models/Field"], fu
         verify: function(){
             this.dropLastVerificationResult();
             return _.all(this.fields || [], function(field){
-                debugger;
                 if (field.$el.is(':visible'))
                 {
-                    debugger;
                     return field.verify();
                 }
                 else {
@@ -54,9 +51,7 @@ define(["Views/Form", "App", "jquery", "Collections/Fields", "Models/Field"], fu
         __ready: function () {
             Form.prototype.__ready.apply(this, arguments);
             this.hideAllTypesForm();
-            debugger;
             this.getFieldByName("fieldType").$el.on("field:changed", this.showTypeForm.bind(this));
-            //this.reset();
         },
 
         showTypeForm: function () {

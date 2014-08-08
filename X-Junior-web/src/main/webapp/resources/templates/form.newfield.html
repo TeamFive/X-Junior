@@ -25,22 +25,13 @@
             </tr>
             <tr>
                 <td>
-                    Can be changed by student
+                    Choose field's type
                 <td>
                 <view data-id="fieldType" data-constructor="Views/Fields/Radio"
                       data-options="{buttons:[{label:'Selectable', id:'select'},{label:'Checkbox', id:'check'},{label:'Text', id:'text'}],  name:'fieldType', rules:'fieldType'}"/>
                 </td>
             </tr>
             </tbody>
-
-<!--
-            <tbody>
-            <tr>
-                <td>
-                <view data-id="defaultField" data-constructor="Views/Fields/Base"
-                      data-options="{name:'name', type:'text', className:'form-control', rules:'fieldName'}"/>
-            </td></tr>
-            </tbody>-->
         </table>
 
 
@@ -48,8 +39,8 @@
 
         <div class="type-form select-form">
             <h5>Enter id's and names of your radio buttons</h5>
-            <view data-id="radioIds" data-constructor="Views/Fields/Base"
-                  data-options="{name:'radioIds', type:'text', className:'form-control', placeHolderName:'Id1=Name1; Id2=Name2; Id3=Name3;...', rules:'ids'}"/>
+            <view data-id="optionsRadio" data-constructor="Views/Fields/Base"
+                  data-options="{name:'optionsRadio', type:'text', className:'form-control', placeHolderName:'Id1=Name1; Id2=Name2; Id3=Name3;...', rules:'ids'}"/>
            <h5>Choose it's look</h5>
             <view data-id="fieldLook" data-constructor="Views/Fields/Radio"
                   data-options="{buttons:[{label:'selectable', id:'select'},{label:'radio', id:'radio'},{label:'dropdown', id:'dropdown'}],  name:'fieldLook', rules:'fieldLook'}"/>

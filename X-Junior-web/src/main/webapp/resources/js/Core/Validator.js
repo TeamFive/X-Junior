@@ -65,7 +65,30 @@ define(["underscore"], function (_) {
             },
             required:{
                 required: true
+            },
+            phone:{
+                required: true,
+                phoneNumber: true
+            },
+            skype:{
+                required: true,
+                skypeField:true
+            },
+            university:{
+                required: true,
+                univer: true
+            },
+
+            grade:{
+                gradeLook: true
+            },
+            date:{
+                dateLook: true
+            },
+            futureWorkHours:{
+                futureWork: true
             }
+
         },
 
         __processRules: function (rules) {
@@ -159,6 +182,25 @@ define(["underscore"], function (_) {
 
         $radioChoose: function(value, rule, name){
             return (this.$equal(value,'([a-zA-Z_0-9]*\\=[a-zA-Z_0-9]*\\;\\s){1,}', name)=== true)? true: "Field "+name+" must be Index1=Name1;...";
+        },
+
+        $phoneNumber: function(value, rule, name){
+            return (this.$equal(value,'(\\+?[0-9]{3})?\\ ?\\-?\\ ?\\(?\\ ?([0-9]{2})?\\ ?\\)?\\ ?\\-?[0-9]{3}\\ ?\\-?\\ ?[0-9]{2}\\ ?\\-?\\ ?[0-9]{2}', name)=== true)? true: "Field "+name+" must be +123456789012";
+        },
+        $skypeField: function(value, rule, name){
+            return (this.$equal(value,'^[a-zA-Z][a-zA-Z0-9_-]{5,31}', name)=== true)? true: "Field "+name+" must be must be between 6-32 characters, start with a letter and contain only letters and numbers (no spaces or special characters).";
+        },
+        $univer: function(value, rule, name){
+            return (this.$equal(value,'[a-zA-Z ]{1,30}', name)=== true)? true: "Field "+name+" must be must be between 6-32 characters, start with a letter and contain only letters and spaces";
+        },
+        $gradeLook: function(value, rule, name){
+            return (this.$equal(value,'[0-9,]{1,3}', name)=== true)? true: "Field "+name+" must be must be a number";
+        },
+        $dateLook: function(value, rule, name){
+            return (this.$equal(value,'[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}', name)=== true)? true: "Field "+name+" must be XX.XX.XXXX";
+        },
+        $futureWork: function(value, rule, name){
+            return (this.$equal(value,'[0-9]{2}\\ [0-9]{2}\\.[0-9]{2}\\.[0-9]{4}', name)=== true)? true: "Field "+name+" must be XX XX.XX.XXXX";
         }
     }
 });
