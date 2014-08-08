@@ -5,7 +5,7 @@
  * Time: 18:00
  * To change this template use File | Settings | File Templates.
  */
-define(["Models/Base", "Collections/Feedbacks", "Collections/Interviews", "jquery"], function(Base, Feeds, Interviews, $){
+define(["Models/Base", "Collections/Feedbacks", "Collections/Interviews", "jquery", "Collections/StudentSkills", "Models/Interview", "Models/Skill"], function(Base, Feeds, Interviews, $, StudentSkills, Interview, Skill){
 
     return Base.extend({
         defaults: function(){
@@ -56,8 +56,30 @@ define(["Models/Base", "Collections/Feedbacks", "Collections/Interviews", "jquer
             return this.__feedbacks;
         },
         fetchInterviews: function(){
+
             if (!this.__interviews) {
                 this.__interviews = $.Deferred();
+                this.set("interviews", new Interviews([
+                    new Interview({
+                        id: 1,
+                        result: 'Excepted',
+                        interviewer: "Pukova Polina",
+                        idStudent: 2,
+                        date: "01/01/2014",
+                        note: "The is text...",
+                        studentSkills: new StudentSkills([
+                            new Skill({
+                                technology_name: "fsdfsdf",
+                                value: '1'
+                            }),
+                            new Skill({
+                                technology_name: "fsdfsgndfz",
+                                value: '3'
+                            })
+                        ])
+                    })
+                ]));
+                this.__interviews.resolve();
                 //TODO: Отправляем запрос на сервер за инфой. Сохраняем через this.set. Резолвим this.__interviews с коллекцией.
             }
             return this.__interviews;

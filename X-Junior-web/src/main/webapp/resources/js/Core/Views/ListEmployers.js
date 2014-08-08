@@ -13,7 +13,6 @@ define(["Views/Base", "Collections/Employers", "Models/Employer", "underscore", 
         },
 
         showAllEmployers: function(){
-            debugger;
             this.collection.forEach(this.showEmployer, this);
         },
 
@@ -33,8 +32,10 @@ define(["Views/Base", "Collections/Employers", "Models/Employer", "underscore", 
                         duration: 0
                     }
                 },
-                model: model
+                model: model,
+                index: this.options.index
             });
+            this.options.index+=1;
            row.show();
            this.rows.push(row);
         },
@@ -71,6 +72,7 @@ define(["Views/Base", "Collections/Employers", "Models/Employer", "underscore", 
         defaults: $.extend(true, {}, Base.defaults, {
             tpl: null
         }),
-        prepareCollection :false
+        prepareCollection :false,
+        index: 1
     });
 });

@@ -2,7 +2,7 @@
     <div class="feedback-list">
         {%? data.collection && data.collection.length %}
         <div class="accordion">
-            <div class="panel-group" id="feedbacksAccordion">
+            <div class="panel-group">
                 <view data-constructor="Views/FeedbackForm" data-options="{ prepareModel: false, model: new data.collection.model(), disable: false, cancelLabel: '' }"/>
                 {% data.collection.forEach(function(el, i){ %}
                    <view data-constructor="Views/FeedbackForm" data-options="{ prepareModel: false, model: data.collection.at({%- i %}) }"/>
@@ -50,17 +50,14 @@
                                         value: '',
                                         label: 'Select one'
                                     },{
-                                        value: '',
-                                        label: 'One'
+                                        value: 'bad',
+                                        label: 'Bad'
                                     },{
-                                        value: 'two',
-                                        label: 'Two'
+                                        value: 'normal',
+                                        label: 'Normal'
                                     },{
-                                        value: 'three',
-                                        label: 'Three'
-                                    },{
-                                        value: 'four',
-                                        label: 'Its last element'
+                                        value: 'good',
+                                        label: 'Good'
                                     }]
                                 }" />
                             </td>
@@ -69,26 +66,17 @@
                         <tr>
                             <td>Professional suitability</td>
                             <td>
-                                <view data-id="professionalSuitability" data-constructor="Views/Fields/Dropdown" data-options="{
+                                <view data-id="professionalSuitability" data-constructor="Views/Fields/Selectable" data-options="{
                                     name: 'professionalSuitability',
                                     value: data.model.get('professionalSuitability') || '',
                                     rules:'required',
                                     items: [{
-                                        value: '',
-                                        label: 'Select one'
+                                        value: 'suitable',
+                                        label: 'Suitable'
                                     },{
-                                        value: '',
-                                        label: 'One'
-                                    },{
-                                        value: 'two',
-                                        label: 'Two'
-                                    },{
-                                        value: 'three',
-                                        label: 'Three'
-                                    },{
-                                        value: 'four',
-                                        label: 'Its last element'
-                                    }]
+                                        value: 'nosuitable',
+                                        label: 'No suitable'
+                                    },]
                                 }" />
                             </td>
                         </tr>
@@ -167,7 +155,7 @@
                                     value: data.model.get('worksAtRealProject') || '',
                                     rules:'required',
                                     items: [{
-                                        value: '',
+                                        value: 'No',
                                         label: 'No'
                                     },{
                                         value: 'yes',
@@ -185,11 +173,11 @@
                                     value: data.model.get('currentStatus') || '',
                                     rules:'required',
                                     items: [{
-                                        value: '',
+                                        value: 'Work',
                                         label: 'Work'
                                     },{
-                                        value: 'internships',
-                                        label: 'Internships'
+                                        value: 'internship',
+                                        label: 'Internship'
                                     }]
                                 }" />
                             </td>

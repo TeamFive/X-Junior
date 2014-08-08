@@ -252,6 +252,41 @@ html,
 .feedback-item .form-buttons-container {
   text-align: right;
 }
+.interview-item .edit-button-container {
+  display: none;
+}
+.interview-item .save-button-container {
+  display: block;
+}
+.interview-item.form-disabled .edit-button-container {
+  display: block;
+}
+.interview-item.form-disabled .save-button-container {
+  display: none;
+}
+.interview-item .form-buttons-container {
+  text-align: right;
+}
+.info-interview {
+  margin: 10px 0;
+}
+.info-interview .not-excepted-student,
+.info-interview .excepted-student {
+  cursor: pointer;
+}
+.skillsTable td {
+  width: 50%;
+}
+.skillsTable .twitter-typeahead {
+  width: 100%;
+}
+.skillsTable .help-block {
+  font-size: 12px;
+  display: inline;
+}
+.skillsTable .tt-dropdown-menu {
+  font-size: 12px;
+}
 .info-table .name-coll {
   width: 140px;
 }

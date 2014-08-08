@@ -4,7 +4,6 @@
 define(["Backbone", "App", "jquery"], function(Backbone, App, $){
     var Config = App.Config.request;
     Backbone.ajax =  function(request){
-        debugger;
         request.url = Config.restUrl + request.url;
         var xhr = $.Deferred(),
             success = request.success,

@@ -33,8 +33,10 @@ define(["Views/Base", "Collections/Managers", "Models/Manager", "underscore", "j
                         duration: 0
                     }
                 },
-                model: model
+                model: model,
+                index: this.options.index
             });
+            this.options.index+=1;
             row.show();
             this.rows.push(row);
         },
@@ -59,7 +61,8 @@ define(["Views/Base", "Collections/Managers", "Models/Manager", "underscore", "j
 
     },{
         defaults: $.extend(true, {}, Base.defaults, {
-            tpl: null
+            tpl: null,
+            index:1
         })
     });
 });

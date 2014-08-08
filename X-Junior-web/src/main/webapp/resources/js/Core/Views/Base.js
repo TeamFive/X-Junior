@@ -373,7 +373,8 @@ define(["Backbone", "underscore", "jquery", "App", "Core/Templates"], function(B
             tpl: {
                 src: App.Config.templates.core,
                 $: null
-            }
+            },
+            index: 1
         }
     });
 });

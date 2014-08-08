@@ -106,6 +106,7 @@ define(["Views/Base", "jquery", "underscore", "Core/Validator", "bootstrap"], fu
             rules: null,
             className:"",
             placeHolderName:"",
+            sizeInput:"",
             tpl: {
                 src: "fields.html?v=1",
                 $: "field"

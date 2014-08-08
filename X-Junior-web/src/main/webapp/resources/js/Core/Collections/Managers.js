@@ -12,9 +12,6 @@ define(["Collections/Base", "Models/Manager"], function(Base, Manager){
                 Base.prototype.constructor.apply(this, arguments);
                 this.constructor._instance = this;
             }
-        },
-        fetch: function(){
-            return $.Deferred().resolve([]);
         }
     });
 });
