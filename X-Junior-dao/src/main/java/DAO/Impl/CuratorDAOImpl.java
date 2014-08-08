@@ -82,12 +82,15 @@ public class CuratorDAOImpl extends BaseDAOImpl<Curator> {
         return curator;
     }
 
-    public Curator getCurator(long id){
+    public String saveCurator(Curator curator){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        Curator curator = entityManager.find(Curator.class, id);
-        return  curator;
+        entityManager.getTransaction().begin();
+        entityManager.persist(curator);
+        entityManager.getTransaction().commit();
+
+        return  "success";
     }
 
 }

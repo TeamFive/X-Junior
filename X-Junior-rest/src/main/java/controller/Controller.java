@@ -109,21 +109,21 @@ public class Controller {
     @ResponseBody
     public String createEntity(@PathVariable("entity") String entity, @RequestBody String str)  {
         BaseService baseService = serviceChooser.serviceChooser(entity);
-        EntityChooser entityChooser = new EntityChooser();
-        try {
-            BaseEntity baseEntity = entityChooser.choseEntity(entity, str);
+        //EntityChooser entityChooser = new EntityChooser();
+        EntityChooserTest chooserTest = new EntityChooserTest();
             try {
-                return "{\"status\":\"" + baseService.add(baseEntity) + "\"}";
+                return "{\"status\":\"" + chooserTest.choseEntity(entity, str) + "\"}";
             } catch (JDBCConnectionException ex) {
                 return "{\"status\":\"error\"," +
                         "\"message\":\"Database is offline\"}";
-            } catch (EntityException ex) {
-                return "{\"status\":\"error\"," +
-                        "\"message\":\"" + ex.getMessage() + "\"}";
             }
-        } catch (ParseException ex){
-            return "{\"status\":\"error\"," +
-                    "\"message\":\"invalid JSON\"}";
+            catch (ParseException ex){
+                return "{\"status\":\"error\"," +
+                        "\"message\":\"invalid JSON\"}";
+            } catch (EntityException ex){
+                return "{\"status\":\"error\"," +
+                        "\"message\":\"invalid JSON\"}";
+            }
         }
     }
 //
@@ -154,6 +154,3 @@ public class Controller {
 //                    "     message: \" Soo invalid JSON \" \n";
 //        }
 //    }
-
-
-}
