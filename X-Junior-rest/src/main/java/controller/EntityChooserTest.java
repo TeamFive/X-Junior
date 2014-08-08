@@ -2,10 +2,7 @@ package controller;
 
 import DAO.BaseDAO;
 import DAO.Impl.*;
-import entity.Curator;
-import entity.Feedback;
-import entity.HR;
-import entity.User;
+import entity.*;
 import exceptions.EntityException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -57,6 +54,46 @@ public class EntityChooserTest {
             HR hr = new HR(user);
             HRDAOImpl hrDAO = new HRDAOImpl();
             return hrDAO.saveHr(hr);
+        }
+        if(entity.equalsIgnoreCase("admin")){
+            User user = new User(jsonObject.get("name").toString(),
+                    jsonObject.get("email").toString());
+            AdminDAOImpl adminDAO = new AdminDAOImpl();
+            Admin admin = new Admin(user);
+            return adminDAO.createAdmin(admin);
+        }
+        if(entity.equalsIgnoreCase("certificate")){
+            Certificate certificate = new Certificate(
+                    jsonObject.get("certificate_name").toString(),
+                    jsonObject.get("date").toString());
+            CertificateDAOImpl certificateDAO = new CertificateDAOImpl();
+            return certificateDAO.createCertificate(certificate);
+        }
+        if(entity.equalsIgnoreCase("course")){
+            Course course = new Course();
+            course.setName(jsonObject.get("course_name").toString());
+            CourseDAOImpl courseDAO = new CourseDAOImpl();
+
+            return courseDAO.createCourse(course, Long.parseLong(jsonObject.get("faculty_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("customfield")){
+            CustomField customField = new CustomField();
+            customField.setName(jsonObject.get("customfield_name").toString());
+            customField.setDefaultValue(jsonObject.get("default_value").toString());
+            customField.setFieldType(jsonObject.get("field_type").toString());
+
+            CustomFieldDAOImpl customFieldDAO = new CustomFieldDAOImpl();
+
+            return customFieldDAO.createCustomField(customField,
+                    Long.parseLong(jsonObject.get("fieldsgroup_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("faculty")){
+            Faculty faculty = new Faculty();
+            faculty.setName(jsonObject.get("faculty_name").toString());
+
+            FacultyDAOImpl facultyDAO = new FacultyDAOImpl();
+
+            return facultyDAO.createFaculty(faculty, Long.parseLong(jsonObject.get("university_id").toString()));
         }
 
         return null;
