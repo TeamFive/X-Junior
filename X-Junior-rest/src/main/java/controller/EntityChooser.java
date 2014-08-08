@@ -143,7 +143,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             user = new User(jsonObject.get("name").toString(),
-                    jsonObject.get("email").toString(), jsonObject.get("login").toString());
+                    jsonObject.get("email").toString());
             hr = new HR(user);
             return hr;
         }else
@@ -158,7 +158,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             user = new User(jsonObject.get("name").toString(),
-                    jsonObject.get("email").toString(), jsonObject.get("login").toString());
+                    jsonObject.get("email").toString());
             interviewer = new Interviewer(user);
             return interviewer;
         }else
@@ -167,7 +167,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonUser = (JSONObject) object;
             user = new User(jsonUser.get("name").toString(),
-                    jsonUser.get("email").toString(), jsonUser.get("login").toString());
+                    jsonUser.get("email").toString());
             pm = new PM(user);
             return pm;
         }else
@@ -180,9 +180,9 @@ public class EntityChooser {
             JSONObject jsonTLUser = (JSONObject) jsonTL.get("user");
             JSONObject jsonPMUser = (JSONObject) jsonPM.get("user");
             User userPM = new User(jsonPMUser.get("name").toString(),
-                    jsonPMUser.get("email").toString(), jsonPM.get("login").toString());
+                    jsonPMUser.get("email").toString());
             User userTL = new User(jsonTLUser.get("name").toString(),
-                    jsonTLUser.get("email").toString(), jsonTL.get("login").toString());
+                    jsonTLUser.get("email").toString());
             teamLeader = new TeamLeader(userTL);
             pm = new PM(userPM);
             project = new Project(jsonObject.get("name").toString(), pm, teamLeader);
@@ -194,7 +194,7 @@ public class EntityChooser {
             JSONObject jsonObject = (JSONObject) object;
             JSONObject jsonUser = (JSONObject) jsonObject.get("user");
             user = new User(jsonUser.get("name").toString(),
-                    jsonUser.get("email").toString(), jsonUser.get("login").toString());
+                    jsonUser.get("email").toString());
             setting = new Setting(jsonObject.get("name").toString(), jsonObject.get("value").toString(),
                     jsonObject.get("description").toString(), user);
             return setting;
@@ -204,7 +204,7 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonUser = (JSONObject) object;
             user = new User(jsonUser.get("name").toString(),
-                    jsonUser.get("email").toString(), jsonUser.get("login").toString());
+                    jsonUser.get("email").toString());
             teamLeader = new TeamLeader(user);
             return teamLeader;
         }else
@@ -227,14 +227,14 @@ public class EntityChooser {
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
             user = new User(jsonObject.get("name").toString(),
-                    jsonObject.get("email").toString(), jsonObject.get("login").toString());
+                    jsonObject.get("email").toString());
             return user;
         } else
         if (entity.equalsIgnoreCase("student")){
             jsonParser = new JSONParser();
             Object object = jsonParser.parse(json);
             JSONObject jsonObject = (JSONObject) object;
-            user = new User(jsonObject.get("name").toString(), jsonObject.get("email").toString(), jsonObject.get("login").toString());
+            user = new User(jsonObject.get("name").toString(), jsonObject.get("email").toString());
             student = new Student(user);
             return student;
         } else

@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Group", schema = "janelist")
+@Table(name = "Group_table", schema = "janelist")
 public class Group extends BaseEntity {
     @Id
     @GeneratedValue(generator = "increment")
