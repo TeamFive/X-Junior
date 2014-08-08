@@ -9,7 +9,12 @@ define(["Views/Base", "jquery"], function(Base, $){
     return Base.extend({
         events: {
             "click .disable-student": "disableStudent",
-            "click .enable-student": "enableStudent"
+            "click .enable-student": "enableStudent",
+            "view:ready": "initSubEvents"
+        },
+
+        initSubEvents: function(){
+            this.listenTo(this.model, "change", this.rerender);
         },
 
         disableStudent: function(){

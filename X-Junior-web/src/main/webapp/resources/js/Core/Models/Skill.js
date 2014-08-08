@@ -1,9 +1,8 @@
-define(["Models/Base", "underscore", "Collections/Skills"], function(Model, _, Skills){
-    var allskills=[];
-
+define(["Models/Base", "underscore"], function(Model, _){
     return Model.extend({
         defaults:{
-           technology_name: ""
+            technology_name: "",
+            value: ''
         },
         urlRoot: "/technology"
     });

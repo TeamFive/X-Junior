@@ -16,7 +16,6 @@ define(["Collections/Fields", "Views/Base", "App", "jquery", "Views/FieldRow"], 
         },
 
         constructor: function(options){
-            debugger;
             options.collection = new Fields();
 
             this.listenTo(options.collection, "add", this.addline);
@@ -26,8 +25,6 @@ define(["Collections/Fields", "Views/Base", "App", "jquery", "Views/FieldRow"], 
 
 
         addline:function(field){
-            debugger;
-            debugger;
             var row = new FieldRow({
 
                 container: this.$("tbody"),

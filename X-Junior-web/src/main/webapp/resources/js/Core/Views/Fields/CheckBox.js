@@ -6,7 +6,6 @@ define(["Views/Fields/Base", "jquery", "underscore"], function(View, $, _){
         },
 
         setValue: function(value) {
-            debugger;
             if (value === this.options.yes || value === true) {
                 this.$el.attr("checked", "checked");
             } else {

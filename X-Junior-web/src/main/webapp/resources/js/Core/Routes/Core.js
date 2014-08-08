@@ -70,7 +70,7 @@ define(["Routes/Base", "App"], function(Router, App){
          */
         "logout": function(){
             (App.user) && (App.user.logout());
-            this.navigate("login");
+            this.navigate("login", {trigger: true, replace: true});
         },
 
 

@@ -15,7 +15,16 @@ define(["Views/Page", "Models/StudentInstance", "jquery"], function(Page, Studen
             });
             Page.prototype.constructor.apply(this, arguments);
         },
-
+        __ready: function(){
+            this.listenTo(this.model, "change:name", function(){
+                this.childrenViews.pageDescription.options.pageTitle = this.model.get('name');
+                debugger;
+                this.childrenViews.breadcrumbs.options.path[1].title = this.model.get('name');
+                debugger;
+                this.childrenViews.pageDescription.rerender();
+                this.childrenViews.breadcrumbs.rerender();
+            });
+        },
         __prepareModel: function(){
             var modelStatus = $.Deferred(),
                 model = this.model,
@@ -25,6 +34,8 @@ define(["Views/Page", "Models/StudentInstance", "jquery"], function(Page, Studen
             });
             return modelStatus;
         }
+
+
 
     }, {
         defaults: $.extend(true, {}, Page.defaults, {

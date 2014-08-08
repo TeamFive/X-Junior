@@ -40,8 +40,8 @@
 
 <script type="text/template" id="employer">
     <tr>
-        {% if (!window.i) {window.i = 0} window.i+=1; %}
-        <td>{%- window.i %}</td>
+
+        <td>{%- data.index %}</td>
         <td>{%- data.model.get('name') %}</td>
         <td>
             <view data-id="students"  data-constructor="Views/StudentsOfEmployer" data-options="{collection: data.model.get('students') }"/>

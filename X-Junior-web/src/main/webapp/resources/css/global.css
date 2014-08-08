@@ -233,6 +233,10 @@ html,
 .student-common-info .enable-student {
   cursor: pointer;
 }
+.student-common-info .avatar {
+  height: 120px;
+  width: 120px;
+}
 .feedback-item .edit-button-container {
   display: none;
 }
@@ -247,6 +251,67 @@ html,
 }
 .feedback-item .form-buttons-container {
   text-align: right;
+}
+.interview-item .edit-button-container {
+  display: none;
+}
+.interview-item .save-button-container {
+  display: block;
+}
+.interview-item.form-disabled .edit-button-container {
+  display: block;
+}
+.interview-item.form-disabled .save-button-container {
+  display: none;
+}
+.interview-item .form-buttons-container {
+  text-align: right;
+}
+.info-interview {
+  margin: 10px 0;
+}
+.info-interview .not-excepted-student,
+.info-interview .excepted-student {
+  cursor: pointer;
+}
+.skillsTable td {
+  width: 50%;
+}
+.skillsTable .twitter-typeahead {
+  width: 100%;
+}
+.skillsTable .help-block {
+  font-size: 12px;
+  display: inline;
+}
+.skillsTable .tt-dropdown-menu {
+  font-size: 12px;
+}
+.info-table .name-coll {
+  width: 140px;
+}
+.info-table .edit-button-container {
+  display: none;
+}
+.info-table .save-button-container {
+  display: block;
+}
+.info-table.form-disabled .edit-button-container {
+  display: inline-block;
+}
+.info-table.form-disabled .save-button-container {
+  display: none;
+}
+.info-table.form-disabled input {
+  border: 0px;
+  box-shadow: none;
+  background: transparent;
+}
+.info-table .form-buttons-container {
+  text-align: right;
+}
+.student-panel {
+  color: #428bca;
 }
 .page-404 {
   min-height: 100%;
@@ -353,11 +418,4 @@ h4 {
   margin: 2px;
   padding: 1px;
   border-radius: 5px;
-}
-
-.sub-btn{
-    margin-top: 5px;
-}
-.curs{
-    cursor: pointer;
 }
