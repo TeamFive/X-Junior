@@ -7,4 +7,5 @@ X-Junior-dao/X-Junior-dao.iml
 X-Junior-rest/X-Junior-rest.iml
 X-Junior-service/X-Junior-service.iml
 X-Junior-web/X-Junior-web.iml
+*.iml
 */target/

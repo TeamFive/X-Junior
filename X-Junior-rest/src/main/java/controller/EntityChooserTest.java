@@ -95,8 +95,18 @@ public class EntityChooserTest {
 
             return facultyDAO.createFaculty(faculty, Long.parseLong(jsonObject.get("university_id").toString()));
         }
+        if(entity.equalsIgnoreCase("group")){
+            Group group = new Group();
+            group.setName(jsonObject.get("group_name").toString());
+
+            GroupDAOImpl groupDAO = new GroupDAOImpl();
+
+            return groupDAO.createGroup(group, Long.parseLong(jsonObject.get("course_id").toString()));
+        }
 
         return null;
     }
 
 }
+
+//Ready GROUP,

@@ -1,5 +1,6 @@
 package DAO.Impl;
 
+import entity.Course;
 import entity.Curator;
 import entity.Group;
 import org.springframework.stereotype.Repository;
@@ -24,5 +25,18 @@ public class GroupDAOImpl extends BaseDAOImpl<Group> {
 
         Group group = entityManager.find(Group.class, id);
         return  group;
+    }
+
+    public String createGroup(Group group, long course_id){
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        group.setCourse(entityManager.find(Course.class, course_id));
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(group);
+        entityManager.getTransaction().commit();
+
+        return "success";
     }
 }
