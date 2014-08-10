@@ -103,6 +103,25 @@ public class EntityChooserTest {
 
             return groupDAO.createGroup(group, Long.parseLong(jsonObject.get("course_id").toString()));
         }
+        if(entity.equalsIgnoreCase("interview")){
+            Interview interview = new Interview();
+            interview.setDescription(jsonObject.get("description").toString());
+            interview.setResults(jsonObject.get("results").toString());
+
+            InterviewDAOImpl interviewDAO = new InterviewDAOImpl();
+
+            return interviewDAO.createInterview(interview, Long.parseLong(jsonObject.get("student_id").toString()),
+                    Long.parseLong(jsonObject.get("hr_id").toString()), Long.parseLong(jsonObject.get("interviewer_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("interviewer")){
+            Interviewer interviewer = new Interviewer();
+            interviewer = new Interviewer(new User(jsonObject.get("name").toString(),
+                    jsonObject.get("email").toString()));
+
+            InterviewerDAOImpl interviewerDAO = new InterviewerDAOImpl();
+            return interviewerDAO.createInterviewer(interviewer);
+        }
+
 
         return null;
     }
