@@ -28,9 +28,10 @@ public class StudentVO implements BaseVO {
     private List<Certificate> certificateList;
     private List<Technology> technologyStudentNowList;
     private List<Technology> technologyStudentFutureList;
-    private List<Interview> interviewList;
+    private List<InterviewListItem> interviewList;
     private List<Project> projectList;
     private List<FeedbackListItem> feedbackList;
+    private List<MarksListItem> marksList;
 
     private class FeedbackListItem{
         private Long id;
@@ -68,6 +69,98 @@ public class StudentVO implements BaseVO {
         }
     }
 
+    private class InterviewListItem{
+        private Long id;
+        private String results;
+        private String description;
+        private StudentElem student;
+        private HR hr;
+        private Interviewer interviewer;
+
+        private class StudentElem{
+            private Long id;
+            private String name;
+            private String email;
+
+            private StudentElem(Student studentElem) {
+                this.id = studentElem.getId();
+                this.name = studentElem.getUser().getName();
+                this.email = studentElem.getUser().getEmail();
+            }
+        }
+
+        public InterviewListItem(Interview interview) {
+            this.id = interview.getId();
+            this.results = interview.getResults();
+            this.description = interview.getDescription();
+            this.student = new StudentElem(interview.getStudent());
+            this.hr = interview.getHr();
+            this.interviewer = interview.getInterviewer();
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public String getResults() {
+            return results;
+        }
+
+        public void setResults(String results) {
+            this.results = results;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public StudentElem getStudent() {
+            return student;
+        }
+
+        public void setStudent(StudentElem student) {
+            this.student = student;
+        }
+
+        public HR getHr() {
+            return hr;
+        }
+
+        public void setHr(HR hr) {
+            this.hr = hr;
+        }
+
+        public Interviewer getInterviewer() {
+            return interviewer;
+        }
+
+        public void setInterviewer(Interviewer interviewer) {
+            this.interviewer = interviewer;
+        }
+    }
+
+    private class MarksListItem{
+        private Long id;
+        private String mark;
+        private String date;
+        private Group group;
+
+        public MarksListItem(Marks marks) {
+            this.id = marks.getId();
+            this.mark = marks.getMark();
+            this.date = marks.getDate();
+            this.group = marks.getGroup();
+        }
+    }
+
     public StudentVO(Student student) {
         this.id = student.getId();
         this.startedWorkDate = student.getStartedWorkDate();
@@ -88,11 +181,18 @@ public class StudentVO implements BaseVO {
         this.certificateList = student.getCertificateList();
         this.technologyStudentNowList = student.getTechnologyStudentNowList();
         this.technologyStudentFutureList = student.getTechnologyStudentFutureList();
-        this.interviewList = student.getInterviewList();
+        this.interviewList = new ArrayList<InterviewListItem>();
+        for (Interview item : student.getInterviewList()){
+            this.interviewList.add(new InterviewListItem(item));
+        }
         this.projectList = student.getProjectList();
         this.feedbackList = new ArrayList<FeedbackListItem>();
         for (Feedback item : student.getFeedbackList()){
             this.feedbackList.add(new FeedbackListItem(item));
+        }
+        this.marksList = new ArrayList<MarksListItem>();
+        for (Marks item : student.getMarksList()){
+            this.marksList.add(new MarksListItem(item));
         }
     }
 }

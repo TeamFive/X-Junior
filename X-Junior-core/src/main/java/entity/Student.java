@@ -92,8 +92,8 @@ public class Student extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
     private List<Technology> technologyStudentFutureList;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
+    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
     private List<Interview> interviewList;
 
     @Fetch(FetchMode.SELECT)
@@ -108,6 +108,10 @@ public class Student extends BaseEntity {
     @OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
     private List<Feedback> feedbackList;
 
+    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
+    private List<Marks> marksList;
+
     public Student(User user) {
         this.user = user;
     }
@@ -115,7 +119,7 @@ public class Student extends BaseEntity {
     public Student() {
     }
 
-    public Student(String startedWorkDate, boolean hadProbation, int startAtCourse, int wantedWorkHours, String changeHoursDate, String englishLevel, String wantedCourses, String phoneNumber, String skype, boolean wantEnglishTraining, String currentEnglishTraining, User user, List<Group> groupList, List<CustomField> customFieldList, List<Certificate> certificateList, List<Technology> technologyStudentNowList, List<Technology> technologyStudentFutureList, List<Interview> interviewList, List<Project> projectList, List<Feedback> feedbackList) {
+    public Student(String startedWorkDate, boolean hadProbation, int startAtCourse, int wantedWorkHours, String changeHoursDate, String englishLevel, String wantedCourses, String phoneNumber, String skype, boolean wantEnglishTraining, String currentEnglishTraining, User user, List<Group> groupList, List<CustomField> customFieldList, List<Certificate> certificateList, List<Technology> technologyStudentNowList, List<Technology> technologyStudentFutureList, List<Interview> interviewList, List<Project> projectList, List<Feedback> feedbackList, List<Marks> marksList) {
         this.startedWorkDate = startedWorkDate;
         this.hadProbation = hadProbation;
         this.startAtCourse = startAtCourse;
@@ -136,6 +140,7 @@ public class Student extends BaseEntity {
         this.interviewList = interviewList;
         this.projectList = projectList;
         this.feedbackList = feedbackList;
+        this.marksList = marksList;
     }
 
     public Long getId() {
@@ -304,5 +309,13 @@ public class Student extends BaseEntity {
 
     public void setFeedbackList(List<Feedback> feedbackList) {
         this.feedbackList = feedbackList;
+    }
+
+    public List<Marks> getMarksList() {
+        return marksList;
+    }
+
+    public void setMarksList(List<Marks> marksList) {
+        this.marksList = marksList;
     }
 }
