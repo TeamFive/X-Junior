@@ -1,5 +1,7 @@
 package entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -50,40 +52,60 @@ public class Student extends BaseEntity {
     @JoinColumn(name = "User_id")
     private User user;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
-    private List<StudentGroup> studentGroupList;
+    @Fetch(FetchMode.SELECT)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "student_group",
+            joinColumns = {@JoinColumn(name = "Group_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+    private List<Group> groupList;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
-    private List<StudentCustomField> studentCustomFieldList;
+    @Fetch(FetchMode.SELECT)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "student_customfield",
+            joinColumns = {@JoinColumn(name = "CustomField_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+    private List<CustomField> customFieldList;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
-    private List<StudentCertificate> studentCertificateList;
+    @Fetch(FetchMode.SELECT)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "student_certificate",
+            joinColumns = {@JoinColumn(name = "Certificate_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+    private List<Certificate> certificateList;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
-    private List<TechnologyStudentNow> technologyStudentNowList;
+    @Fetch(FetchMode.SELECT)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "technology_student_now",
+            joinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+    private List<Technology> technologyStudentNowList;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
-    private List<TechnologyStudentFuture> technologyStudentFutureList;
+    @Fetch(FetchMode.SELECT)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "technology_student_future",
+            joinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+    private List<Technology> technologyStudentFutureList;
 
     @Transient
     @OneToMany(mappedBy = "student")
     private List<Interview> interviewList;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
-    private List<StudentCurator> studentCuratorList;
+    @Fetch(FetchMode.SELECT)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "student_project",
+            joinColumns = {@JoinColumn(name = "Project_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+    private List<Project> projectList;
 
-    @Transient
-    @OneToMany(mappedBy = "student")
-    private List<StudentProject> studentProjectList;
-
-    @Transient
-    @OneToMany(mappedBy = "student")
+    @Fetch(FetchMode.SELECT)
+    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
     private List<Feedback> feedbackList;
 
     public Student(User user) {
@@ -93,27 +115,7 @@ public class Student extends BaseEntity {
     public Student() {
     }
 
-    public Student(String startedWorkDate,
-                   boolean hadProbation,
-                   int startAtCourse,
-                   int wantedWorkHours,
-                   String changeHoursDate,
-                   String englishLevel,
-                   String wantedCourses,
-                   String phoneNumber,
-                   String skype,
-                   boolean wantEnglishTraining,
-                   String currentEnglishTraining,
-                   User user,
-                   List<StudentGroup> studentGroupList,
-                   List<StudentCustomField> studentCustomFieldList,
-                   List<StudentCertificate> studentCertificateList,
-                   List<TechnologyStudentNow> technologyStudentNowList,
-                   List<TechnologyStudentFuture> technologyStudentFutureList,
-                   List<Interview> interviewList,
-                   List<StudentCurator> studentCuratorList,
-                   List<StudentProject> studentProjectList,
-                   List<Feedback> feedbackList) {
+    public Student(String startedWorkDate, boolean hadProbation, int startAtCourse, int wantedWorkHours, String changeHoursDate, String englishLevel, String wantedCourses, String phoneNumber, String skype, boolean wantEnglishTraining, String currentEnglishTraining, User user, List<Group> groupList, List<CustomField> customFieldList, List<Certificate> certificateList, List<Technology> technologyStudentNowList, List<Technology> technologyStudentFutureList, List<Interview> interviewList, List<Project> projectList, List<Feedback> feedbackList) {
         this.startedWorkDate = startedWorkDate;
         this.hadProbation = hadProbation;
         this.startAtCourse = startAtCourse;
@@ -126,14 +128,13 @@ public class Student extends BaseEntity {
         this.wantEnglishTraining = wantEnglishTraining;
         this.currentEnglishTraining = currentEnglishTraining;
         this.user = user;
-        this.studentGroupList = studentGroupList;
-        this.studentCustomFieldList = studentCustomFieldList;
-        this.studentCertificateList = studentCertificateList;
+        this.groupList = groupList;
+        this.customFieldList = customFieldList;
+        this.certificateList = certificateList;
         this.technologyStudentNowList = technologyStudentNowList;
         this.technologyStudentFutureList = technologyStudentFutureList;
         this.interviewList = interviewList;
-        this.studentCuratorList = studentCuratorList;
-        this.studentProjectList = studentProjectList;
+        this.projectList = projectList;
         this.feedbackList = feedbackList;
     }
 
@@ -241,43 +242,43 @@ public class Student extends BaseEntity {
         this.user = user;
     }
 
-    public List<StudentGroup> getStudentGroupList() {
-        return studentGroupList;
+    public List<Group> getGroupList() {
+        return groupList;
     }
 
-    public void setStudentGroupList(List<StudentGroup> studentGroupList) {
-        this.studentGroupList = studentGroupList;
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
     }
 
-    public List<StudentCustomField> getStudentCustomFieldList() {
-        return studentCustomFieldList;
+    public List<CustomField> getCustomFieldList() {
+        return customFieldList;
     }
 
-    public void setStudentCustomFieldList(List<StudentCustomField> studentCustomFieldList) {
-        this.studentCustomFieldList = studentCustomFieldList;
+    public void setCustomFieldList(List<CustomField> customFieldList) {
+        this.customFieldList = customFieldList;
     }
 
-    public List<StudentCertificate> getStudentCertificateList() {
-        return studentCertificateList;
+    public List<Certificate> getCertificateList() {
+        return certificateList;
     }
 
-    public void setStudentCertificateList(List<StudentCertificate> studentCertificateList) {
-        this.studentCertificateList = studentCertificateList;
+    public void setCertificateList(List<Certificate> certificateList) {
+        this.certificateList = certificateList;
     }
 
-    public List<TechnologyStudentNow> getTechnologyStudentNowList() {
+    public List<Technology> getTechnologyStudentNowList() {
         return technologyStudentNowList;
     }
 
-    public void setTechnologyStudentNowList(List<TechnologyStudentNow> technologyStudentNowList) {
+    public void setTechnologyStudentNowList(List<Technology> technologyStudentNowList) {
         this.technologyStudentNowList = technologyStudentNowList;
     }
 
-    public List<TechnologyStudentFuture> getTechnologyStudentFutureList() {
+    public List<Technology> getTechnologyStudentFutureList() {
         return technologyStudentFutureList;
     }
 
-    public void setTechnologyStudentFutureList(List<TechnologyStudentFuture> technologyStudentFutureList) {
+    public void setTechnologyStudentFutureList(List<Technology> technologyStudentFutureList) {
         this.technologyStudentFutureList = technologyStudentFutureList;
     }
 
@@ -289,20 +290,12 @@ public class Student extends BaseEntity {
         this.interviewList = interviewList;
     }
 
-    public List<StudentCurator> getStudentCuratorList() {
-        return studentCuratorList;
+    public List<Project> getProjectList() {
+        return projectList;
     }
 
-    public void setStudentCuratorList(List<StudentCurator> studentCuratorList) {
-        this.studentCuratorList = studentCuratorList;
-    }
-
-    public List<StudentProject> getStudentProjectList() {
-        return studentProjectList;
-    }
-
-    public void setStudentProjectList(List<StudentProject> studentProjectList) {
-        this.studentProjectList = studentProjectList;
+    public void setProjectList(List<Project> projectList) {
+        this.projectList = projectList;
     }
 
     public List<Feedback> getFeedbackList() {

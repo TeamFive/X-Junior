@@ -1,5 +1,7 @@
 package entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ public class Curator extends BaseEntity {
     @JoinColumn(name = "User_id")
     private User user;
 
+    @Fetch(FetchMode.SELECT)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_curator",
