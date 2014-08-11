@@ -11,14 +11,26 @@ public class MarksVO implements BaseVO {
     private Long id;
     private String mark;
     private String date;
-    private Student student;
+    private StudentElem student;
     private Group group;
+
+    private class StudentElem{
+        private Long id;
+        private String name;
+        private String email;
+
+        private StudentElem(Student studentElem) {
+            this.id = studentElem.getId();
+            this.name = studentElem.getUser().getName();
+            this.email = studentElem.getUser().getEmail();
+        }
+    }
 
     public MarksVO(Marks marks) {
         this.id = marks.getId();
         this.mark = marks.getMark();
         this.date = marks.getDate();
-        this.student = marks.getStudent();
+        this.student = new StudentElem(marks.getStudent());
         this.group = marks.getGroup();
     }
 
@@ -46,11 +58,11 @@ public class MarksVO implements BaseVO {
         this.date = date;
     }
 
-    public Student getStudent() {
+    public StudentElem getStudent() {
         return student;
     }
 
-    public void setStudent(Student student) {
+    public void setStudent(StudentElem student) {
         this.student = student;
     }
 

@@ -37,7 +37,7 @@ public class VOConverter {
             return new InterviewVO((Interview) baseEntity);
         if (baseEntity instanceof Interviewer)
             return new InterviewerVO((Interviewer) baseEntity);
-        if (baseEntity instanceof Marks)
+        if (baseEntity instanceof Marks)//----------------------------------------------------------------------------
             return new MarksVO((Marks) baseEntity);
         if (baseEntity instanceof PM)
             return new PMVO((PM) baseEntity);
@@ -49,6 +49,8 @@ public class VOConverter {
             return new TeamLeaderVO((TeamLeader) baseEntity);
         if (baseEntity instanceof Technology)
             return new TechnologyVO((Technology) baseEntity);
+        if (baseEntity instanceof User)
+            return new UserVO((User) baseEntity);
         return null;
     }
 
@@ -165,6 +167,12 @@ public class VOConverter {
         if (entity.equalsIgnoreCase("technology")) {
             for (BaseEntity item : entityList){
                 baseVOList.add(new TechnologyVO((Technology) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("user")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new UserVO((User) item));
             }
             return baseVOList;
         }
