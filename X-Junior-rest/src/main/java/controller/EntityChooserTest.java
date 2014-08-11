@@ -114,14 +114,79 @@ public class EntityChooserTest {
                     Long.parseLong(jsonObject.get("hr_id").toString()), Long.parseLong(jsonObject.get("interviewer_id").toString()));
         }
         if(entity.equalsIgnoreCase("interviewer")){
-            Interviewer interviewer = new Interviewer();
-            interviewer = new Interviewer(new User(jsonObject.get("name").toString(),
+            Interviewer interviewer = new Interviewer(new User(jsonObject.get("name").toString(),
                     jsonObject.get("email").toString()));
 
             InterviewerDAOImpl interviewerDAO = new InterviewerDAOImpl();
             return interviewerDAO.createInterviewer(interviewer);
         }
+        if(entity.equalsIgnoreCase("pm")){
+            PM pm = new PM(new User(jsonObject.get("name").toString(), jsonObject.get("email").toString()));
 
+            PMDAOImpl pmdao = new PMDAOImpl();
+
+            return pmdao.createPM(pm);
+        }
+        if(entity.equalsIgnoreCase("project")){
+            Project project = new Project();
+            project.setName(jsonObject.get("project_name").toString());
+
+            ProjectDAOImpl projectDAO = new ProjectDAOImpl();
+
+            return projectDAO.createProject(project, Long.parseLong(jsonObject.get("pm_id").toString()),
+                    Long.parseLong(jsonObject.get("teamleader_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("setting")){
+            Setting setting = new Setting();
+
+            setting.setName(jsonObject.get("name").toString());
+            setting.setDescription(jsonObject.get("description").toString());
+            setting.setValue(jsonObject.get("values").toString());
+
+            SettingsDAOImpl settingsDAO = new SettingsDAOImpl();
+
+            return settingsDAO.createSetting(setting, Long.parseLong(jsonObject.get("user_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("student")){
+            Student student = new Student();
+
+            student.setChangeHoursDate(jsonObject.get("change_hours_date").toString());
+            student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
+            student.setEnglishLevel(jsonObject.get("english_level").toString());
+            student.setHadProbation(Boolean.parseBoolean(jsonObject.get("had_probation").toString()));
+            student.setPhoneNumber(jsonObject.get("phone_number").toString());
+            student.setSkype(jsonObject.get("skype").toString());
+            student.setStartAtCourse(Integer.parseInt(jsonObject.get("start_at_course").toString()));
+            student.setStartedWorkDate(jsonObject.get("started_work_date").toString());
+            student.setWantedCourses(jsonObject.get("wanted_courses").toString());
+            student.setWantedWorkHours(Integer.parseInt(jsonObject.get("wanted_work_hours").toString()));
+            student.setWantEnglishTraining(Boolean.parseBoolean(jsonObject.get("want_english_training").toString()));
+
+            StudentDAOImpl studentDAO = new StudentDAOImpl();
+            return studentDAO.createStudent(student, Long.parseLong(jsonObject.get("user_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("teamleader")){
+            TeamLeader teamLeader = new TeamLeader();
+
+            TeamLeaderDAOImpl teamLeaderDAO = new TeamLeaderDAOImpl();
+
+            return teamLeaderDAO.createTeamLeader(teamLeader, Long.parseLong(jsonObject.get("user_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("technology")){
+            Technology technology = new Technology();
+
+            technology.setTechnology_name(jsonObject.get("technology_name").toString());
+
+            TechnologyDAOImpl technologyDAO = new TechnologyDAOImpl();
+            return technologyDAO.createTechnology(technology);
+        }
+        if(entity.equalsIgnoreCase("university")){
+            University university = new University();
+            university.setUniversity_name((jsonObject.get("university_name").toString()));
+
+            UniversityDAOImpl universityDAO = new UniversityDAOImpl();
+            return universityDAO.createUniversity(university);
+        }
 
         return null;
     }
