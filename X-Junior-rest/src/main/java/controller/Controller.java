@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.BaseService;
 
+import javax.annotation.PostConstruct;
+
 
 /**
  * Created by Administrator on 24.07.2014.
@@ -22,10 +24,12 @@ import service.BaseService;
 public class Controller {
 
     @Autowired
-    EntityServiceChooser serviceChooser;
+    private EntityServiceChooser serviceChooser;
 
     @Autowired
-    VOConverter voConverter;
+    private VOConverter voConverter;
+
+    private EntityChooserTest chooserTest;
 
     public void setServiceChooser(EntityServiceChooser serviceChooser) {
         this.serviceChooser = serviceChooser;
@@ -103,6 +107,11 @@ public class Controller {
         }
     }
 
+    @PostConstruct
+    private void initMethod(){
+        chooserTest = new EntityChooserTest();
+    }
+
 
 
     @RequestMapping(value = "/{entity}", method = RequestMethod.POST, produces = "application/json")
@@ -110,7 +119,7 @@ public class Controller {
     public String createEntity(@PathVariable("entity") String entity, @RequestBody String str)  {
         BaseService baseService = serviceChooser.serviceChooser(entity);
         //EntityChooser entityChooser = new EntityChooser();
-        EntityChooserTest chooserTest = new EntityChooserTest();
+
             try {
                 return "{\"status\":\"" + chooserTest.choseEntity(entity, str) + "\"}";
             } catch (JDBCConnectionException ex) {
