@@ -26,7 +26,7 @@ public class SettingsDAOImpl extends BaseDAOImpl<Setting> {
         setting.setUser(entityManager.find(User.class, userId));
 
         entityManager.getTransaction().begin();
-        entityManager.persist(setting);
+        entityManager.merge(setting);
         entityManager.getTransaction().commit();
 
         return "success";

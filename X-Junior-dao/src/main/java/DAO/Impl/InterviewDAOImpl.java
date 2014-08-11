@@ -32,7 +32,7 @@ public class InterviewDAOImpl extends BaseDAOImpl<Interview> {
         interview.setStudent(entityManager.find(Student.class, studentId));
 
         entityManager.getTransaction().begin();
-        entityManager.persist(interview);
+        entityManager.merge(interview);
         entityManager.getTransaction().commit();
 
         return "success";

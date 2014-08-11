@@ -21,8 +21,9 @@ public class TechnologyDAOImpl extends BaseDAOImpl<Technology> {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
+
         entityManager.getTransaction().begin();
-        entityManager.persist(technology);
+        entityManager.merge(technology);
         entityManager.getTransaction().commit();
 
         return "success";

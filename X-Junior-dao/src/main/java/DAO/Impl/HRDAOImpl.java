@@ -23,7 +23,7 @@ public class HRDAOImpl extends BaseDAOImpl<HR> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(hr);
+        entityManager.merge(hr);
         entityManager.getTransaction().commit();
 
         return  "success";

@@ -34,7 +34,7 @@ public class GroupDAOImpl extends BaseDAOImpl<Group> {
         group.setCourse(entityManager.find(Course.class, course_id));
 
         entityManager.getTransaction().begin();
-        entityManager.persist(group);
+        entityManager.merge(group);
         entityManager.getTransaction().commit();
 
         return "success";

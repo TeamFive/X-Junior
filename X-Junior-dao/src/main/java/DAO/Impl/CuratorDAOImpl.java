@@ -87,7 +87,7 @@ public class CuratorDAOImpl extends BaseDAOImpl<Curator> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(curator);
+        entityManager.merge(curator);
         entityManager.getTransaction().commit();
 
         return  "success";

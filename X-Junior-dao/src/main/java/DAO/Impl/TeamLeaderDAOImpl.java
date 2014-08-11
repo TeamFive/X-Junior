@@ -26,7 +26,7 @@ public class TeamLeaderDAOImpl extends BaseDAOImpl<TeamLeader> {
         teamLeader.setUser(entityManager.find(User.class, userId));
 
         entityManager.getTransaction().begin();
-        entityManager.persist(teamLeader);
+        entityManager.merge(teamLeader);
         entityManager.getTransaction().commit();
 
         return "success";

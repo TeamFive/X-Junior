@@ -21,18 +21,20 @@ public class MarksDAOImpl extends BaseDAOImpl<Marks> {
     }
 
 
-    public String addMark(long group_id, long student_id, String mark, String date){
+    public String addMark(long group_id, long student_id, Marks mark){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 
         Student student = entityManager.find(Student.class, student_id);
         Group group = entityManager.find(Group.class, group_id);
+        mark.setStudent(student);
+        mark.setGroup(group);
         entityManager.getTransaction().begin();
-        Marks mark1 = new Marks(mark, date, student, group);
-        entityManager.persist(mark1);
+        entityManager.merge(mark);
         entityManager.getTransaction().commit();
 
         return "success";
     }
+
 }

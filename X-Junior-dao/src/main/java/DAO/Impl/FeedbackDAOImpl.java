@@ -31,7 +31,7 @@ public class FeedbackDAOImpl extends BaseDAOImpl<Feedback> {
         feedback.setStudent(student);
 
         entityManager.getTransaction().begin();
-        entityManager.persist(feedback);
+        entityManager.merge(feedback);
         entityManager.getTransaction().commit();
 
         return "success";

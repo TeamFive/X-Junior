@@ -29,7 +29,9 @@ public class Controller {
     @Autowired
     private VOConverter voConverter;
 
-    private EntityChooserTest chooserTest;
+    private EntityChooser entityChooser;
+
+
 
     public void setServiceChooser(EntityServiceChooser serviceChooser) {
         this.serviceChooser = serviceChooser;
@@ -109,7 +111,8 @@ public class Controller {
 
     @PostConstruct
     private void initMethod(){
-        chooserTest = new EntityChooserTest();
+        entityChooser = new EntityChooser();
+
     }
 
 
@@ -117,11 +120,8 @@ public class Controller {
     @RequestMapping(value = "/{entity}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public String createEntity(@PathVariable("entity") String entity, @RequestBody String str)  {
-        BaseService baseService = serviceChooser.serviceChooser(entity);
-        //EntityChooser entityChooser = new EntityChooser();
-
             try {
-                return "{\"status\":\"" + chooserTest.choseEntity(entity, str) + "\"}";
+                return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
             } catch (JDBCConnectionException ex) {
                 return "{\"status\":\"error\"," +
                         "\"message\":\"Database is offline\"}";
@@ -133,33 +133,25 @@ public class Controller {
                 return "{\"status\":\"error\"," +
                         "\"message\":\"invalid JSON\"}";
             }
+    }
+
+
+    @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.PUT, produces = "application/json")
+    @ResponseBody
+    public String updateEntity(@PathVariable("entity") String entity, @PathVariable("id") long id, @RequestBody String str){
+        try {
+            entityChooser.setId(id);
+            return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
+        } catch (JDBCConnectionException ex) {
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"Database is offline\"}";
+        }
+        catch (ParseException ex){
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"invalid JSON\"}";
+        } catch (EntityException ex){
+            return "{\"status\":\"error\"," +
+                    "\"message\":\"invalid JSON\"}";
         }
     }
-//
-//    @RequestMapping(value = "/{entity}/update", method = RequestMethod.POST, produces = "application/json")
-//    @ResponseBody
-//    public String updateEntity(@PathVariable("entity") String entity, @RequestBody String str){
-//        setEntityService(entity);
-//        JSONParser parser = new JSONParser();
-//        try {
-//            Object object = parser.parse(str);
-//            JSONObject jsonObject = (JSONObject) object;
-//            User user = new User(jsonObject.get("name").toString(), jsonObject.get("password").toString(), jsonObject.get("email").toString());
-//            try{
-//                return "{ \n" +
-//                        "     status: \"" + entityService.updateEntity(user) + "} \n";
-//            } catch (JDBCConnectionException ex){
-//                return "{ \n" +
-//                        "     status: \" error }\n" +
-//                        "     message: \" Database is offline\" \n";
-//            } catch (EntityException ex){
-//                return "{ \n" +
-//                        "     status: \" error }\n" +
-//                        "     message: \" " + ex.getMessage() + " \" \n";
-//            }
-//        } catch (ParseException ex){
-//            return "{ \n" +
-//                    "     status: \" error }\n" +
-//                    "     message: \" Soo invalid JSON \" \n";
-//        }
-//    }
+    }

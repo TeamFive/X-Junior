@@ -27,7 +27,7 @@ public class CourseDAOImpl extends BaseDAOImpl<Course> {
         course.setFaculty(faculty);
 
         entityManager.getTransaction().begin();
-        entityManager.persist(course);
+        entityManager.merge(course);
         entityManager.getTransaction().commit();
 
         return "success";

@@ -23,7 +23,7 @@ public class PMDAOImpl extends BaseDAOImpl<PM> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(pm);
+        entityManager.merge(pm);
         entityManager.getTransaction().commit();
 
         return "success";

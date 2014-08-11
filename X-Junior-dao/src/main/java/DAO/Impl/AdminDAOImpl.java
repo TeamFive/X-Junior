@@ -24,7 +24,7 @@ public class AdminDAOImpl extends BaseDAOImpl<Admin> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(admin);
+        entityManager.merge(admin);
         entityManager.getTransaction().commit();
 
         return "success";

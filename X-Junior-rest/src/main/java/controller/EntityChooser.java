@@ -1,254 +1,210 @@
-//package controller;
-//
-//import DAO.BaseDAO;
-//import DAO.Impl.BaseDAOImpl;
-//import DAO.Impl.CuratorDAOImpl;
-//import DAO.Impl.GroupDAOImpl;
-//import DAO.Impl.StudentDAOImpl;
-//import com.google.gson.Gson;
-//import entity.*;
-//import exceptions.EntityException;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Component;
-//import service.BaseService;
-//import service.Impl.CuratorServiceImpl;
-//import service.Impl.StudentServiceImpl;
-//
-///**
-// * Created by Administrator on 05.08.2014.
-// */
-//
-////TODO feedback, interview, marks, studentCertificate, studentCustomField, studentGroup, studentProject, technologyStudentNow, technologyStudentFuture
-//@Component
-//public class EntityChooser {
-//
-//
-//    private Admin admin;
-//    private Certificate certificate;
-//    private Course course;
-//    private Curator curator;
-//    private CustomField customField;
-//    private Faculty faculty;
-//    private Feedback feedback;
-//    private FieldsGroup fieldsGroup;
-//    private Group group;
-//    private HR hr;
-//    private Interview interview;
-//    private Interviewer interviewer;
-//    private Marks marks;
-//    private PM pm;
-//    private Project project;
-//    private Setting setting;
-//    private Student student;
-//    private StudentCertificate studentCertificate;
-//    private StudentCustomField studentCustomField;
-//    private StudentGroup studentGroup;
-//    private StudentProject studentProject;
-//    private TeamLeader teamLeader;
-//    private Technology technology;
-//    private TechnologyStudentFuture technologyStudentFuture;
-//    private TechnologyStudentNow technologyStudentNow;
-//    private University university;
-//    private User user;
-//
-//
-//    JSONParser jsonParser;
-//
-//
-//
-//    public BaseEntity choseEntity(String entity, String json) throws ParseException {
-//        Gson gson = new Gson();
-//        if(entity.equalsIgnoreCase("admin")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            user = new User();
-//            JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-//            user.setName(jsonUser.get("name").toString());
-//            user.setEmail(jsonUser.get("email").toString());
-//            user.setPassword(jsonUser.get("password").toString());
-//            admin = new Admin(user);
-//            return admin;
-//        } else
-//
-//        if(entity.equalsIgnoreCase("certificate")){
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            certificate = new Certificate(jsonObject.get("certificate_name").toString(), jsonObject.get("date").toString());
-//            return certificate;
-//        }else
-//        if(entity.equalsIgnoreCase("curator")){
-//            curator = new Curator();
-//            curator.setUser(gson.fromJson(json, User.class));
-//            curator.getUser().setPassword("11111");
-//            return curator;
-//        }else
-//        if(entity.equalsIgnoreCase("customfield")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            JSONObject jsonFieldsGroup = (JSONObject) jsonObject.get("fieldsgroup");
-//            fieldsGroup = new FieldsGroup(jsonFieldsGroup.get("name").toString());
-//            customField = new CustomField(jsonObject.get("custom_field_name").toString(), jsonObject.get("default_value").toString(), fieldsGroup, jsonObject.get("field_type").toString());
-//            return customField;
-//        }else
-//        if(entity.equalsIgnoreCase("faculty")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            JSONObject jsonUniversity = (JSONObject) jsonObject.get("university");
-//            university = new University(jsonUniversity.get("university_name").toString());
-//            faculty = new Faculty(jsonObject.get("name").toString(), university);
-//            return faculty;
-//        }else
-//        if(entity.equalsIgnoreCase("feedback")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            StudentDAOImpl studentDAO = new StudentDAOImpl();
-//            CuratorDAOImpl curatorDAO = new CuratorDAOImpl();
-//            student = studentDAO.getStudent(Long.parseLong(jsonObject.get("student_id").toString()));
-//            curator = curatorDAO.getCurator(Long.parseLong(jsonObject.get("curator_id").toString()));
-//            feedback = new Feedback(Integer.parseInt(jsonObject.get("peopleRelation").toString()), Integer.parseInt(jsonObject.get("workAttitude").toString()),
-//            Boolean.parseBoolean(jsonObject.get("increaseHours").toString()), jsonObject.get("realProject").toString(), jsonObject.get("extra").toString(),
-//                    jsonObject.get("date").toString(), Integer.parseInt(jsonObject.get("proffSuitab").toString()),
-//                    curator, student);
-//            return feedback;
-//        }else
-//        if(entity.equalsIgnoreCase("fieldsgroup")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            fieldsGroup = new FieldsGroup(jsonObject.get("name").toString());
-//            return fieldsGroup;
-//        }else
-//        if(entity.equalsIgnoreCase("group")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            JSONObject jsonCourse = (JSONObject) jsonObject.get("course");
-//            JSONObject jsonFaculty = (JSONObject) jsonCourse.get("faculty");
-//            JSONObject jsonUniversity = (JSONObject) jsonFaculty.get("university");
-//            university = new University(jsonUniversity.get("name").toString());
-//            faculty = new Faculty(jsonFaculty.get("name").toString(), university);
-//            course = new Course(jsonCourse.get("name").toString(), faculty);
-//            group = new Group(jsonObject.get("name").toString(), course);
-//            return group;
-//        }else
-//        if(entity.equalsIgnoreCase("hr")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            user = new User(jsonObject.get("name").toString(),
-//                    jsonObject.get("email").toString());
-//            hr = new HR(user);
-//            return hr;
-//        }else
-//        if(entity.equalsIgnoreCase("inverview")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            return null;
-//        }else
-//        if(entity.equalsIgnoreCase("interviewer")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            user = new User(jsonObject.get("name").toString(),
-//                    jsonObject.get("email").toString());
-//            interviewer = new Interviewer(user);
-//            return interviewer;
-//        }else
-//        if(entity.equalsIgnoreCase("pm")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonUser = (JSONObject) object;
-//            user = new User(jsonUser.get("name").toString(),
-//                    jsonUser.get("email").toString());
-//            pm = new PM(user);
-//            return pm;
-//        }else
-//        if(entity.equalsIgnoreCase("project")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            JSONObject jsonTL = (JSONObject) jsonObject.get("team_leader");
-//            JSONObject jsonPM = (JSONObject) jsonObject.get("pm");
-//            JSONObject jsonTLUser = (JSONObject) jsonTL.get("user");
-//            JSONObject jsonPMUser = (JSONObject) jsonPM.get("user");
-//            User userPM = new User(jsonPMUser.get("name").toString(),
-//                    jsonPMUser.get("email").toString());
-//            User userTL = new User(jsonTLUser.get("name").toString(),
-//                    jsonTLUser.get("email").toString());
-//            teamLeader = new TeamLeader(userTL);
-//            pm = new PM(userPM);
-//            project = new Project(jsonObject.get("name").toString(), pm, teamLeader);
-//            return project;
-//        }else
-//        if(entity.equalsIgnoreCase("setting")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            JSONObject jsonUser = (JSONObject) jsonObject.get("user");
-//            user = new User(jsonUser.get("name").toString(),
-//                    jsonUser.get("email").toString());
-//            setting = new Setting(jsonObject.get("name").toString(), jsonObject.get("value").toString(),
-//                    jsonObject.get("description").toString(), user);
-//            return setting;
-//        }else
-//        if(entity.equalsIgnoreCase("teamleader")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonUser = (JSONObject) object;
-//            user = new User(jsonUser.get("name").toString(),
-//                    jsonUser.get("email").toString());
-//            teamLeader = new TeamLeader(user);
-//            return teamLeader;
-//        }else
-//        if(entity.equalsIgnoreCase("technology")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            technology = new Technology(jsonObject.get("technology_name").toString());
-//            return technology;
-//        }else
-//        if(entity.equalsIgnoreCase("university")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            university = new University(jsonObject.get("university_name").toString());
-//            return university;
-//        }else
-//        if(entity.equalsIgnoreCase("user")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            user = new User(jsonObject.get("name").toString(),
-//                    jsonObject.get("email").toString());
-//            return user;
-//        } else
-//        if (entity.equalsIgnoreCase("student")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            user = new User(jsonObject.get("name").toString(), jsonObject.get("email").toString());
-//            student = new Student(user);
-//            return student;
-//        } else
-//        if(entity.equalsIgnoreCase("marks")){
-//            jsonParser = new JSONParser();
-//            Object object = jsonParser.parse(json);
-//            JSONObject jsonObject = (JSONObject) object;
-//            GroupDAOImpl groupDAO = new GroupDAOImpl();
-//            StudentDAOImpl studentDAO = new StudentDAOImpl();
-//            group = groupDAO.getGroup(Long.parseLong(jsonObject.get("group_id").toString()));
-//            student = studentDAO.getStudent(Long.parseLong(jsonObject.get("student_id").toString()));
-//            marks = new Marks(jsonObject.get("mark").toString(), jsonObject.get("date").toString(), student, group);
-//            return marks;
-//        }
-//        return null;
-//    }
-//}
+package controller;
+
+import DAO.BaseDAO;
+import DAO.Impl.*;
+import entity.*;
+import exceptions.EntityException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class EntityChooser {
+
+    private Long id = null;
+
+    public String choseEntity(String entity, String json) throws ParseException, EntityException{
+        JSONParser jsonParser = new JSONParser();
+        Object object = jsonParser.parse(json);
+        JSONObject jsonObject = (JSONObject) object;
+        if(entity.equalsIgnoreCase("marks")){
+            MarksDAOImpl marksDAO = new MarksDAOImpl();
+
+            Marks mark = new Marks();
+            mark.setId(id);
+            mark.setDate(jsonObject.get("date").toString());
+            mark.setMark(jsonObject.get("mark").toString());
+
+            return marksDAO.addMark(Long.parseLong(jsonObject.get("group_id").toString()),
+                    (Long.parseLong(jsonObject.get("student_id").toString())), mark);
+        }
+
+        if(entity.equalsIgnoreCase("feedback")){
+            Feedback feedback = new Feedback();
+            feedback.setDate(jsonObject.get("date").toString());  //String
+            feedback.setExtra(jsonObject.get("extra").toString());  //String
+            feedback.setIncreaseHours(Boolean.parseBoolean(jsonObject.get("increase_hours").toString()));  //Boolean
+            feedback.setPeopleRelation(Integer.parseInt(jsonObject.get("people_relation").toString()));    //int
+            feedback.setProffSuitab(Integer.parseInt(jsonObject.get("proff_suitab").toString()));          //int
+            feedback.setRealProject(jsonObject.get("real_project").toString());     //String
+            feedback.setWorkAttitude(Integer.parseInt(jsonObject.get("work_attitude").toString()));   //int
+
+            FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+            return feedbackDAO.createFeedback(feedback,
+                    Long.parseLong(jsonObject.get("curator_id").toString()),
+                    Long.parseLong(jsonObject.get("student_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("curator")){
+
+            User user = new User(jsonObject.get("name").toString(),
+                    jsonObject.get("email").toString());
+
+            Curator curator = new Curator(user);
+            List<Student> students = (List<Student>) jsonObject.get("students");
+            curator.setStudentList(students);
+            CuratorDAOImpl curatorDAO = new CuratorDAOImpl();
+            return curatorDAO.saveCurator(curator);
+        }
+        if(entity.equalsIgnoreCase("hr")){
+            User user = new User(jsonObject.get("name").toString(),
+                    jsonObject.get("email").toString());
+            HR hr = new HR(user);
+            HRDAOImpl hrDAO = new HRDAOImpl();
+            return hrDAO.saveHr(hr);
+        }
+        if(entity.equalsIgnoreCase("admin")){
+            User user = new User(jsonObject.get("name").toString(),
+                    jsonObject.get("email").toString());
+            AdminDAOImpl adminDAO = new AdminDAOImpl();
+            Admin admin = new Admin(user);
+            return adminDAO.createAdmin(admin);
+        }
+        if(entity.equalsIgnoreCase("certificate")){
+            Certificate certificate = new Certificate(
+                    jsonObject.get("certificate_name").toString(),
+                    jsonObject.get("date").toString());
+            CertificateDAOImpl certificateDAO = new CertificateDAOImpl();
+            return certificateDAO.createCertificate(certificate);
+        }
+        if(entity.equalsIgnoreCase("course")){
+            Course course = new Course();
+            course.setName(jsonObject.get("course_name").toString());
+            CourseDAOImpl courseDAO = new CourseDAOImpl();
+
+            return courseDAO.createCourse(course, Long.parseLong(jsonObject.get("faculty_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("customfield")){
+            CustomField customField = new CustomField();
+            customField.setName(jsonObject.get("customfield_name").toString());
+            customField.setDefaultValue(jsonObject.get("default_value").toString());
+            customField.setFieldType(jsonObject.get("field_type").toString());
+
+            CustomFieldDAOImpl customFieldDAO = new CustomFieldDAOImpl();
+
+            return customFieldDAO.createCustomField(customField,
+                    Long.parseLong(jsonObject.get("fieldsgroup_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("faculty")){
+            Faculty faculty = new Faculty();
+            faculty.setName(jsonObject.get("faculty_name").toString());
+
+            FacultyDAOImpl facultyDAO = new FacultyDAOImpl();
+
+            return facultyDAO.createFaculty(faculty, Long.parseLong(jsonObject.get("university_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("group")){
+            Group group = new Group();
+            group.setName(jsonObject.get("group_name").toString());
+
+            GroupDAOImpl groupDAO = new GroupDAOImpl();
+
+            return groupDAO.createGroup(group, Long.parseLong(jsonObject.get("course_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("interview")){
+            Interview interview = new Interview();
+            interview.setDescription(jsonObject.get("description").toString());
+            interview.setResults(jsonObject.get("results").toString());
+
+            InterviewDAOImpl interviewDAO = new InterviewDAOImpl();
+
+            return interviewDAO.createInterview(interview, Long.parseLong(jsonObject.get("student_id").toString()),
+                    Long.parseLong(jsonObject.get("hr_id").toString()), Long.parseLong(jsonObject.get("interviewer_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("interviewer")){
+            Interviewer interviewer = new Interviewer(new User(jsonObject.get("name").toString(),
+                    jsonObject.get("email").toString()));
+
+            InterviewerDAOImpl interviewerDAO = new InterviewerDAOImpl();
+            return interviewerDAO.createInterviewer(interviewer);
+        }
+        if(entity.equalsIgnoreCase("pm")){
+            PM pm = new PM(new User(jsonObject.get("name").toString(), jsonObject.get("email").toString()));
+
+            PMDAOImpl pmdao = new PMDAOImpl();
+
+            return pmdao.createPM(pm);
+        }
+        if(entity.equalsIgnoreCase("project")){
+            Project project = new Project();
+            project.setName(jsonObject.get("project_name").toString());
+
+            ProjectDAOImpl projectDAO = new ProjectDAOImpl();
+
+            return projectDAO.createProject(project, Long.parseLong(jsonObject.get("pm_id").toString()),
+                    Long.parseLong(jsonObject.get("teamleader_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("setting")){
+            Setting setting = new Setting();
+
+            setting.setName(jsonObject.get("name").toString());
+            setting.setDescription(jsonObject.get("description").toString());
+            setting.setValue(jsonObject.get("values").toString());
+
+            SettingsDAOImpl settingsDAO = new SettingsDAOImpl();
+
+            return settingsDAO.createSetting(setting, Long.parseLong(jsonObject.get("user_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("student")){
+            Student student = new Student();
+
+            student.setChangeHoursDate(jsonObject.get("change_hours_date").toString());
+            student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
+            student.setEnglishLevel(jsonObject.get("english_level").toString());
+            student.setHadProbation(Boolean.parseBoolean(jsonObject.get("had_probation").toString()));
+            student.setPhoneNumber(jsonObject.get("phone_number").toString());
+            student.setSkype(jsonObject.get("skype").toString());
+            student.setStartAtCourse(Integer.parseInt(jsonObject.get("start_at_course").toString()));
+            student.setStartedWorkDate(jsonObject.get("started_work_date").toString());
+            student.setWantedCourses(jsonObject.get("wanted_courses").toString());
+            student.setWantedWorkHours(Integer.parseInt(jsonObject.get("wanted_work_hours").toString()));
+            student.setWantEnglishTraining(Boolean.parseBoolean(jsonObject.get("want_english_training").toString()));
+
+            StudentDAOImpl studentDAO = new StudentDAOImpl();
+            return studentDAO.createStudent(student, Long.parseLong(jsonObject.get("user_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("teamleader")){
+            TeamLeader teamLeader = new TeamLeader();
+
+            TeamLeaderDAOImpl teamLeaderDAO = new TeamLeaderDAOImpl();
+
+            return teamLeaderDAO.createTeamLeader(teamLeader, Long.parseLong(jsonObject.get("user_id").toString()));
+        }
+        if(entity.equalsIgnoreCase("technology")){
+            Technology technology = new Technology();
+            if(id != null)
+                technology.setId(id);
+            technology.setTechnology_name(jsonObject.get("technology_name").toString());
+
+            TechnologyDAOImpl technologyDAO = new TechnologyDAOImpl();
+            return technologyDAO.createTechnology(technology);
+        }
+        if(entity.equalsIgnoreCase("university")){
+            University university = new University();
+            university.setUniversity_name((jsonObject.get("university_name").toString()));
+
+            UniversityDAOImpl universityDAO = new UniversityDAOImpl();
+            return universityDAO.createUniversity(university);
+        }
+
+        return null;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+}
+
+//Ready GROUP,

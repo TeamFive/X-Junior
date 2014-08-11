@@ -26,7 +26,7 @@ public class CustomFieldDAOImpl extends BaseDAOImpl<CustomField> {
         customField.setFieldsGroup(fieldsGroup);
 
         entityManager.getTransaction().begin();
-        entityManager.persist(customField);
+        entityManager.merge(customField);
         entityManager.getTransaction().commit();
 
         return "success";

@@ -22,7 +22,7 @@ public class UniversityDAOImpl extends BaseDAOImpl<University> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(university);
+        entityManager.merge(university);
         entityManager.getTransaction().commit();
 
         return "success";

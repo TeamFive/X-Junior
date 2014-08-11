@@ -22,7 +22,7 @@ public class CertificateDAOImpl extends BaseDAOImpl<Certificate> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(certificate);
+        entityManager.merge(certificate);
         entityManager.getTransaction().commit();
         return "success";
     }

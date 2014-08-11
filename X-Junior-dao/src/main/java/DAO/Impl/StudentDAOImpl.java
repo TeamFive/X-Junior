@@ -35,7 +35,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         student.setUser(entityManager.find(User.class, userId));
 
         entityManager.getTransaction().begin();
-        entityManager.persist(student);
+        entityManager.merge(student);
         entityManager.getTransaction().commit();
 
         return "success";

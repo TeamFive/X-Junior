@@ -23,7 +23,7 @@ public class InterviewerDAOImpl extends BaseDAOImpl<Interviewer> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        entityManager.persist(interviewer);
+        entityManager.merge(interviewer);
         entityManager.getTransaction().commit();
 
         return "success";
