@@ -29,7 +29,7 @@ public class StudentVO implements BaseVO {
     private List<Technology> technologyStudentNowList;
     private List<Technology> technologyStudentFutureList;
     private List<InterviewListItem> interviewList;
-    private List<Project> projectList;
+    private List<ProjectVO> projectList;
     private List<FeedbackListItem> feedbackList;
     private List<MarksListItem> marksList;
 
@@ -73,29 +73,15 @@ public class StudentVO implements BaseVO {
         private Long id;
         private String results;
         private String description;
-        private StudentElem student;
-        private HR hr;
-        private Interviewer interviewer;
-
-        private class StudentElem{
-            private Long id;
-            private String name;
-            private String email;
-
-            private StudentElem(Student studentElem) {
-                this.id = studentElem.getId();
-                this.name = studentElem.getUser().getName();
-                this.email = studentElem.getUser().getEmail();
-            }
-        }
+        private HRVO hr;
+        private InterviewerVO interviewer;
 
         public InterviewListItem(Interview interview) {
             this.id = interview.getId();
             this.results = interview.getResults();
             this.description = interview.getDescription();
-            this.student = new StudentElem(interview.getStudent());
-            this.hr = interview.getHr();
-            this.interviewer = interview.getInterviewer();
+            this.hr = new HRVO(interview.getHr());
+            this.interviewer = new InterviewerVO(interview.getInterviewer());
         }
 
         public Long getId() {
@@ -122,27 +108,19 @@ public class StudentVO implements BaseVO {
             this.description = description;
         }
 
-        public StudentElem getStudent() {
-            return student;
-        }
-
-        public void setStudent(StudentElem student) {
-            this.student = student;
-        }
-
-        public HR getHr() {
+        public HRVO getHr() {
             return hr;
         }
 
-        public void setHr(HR hr) {
+        public void setHr(HRVO hr) {
             this.hr = hr;
         }
 
-        public Interviewer getInterviewer() {
+        public InterviewerVO getInterviewer() {
             return interviewer;
         }
 
-        public void setInterviewer(Interviewer interviewer) {
+        public void setInterviewer(InterviewerVO interviewer) {
             this.interviewer = interviewer;
         }
     }
@@ -183,7 +161,10 @@ public class StudentVO implements BaseVO {
         for (Interview item : student.getInterviewList()){
             this.interviewList.add(new InterviewListItem(item));
         }
-        this.projectList = student.getProjectList();
+        this.projectList = new ArrayList<ProjectVO>();
+        for (Project item : student.getProjectList()){
+            this.projectList.add(new ProjectVO(item));
+        }
         this.feedbackList = new ArrayList<FeedbackListItem>();
         for (Feedback item : student.getFeedbackList()){
             this.feedbackList.add(new FeedbackListItem(item));

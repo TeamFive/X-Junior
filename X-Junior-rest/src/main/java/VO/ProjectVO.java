@@ -10,13 +10,13 @@ import entity.TeamLeader;
 public class ProjectVO implements BaseVO {
     private Long id;
     private String name;
-    private PM pm;
-    private TeamLeader teamLeader;
+    private PMVO pm;
+    private TeamLeaderVO teamLeader;
 
     public ProjectVO(Project project) {
         this.id = project.getId();
         this.name = project.getName();
-        this.pm = project.getPm();
-        this.teamLeader = project.getTeamLeader();
+        this.pm = new PMVO(project.getPm());
+        this.teamLeader = new TeamLeaderVO(project.getTeamLeader());
     }
 }
