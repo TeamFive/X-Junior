@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "Student")
 public class Student extends BaseEntity {
+
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
@@ -70,11 +71,11 @@ public class Student extends BaseEntity {
     private List<CustomField> customFieldList;
 
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "student_certificate",
-            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Certificate_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", insertable = false, updatable = false, nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "Certificate_id", insertable = false, updatable = false, nullable = false)})
     private List<Certificate> certificateList;
 
     @Fetch(FetchMode.SELECT)
@@ -157,7 +158,6 @@ public class Student extends BaseEntity {
     }
 
     public void setStartedWorkDate(String startedWorkDate) {
-        certificateList = new ArrayList<Certificate>();
         this.startedWorkDate = startedWorkDate;
     }
 

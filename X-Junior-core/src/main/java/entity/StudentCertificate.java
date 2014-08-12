@@ -4,17 +4,22 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Student_Certificate")
+//@Entity
+//@Table(name = "Student_Certificate")
+//@SecondaryTable(name = "student_certificate", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
 public class StudentCertificate extends BaseEntity {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "Student_id")
     private Student student;
+
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "Certificate_id")

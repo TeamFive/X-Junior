@@ -26,6 +26,10 @@ public class Certificate extends BaseEntity {
         this.date = date;
     }
 
+    public Certificate(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

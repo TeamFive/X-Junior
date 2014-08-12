@@ -9,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -187,12 +188,15 @@ public class EntityChooser {
             if(jsonObject.get("current_english_training") != null)
                 student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
             if(jsonObject.get("student_certificate") != null){
-
-                student.getCertificateList().add(new Certificate("JABA", "Now"));
+                student.setCertificateList(new ArrayList<Certificate>());
+                String[] certificates = jsonObject.get("student_certificate").toString().split(";");
+                int i = 0;
+                while (i != certificates.length){
+                    student.getCertificateList().add(new Certificate(certificates[i]));
+                    i++;
+                }
+                //student.setCertificateList(Arrays.asList(certificates));
             }
-
-
-
 
             StudentDAOImpl studentDAO = new StudentDAOImpl();
             return studentDAO.createStudent(student, id);

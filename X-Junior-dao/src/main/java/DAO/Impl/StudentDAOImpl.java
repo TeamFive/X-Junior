@@ -1,5 +1,6 @@
 package DAO.Impl;
 
+import entity.Certificate;
 import entity.Student;
 import entity.User;
 import org.springframework.stereotype.Repository;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -58,8 +60,14 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
                 student1.setWantEnglishTraining(student.isWantEnglishTraining());
             if(student.getCurrentEnglishTraining() != null)
                 student1.setCurrentEnglishTraining(student.getCurrentEnglishTraining());
-            if(student.getCertificateList().size() != student1.getCertificateList().size())
-                student1.setCertificateList(student.getCertificateList());
+            if(student.getCertificateList().size() != 0) {
+                for (int i = 0; i < student.getCertificateList().size(); i++)
+                    if (!student1.getCertificateList().contains(student.getCertificateList().get(i)))
+                        student1.getCertificateList().add(student.getCertificateList().get(i));
+            }
+
+
+
 
             entityManager.getTransaction().begin();
             entityManager.merge(student1);
@@ -68,6 +76,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             return "success";
 
         }
+
 
         entityManager.getTransaction().begin();
         entityManager.merge(student);
