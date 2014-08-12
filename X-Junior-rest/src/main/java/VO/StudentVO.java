@@ -151,13 +151,11 @@ public class StudentVO implements BaseVO {
         private Long id;
         private String mark;
         private String date;
-        private Group group;
 
         public MarksListItem(Marks marks) {
             this.id = marks.getId();
             this.mark = marks.getMark();
             this.date = marks.getDate();
-            this.group = marks.getGroup();
         }
     }
 

@@ -56,40 +56,40 @@ public class Student extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_group",
-            joinColumns = {@JoinColumn(name = "Group_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Group_id", referencedColumnName = "id")})
     private List<Group> groupList;
 
     @Fetch(FetchMode.SELECT)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_customfield",
-            joinColumns = {@JoinColumn(name = "CustomField_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "CustomField_id", referencedColumnName = "id")})
     private List<CustomField> customFieldList;
 
     @Fetch(FetchMode.SELECT)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_certificate",
-            joinColumns = {@JoinColumn(name = "Certificate_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Certificate_id", referencedColumnName = "id")})
     private List<Certificate> certificateList;
 
     @Fetch(FetchMode.SELECT)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "technology_student_now",
-            joinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")})
     private List<Technology> technologyStudentNowList;
 
     @Fetch(FetchMode.SELECT)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "technology_student_future",
-            joinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")})
     private List<Technology> technologyStudentFutureList;
 
     @Fetch(FetchMode.SELECT)
@@ -100,8 +100,8 @@ public class Student extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_project",
-            joinColumns = {@JoinColumn(name = "Project_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "Project_id", referencedColumnName = "id")})
     private List<Project> projectList;
 
     @Fetch(FetchMode.SELECT)
