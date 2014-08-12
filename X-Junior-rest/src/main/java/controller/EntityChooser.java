@@ -160,20 +160,37 @@ public class EntityChooser {
         if(entity.equalsIgnoreCase("student")){
             Student student = new Student();
 
-            student.setChangeHoursDate(jsonObject.get("change_hours_date").toString());
-            student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
-            student.setEnglishLevel(jsonObject.get("english_level").toString());
-            student.setHadProbation(Boolean.parseBoolean(jsonObject.get("had_probation").toString()));
-            student.setPhoneNumber(jsonObject.get("phone_number").toString());
-            student.setSkype(jsonObject.get("skype").toString());
-            student.setStartAtCourse(Integer.parseInt(jsonObject.get("start_at_course").toString()));
-            student.setStartedWorkDate(jsonObject.get("started_work_date").toString());
-            student.setWantedCourses(jsonObject.get("wanted_courses").toString());
-            student.setWantedWorkHours(Integer.parseInt(jsonObject.get("wanted_work_hours").toString()));
-            student.setWantEnglishTraining(Boolean.parseBoolean(jsonObject.get("want_english_training").toString()));
+            if(id == null)
+                student.setUser(new User(jsonObject.get("name").toString(), jsonObject.get("email").toString()));
+
+
+            if(jsonObject.get("started_work_date") != null)
+                student.setStartedWorkDate(jsonObject.get("started_work_date").toString());
+            if(jsonObject.get("had_probation") != null)
+                student.setHadProbation(Boolean.parseBoolean(jsonObject.get("had_probation").toString()));
+            if(jsonObject.get("start_at_course") != null)
+                student.setStartAtCourse(Integer.parseInt(jsonObject.get("start_at_course").toString()));
+            if(jsonObject.get("wanted_work_hours") != null)
+                student.setWantedWorkHours(Integer.parseInt(jsonObject.get("wanted_work_hours").toString()));
+            if(jsonObject.get("change_hours_date") != null)
+                student.setChangeHoursDate(jsonObject.get("change_hours_date").toString());
+            if(jsonObject.get("english_level") != null)
+                student.setEnglishLevel(jsonObject.get("english_level").toString());
+            if(jsonObject.get("wanted_courses") != null)
+                student.setWantedCourses(jsonObject.get("wanted_courses").toString());
+            if(jsonObject.get("phone_number") != null)
+                student.setPhoneNumber(jsonObject.get("phone_number").toString());
+            if(jsonObject.get("skype") != null)
+                student.setSkype(jsonObject.get("skype").toString());
+            if(jsonObject.get("want_english_training") != null )
+                student.setWantEnglishTraining(Boolean.parseBoolean(jsonObject.get("want_english_training").toString()));
+            if(jsonObject.get("current_english_training") != null)
+                student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
+
+
 
             StudentDAOImpl studentDAO = new StudentDAOImpl();
-            return studentDAO.createStudent(student, Long.parseLong(jsonObject.get("user_id").toString()));
+            return studentDAO.createStudent(student, id);
         }
         if(entity.equalsIgnoreCase("teamleader")){
             TeamLeader teamLeader = new TeamLeader();

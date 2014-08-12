@@ -4,14 +4,18 @@ package controller;
 import DAO.Impl.CuratorDAOImpl;
 import com.google.gson.Gson;
 import entity.BaseEntity;
+import entity.Student;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.BaseService;
+import service.Impl.StudentServiceImpl;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -154,4 +158,25 @@ public class Controller {
                     "\"message\":\"invalid JSON\"}";
         }
     }
-    }
+
+//    @RequestMapping(value = "/students", method = RequestMethod.PUT, produces = "application/json")
+//    @ResponseBody
+//    public String getStudents(){
+//        try {
+//            BaseService studentService = new StudentServiceImpl();
+//            List<Student> studentList = new ArrayList<Student>();
+//
+//            return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
+//        } catch (JDBCConnectionException ex) {
+//            return "{\"status\":\"error\"," +
+//                    "\"message\":\"Database is offline\"}";
+//        }
+//        catch (ParseException ex){
+//            return "{\"status\":\"error\"," +
+//                    "\"message\":\"invalid JSON\"}";
+//        } catch (EntityException ex){
+//            return "{\"status\":\"error\"," +
+//                    "\"message\":\"invalid JSON\"}";
+//        }
+//    }
+}
