@@ -31,18 +31,6 @@ public class FeedbackVO implements BaseVO {
         }
     }
 
-    private class StudentElem{
-        private Long id;
-        private String name;
-        private String email;
-
-        private StudentElem(Student studentElem) {
-            this.id = studentElem.getId();
-            this.name = studentElem.getUser().getName();
-            this.email = studentElem.getUser().getEmail();
-        }
-    }
-
     public FeedbackVO(Feedback feedback) {
         this.id = feedback.getId();
         this.peopleRelation = feedback.getPeopleRelation();

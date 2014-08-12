@@ -14,33 +14,7 @@ public class CuratorVO implements BaseVO{
     private Long id;
     private String name;
     private String email;
-    private List<StudentListItem> students;
-
-    private class StudentListItem{
-        private Long id;
-        private String name;
-
-        private StudentListItem(Student student) {
-            this.id = student.getId();
-            this.name = student.getUser().getName();
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
+    private List<StudentElem> students;
 
     public CuratorVO() {
     }
@@ -49,9 +23,9 @@ public class CuratorVO implements BaseVO{
         this.id = curator.getId();
         this.name = curator.getUser().getName();
         this.email = curator.getUser().getEmail();
-        this.students = new ArrayList<StudentListItem>();
+        this.students = new ArrayList<StudentElem>();
         for (Student s: curator.getStudentList()){
-            this.students.add(new StudentListItem(s));
+            this.students.add(new StudentElem(s));
         }
     }
 
@@ -71,11 +45,11 @@ public class CuratorVO implements BaseVO{
         this.email = email;
     }
 
-    public List<StudentListItem> getStudents() {
+    public List<StudentElem> getStudents() {
         return students;
     }
 
-    public void setStudents(List<StudentListItem> students) {
+    public void setStudents(List<StudentElem> students) {
         this.students = students;
     }
 }

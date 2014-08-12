@@ -8,16 +8,12 @@ import entity.User;
 public class UserVO implements BaseVO{
     private Long id;
     private String name;
-    private String password;
     private String email;
-    private String login;
 
     public UserVO(User user) {
         this.id = user.getId();
         this.name = user.getName();
-        this.password = user.getPassword();
         this.email = user.getEmail();
-        this.login = user.getLogin();
     }
 
     public Long getId() {
@@ -36,14 +32,6 @@ public class UserVO implements BaseVO{
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -52,11 +40,4 @@ public class UserVO implements BaseVO{
         this.email = email;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
 }

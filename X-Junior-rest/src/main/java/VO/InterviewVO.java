@@ -16,18 +16,6 @@ public class InterviewVO implements BaseVO {
     private HR hr;
     private Interviewer interviewer;
 
-    private class StudentElem{
-        private Long id;
-        private String name;
-        private String email;
-
-        private StudentElem(Student studentElem) {
-            this.id = studentElem.getId();
-            this.name = studentElem.getUser().getName();
-            this.email = studentElem.getUser().getEmail();
-        }
-    }
-
     public InterviewVO(Interview interview) {
         this.id = interview.getId();
         this.results = interview.getResults();

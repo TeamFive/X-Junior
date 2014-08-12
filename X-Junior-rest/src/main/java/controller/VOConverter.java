@@ -14,7 +14,7 @@ public class VOConverter {
         if(baseEntity instanceof Curator)
             return new CuratorVO((Curator) baseEntity);
         if(baseEntity instanceof Student)
-            return new StudentVO((Student) baseEntity);
+            return new StudentElem((Student) baseEntity);
         if(baseEntity instanceof Admin)
             return new AdminVO((Admin) baseEntity);
         if(baseEntity instanceof Certificate)
@@ -51,6 +51,8 @@ public class VOConverter {
             return new TechnologyVO((Technology) baseEntity);
         if (baseEntity instanceof User)
             return new UserVO((User) baseEntity);
+        if (baseEntity instanceof University)
+            return new UniversityVO((University) baseEntity);
         return null;
     }
 
@@ -64,7 +66,7 @@ public class VOConverter {
         }
         if (entity.equalsIgnoreCase("student")) {
             for (BaseEntity item : entityList){
-                baseVOList.add(new StudentVO((Student) item));
+                baseVOList.add(new StudentElem((Student) item));
             }
             return baseVOList;
         }
@@ -173,6 +175,12 @@ public class VOConverter {
         if (entity.equalsIgnoreCase("user")) {
             for (BaseEntity item : entityList){
                 baseVOList.add(new UserVO((User) item));
+            }
+            return baseVOList;
+        }
+        if (entity.equalsIgnoreCase("university")) {
+            for (BaseEntity item : entityList){
+                baseVOList.add(new UniversityVO((University) item));
             }
             return baseVOList;
         }
