@@ -8,6 +8,8 @@ import entity.Student;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.BaseService;
@@ -34,8 +36,13 @@ public class Controller {
     private VOConverter voConverter;
 
     private EntityChooser entityChooser;
+    private Logger logger;
 
-
+    @PostConstruct
+    private void initMethod(){
+        entityChooser = new EntityChooser();
+        logger = LoggerFactory.getLogger(this.getClass());
+    }
 
     public void setServiceChooser(EntityServiceChooser serviceChooser) {
         this.serviceChooser = serviceChooser;
@@ -44,6 +51,8 @@ public class Controller {
     @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String getEntity(@PathVariable("entity") String entity, @PathVariable("id") long id) {
+        logger = LoggerFactory.getLogger(this.getClass());
+        logger.info("Method: getEntity; params: entity = " + entity + ", id = " + id);
         BaseService baseService = serviceChooser.serviceChooser(entity);
         String json;
         Gson gson = new Gson();
@@ -62,27 +71,10 @@ public class Controller {
 
     }
 
-    @RequestMapping(value = "/getcurator/{name}", method = RequestMethod.GET)
-    @ResponseBody
-    public String getEntityByName(@PathVariable("name") String name){
-        CuratorDAOImpl curatorDAO = new CuratorDAOImpl();
-        Gson gson = new Gson();
-
-        try {
-            String result = gson.toJson(curatorDAO.getCuratorByName(name));
-
-            return "{\"status\":\"success\"," +
-                    "\"data\":" + result + "}";
-        } catch (EntityException ex){
-            return "{\"status\":\"error\"," +
-                    "\"message\":\"" + ex.getMessage() + "\"}";
-        }
-
-    }
-
     @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public String deleteEntity(@PathVariable("entity") String entity, @PathVariable("id") long id){
+        logger.info("Method: deleteEntity; params: entity = " + entity + ", id = " + id);
         BaseService baseService = serviceChooser.serviceChooser(entity);
         try {
             return "{\"status\":\"" + baseService.delete(id) + "\"}";
@@ -99,6 +91,7 @@ public class Controller {
     @RequestMapping(value = "{entity}", method = RequestMethod.GET)
     @ResponseBody
     public String getListEntity(@PathVariable("entity") String entity){
+        logger.info("Method: getListEntity; params: entity = " + entity);
         BaseService baseService = serviceChooser.serviceChooser(entity);
         Gson gson = new Gson();
         try {
@@ -113,17 +106,10 @@ public class Controller {
         }
     }
 
-    @PostConstruct
-    private void initMethod(){
-        entityChooser = new EntityChooser();
-
-    }
-
-
-
     @RequestMapping(value = "/{entity}", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public String createEntity(@PathVariable("entity") String entity, @RequestBody String str)  {
+        logger.info("Method: createEntity; params: entity = " + entity + ", str = " + str);
             try {
                 return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
             } catch (JDBCConnectionException ex) {
@@ -143,6 +129,7 @@ public class Controller {
     @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
     public String updateEntity(@PathVariable("entity") String entity, @PathVariable("id") long id, @RequestBody String str){
+        logger.info("Method: updateEntity; params: entity = " + entity + ", id = " + id + ", str = " + str);
         try {
             entityChooser.setId(id);
             return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
