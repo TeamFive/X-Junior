@@ -58,6 +58,8 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
                 student1.setWantEnglishTraining(student.isWantEnglishTraining());
             if(student.getCurrentEnglishTraining() != null)
                 student1.setCurrentEnglishTraining(student.getCurrentEnglishTraining());
+            if(student.getCertificateList().size() != student1.getCertificateList().size())
+                student1.setCertificateList(student.getCertificateList());
 
             entityManager.getTransaction().begin();
             entityManager.merge(student1);

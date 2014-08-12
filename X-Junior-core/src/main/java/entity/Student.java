@@ -5,6 +5,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -69,7 +70,7 @@ public class Student extends BaseEntity {
     private List<CustomField> customFieldList;
 
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "student_certificate",
             joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
@@ -156,6 +157,7 @@ public class Student extends BaseEntity {
     }
 
     public void setStartedWorkDate(String startedWorkDate) {
+        certificateList = new ArrayList<Certificate>();
         this.startedWorkDate = startedWorkDate;
     }
 

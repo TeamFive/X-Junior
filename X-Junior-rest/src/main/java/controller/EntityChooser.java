@@ -186,6 +186,11 @@ public class EntityChooser {
                 student.setWantEnglishTraining(Boolean.parseBoolean(jsonObject.get("want_english_training").toString()));
             if(jsonObject.get("current_english_training") != null)
                 student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
+            if(jsonObject.get("student_certificate") != null){
+
+                student.getCertificateList().add(new Certificate("JABA", "Now"));
+            }
+
 
 
 
