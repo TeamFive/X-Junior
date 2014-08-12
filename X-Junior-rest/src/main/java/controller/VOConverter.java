@@ -14,7 +14,7 @@ public class VOConverter {
         if(baseEntity instanceof Curator)
             return new CuratorVO((Curator) baseEntity);
         if(baseEntity instanceof Student)
-            return new StudentElem((Student) baseEntity);
+            return new StudentVO((Student) baseEntity);
         if(baseEntity instanceof Admin)
             return new AdminVO((Admin) baseEntity);
         if(baseEntity instanceof Certificate)
