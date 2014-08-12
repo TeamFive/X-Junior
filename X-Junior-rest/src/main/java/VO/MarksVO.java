@@ -14,18 +14,6 @@ public class MarksVO implements BaseVO {
     private StudentElem student;
     private Group group;
 
-    private class StudentElem{
-        private Long id;
-        private String name;
-        private String email;
-
-        private StudentElem(Student studentElem) {
-            this.id = studentElem.getId();
-            this.name = studentElem.getUser().getName();
-            this.email = studentElem.getUser().getEmail();
-        }
-    }
-
     public MarksVO(Marks marks) {
         this.id = marks.getId();
         this.mark = marks.getMark();
