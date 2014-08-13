@@ -8,12 +8,10 @@ import entity.Certificate;
 public class CertificateVO implements BaseVO {
     private Long id;
     private String name;
-    private String date;
 
     public CertificateVO(Certificate certificate) {
         this.id = certificate.getId();
         this.name = certificate.getName();
-        this.date = certificate.getDate();
     }
 
     public Long getId() {
@@ -30,13 +28,5 @@ public class CertificateVO implements BaseVO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 }

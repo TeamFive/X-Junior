@@ -2,11 +2,16 @@ package controller;
 
 
 import DAO.Impl.CuratorDAOImpl;
+import DAO.Impl.StudentDAOImpl;
+import VO.StudentVO;
 import com.google.gson.Gson;
 import entity.BaseEntity;
+import entity.Certificate;
 import entity.Student;
+import entity.User;
 import exceptions.EntityException;
 import org.hibernate.exception.JDBCConnectionException;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,6 +151,21 @@ public class Controller {
         }
     }
 
+    @RequestMapping(value = "/filter", method = RequestMethod.POST)
+    @ResponseBody
+    public String getStudentsByFilter(@RequestBody String str) throws ParseException {
+        logger.info("Method: getStudentsByFilter; params: str = " + str);
+        StudentDAOImpl studentDAO = new StudentDAOImpl();
+
+        List<Student> students = studentDAO.getStudentsByFilter(str);
+
+        List<StudentVO> studentVOs = new ArrayList<StudentVO>();
+        for (Student item : students) {
+            studentVOs.add(new StudentVO(item));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(studentVOs);
+    }
 //    @RequestMapping(value = "/students", method = RequestMethod.PUT, produces = "application/json")
 //    @ResponseBody
 //    public String getStudents(){
