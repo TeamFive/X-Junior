@@ -15,15 +15,11 @@ public class Certificate extends BaseEntity {
     @Column(name = "certificate_name")
     private String name;
 
-    @Column(name = "date")
-    private String date;
-
     public Certificate() {
     }
 
     public Certificate(String name, String date) {
         this.name = name;
-        this.date = date;
     }
 
     public Certificate(String name) {
@@ -46,11 +42,20 @@ public class Certificate extends BaseEntity {
         this.name = name;
     }
 
-    public String getDate() {
-        return date;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Certificate)) return false;
+
+        Certificate that = (Certificate) o;
+
+        if (!name.equals(that.name)) return false;
+
+        return true;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 }

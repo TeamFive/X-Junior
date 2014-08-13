@@ -11,6 +11,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import service.BaseService;
+import service.CertificateService;
+import service.Impl.BaseServiceImpl;
+import service.Impl.CertificateServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,14 +57,14 @@ public class EntityChooser {
                     Long.parseLong(jsonObject.get("student_id").toString()));
         }
         if(entity.equalsIgnoreCase("curator")){
-
-
             Curator curator = new Curator();
+
             if(id == null){
                 User user = new User(jsonObject.get("name").toString(),
                         jsonObject.get("email").toString());
                 curator.setUser(user);
             }
+
             if(jsonObject.get("students") != null){
                 JSONArray jsonArray = (JSONArray) jsonObject.get("students");
                 curator.setStudentList(new ArrayList<Student>());
@@ -69,10 +73,7 @@ public class EntityChooser {
                     curator.getStudentList().get(i).setId(Long.parseLong(jsonArray.get(i).toString()));
                 }
             }
-
             curator.setId(id);
-
-
 
             Gson gson = new Gson();
             CuratorDAOImpl curatorDAO = new CuratorDAOImpl();
@@ -265,6 +266,7 @@ public class EntityChooser {
 
         return null;
     }
+
 
     public void setId(Long id) {
         this.id = id;

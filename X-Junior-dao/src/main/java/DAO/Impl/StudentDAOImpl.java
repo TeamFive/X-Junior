@@ -1,5 +1,8 @@
 package DAO.Impl;
 
+import DAO.BaseDAO;
+import com.mysema.util.ArrayUtils;
+import com.sun.deploy.util.ArrayUtil;
 import entity.BaseEntity;
 import com.google.gson.Gson;
 import entity.Certificate;
@@ -12,6 +15,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -41,7 +46,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         return student;
     }
 
-    public Student createStudent(Student student, Long studentId){
+    public Student createStudent(Student student, Long studentId) throws EntityException {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -72,19 +77,40 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             if(student.getCurrentEnglishTraining() != null)
                 student1.setCurrentEnglishTraining(student.getCurrentEnglishTraining());
             if(student.getCertificateList().size() != 0) {
-                for(int i = 0; i < student.getCertificateList().size(); i++){
-                    int tmp = 0;
-                    for(int j = 0; j < student1.getCertificateList().size(); j++){
-                        if(student1.getCertificateList().get(j).getName().equals(student.getCertificateList().get(i).getName()))
-                            tmp++;
-                    }
-                    if(tmp == 0)
-                        student1.getCertificateList().add(student.getCertificateList().get(i));
-                }
-            }
-            if(student.getTechnologyStudentNowList().size() != 0){
 
+                List<Certificate> certificates = new ArrayList<Certificate>();
+                certificates.addAll(student1.getCertificateList());
+                certificates.addAll(student.getCertificateList());
+                student1.setCertificateList(certificates);
+
+                Query query = entityManager.createQuery("from " + Certificate.class.getName());
+                List<Certificate> certificateList = query.getResultList();
+
+                boolean checkExists = false;
+                for(int i = 0; i < certificates.size(); i++){
+                    if(!certificateList.contains(certificates.get(i))){
+                        //certificateList.
+                    }
+                }
+//                for(int i = 0; i < student.getCertificateList().size(); i++){
+//                    int tmp = 0;
+//                    for(int j = 0; j < student1.getCertificateList().size(); j++){
+//                        if(student1.getCertificateList().get(j).getName().equals(student.getCertificateList().get(i).getName()))
+//                            tmp++;
+//                    }
+//                    if(tmp == 0){
+//                        List<Certificate> certificates = new ArrayList<Certificate>();
+//                        BaseDAO<Certificate> certificateBaseDAO = (CertificateDAOImpl) new CertificateDAOImpl();
+//                        certificates = certificateBaseDAO.getList();
+//
+//                        student1.getCertificateList().add(student.getCertificateList().get(i));
+//                    }
+//
+//                }
             }
+//            if(student.getTechnologyStudentNowList().size() != 0){
+//
+//            }
 
 
 
