@@ -83,15 +83,15 @@ public class Student extends BaseEntity {
     private List<Certificate> certificateList;
 
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name = "technology_student_now",
-            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", insertable = false, updatable = false, nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "Technology_id", insertable = false, updatable = false, nullable = false)})
     private List<Technology> technologyStudentNowList;
 
     @Fetch(FetchMode.SELECT)
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name = "technology_student_future",
             joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},

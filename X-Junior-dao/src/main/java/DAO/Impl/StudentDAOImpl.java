@@ -4,6 +4,7 @@ import DAO.BaseDAO;
 import com.google.gson.Gson;
 import entity.Certificate;
 import entity.Student;
+import entity.Technology;
 import exceptions.EntityException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -82,16 +83,41 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
                 }
 
             }
-//            if(student.getTechnologyStudentNowList().size() != 0){
-//
-//            }
+            if(student.getTechnologyStudentNowList().size() != 0){
 
+                Query query = entityManager.createQuery("from " + Technology.class.getName());
+                List<Technology> databaseTech = query.getResultList();
 
+                for(int i = 0; i < student.getTechnologyStudentNowList().size(); i++){
+                    if(!databaseTech.contains(student.getTechnologyStudentNowList().get(i))){
+                        student1.getTechnologyStudentNowList().add(student.getTechnologyStudentNowList().get(i));
+                    } else if(!student1.getTechnologyStudentNowList().contains(student.getTechnologyStudentNowList().get(i))){
+                        int tmp = databaseTech.indexOf(student.getTechnologyStudentNowList().get(i));
+                        student1.getTechnologyStudentNowList().add(databaseTech.get(tmp));
+                    }
+                }
+            }
+            if(student.getTechnologyStudentFutureList().size() != 0){
+
+                Query query = entityManager.createQuery("from " + Technology.class.getName());
+                List<Technology> databaseTech = query.getResultList();
+
+                for(int i = 0; i < student.getTechnologyStudentFutureList().size(); i++){
+                    if(!databaseTech.contains(student.getTechnologyStudentFutureList().get(i))){
+                        student1.getTechnologyStudentFutureList().add(student.getTechnologyStudentFutureList().get(i));
+                    } else if(!student1.getTechnologyStudentFutureList().contains(student.getTechnologyStudentFutureList().get(i))){
+                        int tmp = databaseTech.indexOf(student.getTechnologyStudentFutureList().get(i));
+                        student1.getTechnologyStudentFutureList().add(databaseTech.get(tmp));
+                    }
+
+                }
+            }
 
 
             entityManager.getTransaction().begin();
             entityManager.merge(student1);
             entityManager.getTransaction().commit();
+            entityManager.close();
 
             return student1;
 
@@ -99,11 +125,13 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
 
 
         entityManager.getTransaction().begin();
-        entityManager.merge(student);
+        entityManager.persist(student);
         entityManager.getTransaction().commit();
-
+        entityManager.close();
 
         List<Student> students = getListByName(student.getUser().getName());
+
+
 
 
         return students.get(0);

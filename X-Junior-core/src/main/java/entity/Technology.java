@@ -38,4 +38,21 @@ public class Technology extends BaseEntity {
     public void setTechnology_name(String technology_name) {
         this.technology_name = technology_name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Technology)) return false;
+
+        Technology that = (Technology) o;
+
+        if (!technology_name.equals(that.technology_name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return technology_name.hashCode();
+    }
 }

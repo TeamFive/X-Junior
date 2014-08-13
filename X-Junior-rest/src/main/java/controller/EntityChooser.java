@@ -96,8 +96,7 @@ public class EntityChooser {
         }
         if(entity.equalsIgnoreCase("certificate")){
             Certificate certificate = new Certificate(
-                    jsonObject.get("certificate_name").toString(),
-                    jsonObject.get("date").toString());
+                    jsonObject.get("certificate_name").toString());
             CertificateDAOImpl certificateDAO = new CertificateDAOImpl();
             return certificateDAO.createCertificate(certificate);
         }
@@ -182,7 +181,8 @@ public class EntityChooser {
         if(entity.equalsIgnoreCase("student")){
             Student student = new Student();
             student.setCertificateList(new ArrayList<Certificate>());
-            //student.getTechnologyStudentNowList(new ArrayList<Technology>());
+            student.setTechnologyStudentNowList(new ArrayList<Technology>());
+            student.setTechnologyStudentFutureList(new ArrayList<Technology>());
 
             if(id == null)
                 student.setUser(new User(jsonObject.get("name").toString(), jsonObject.get("email").toString()));
@@ -218,22 +218,22 @@ public class EntityChooser {
                     i++;
                 }
             }
-//            if(jsonObject.get("student_technology_now") != null){
-//                String[] technologies = jsonObject.get("student_technology_now").toString().split(";");
-//                int i = 0;
-//                while (i != technologies.length){
-//                    student.getTechnologyStudentNowList().add(new Technology(technologies[i]));
-//                    i++;
-//                }
-//            }
-//            if(jsonObject.get("student_technology_future") != null){
-//                String[] technologies = jsonObject.get("student_technology_future").toString().split(";");
-//                int i = 0;
-//                while (i != technologies.length){
-//                    student.getTechnologyStudentFutureList().add(new Technology(technologies[i]));
-//                    i++;
-//                }
-//            }
+            if(jsonObject.get("student_technology_now") != null){
+                String[] technologies = jsonObject.get("student_technology_now").toString().split(";");
+                int i = 0;
+                while (i != technologies.length){
+                    student.getTechnologyStudentNowList().add(new Technology(technologies[i]));
+                    i++;
+                }
+            }
+            if(jsonObject.get("student_technology_future") != null){
+                String[] technologies = jsonObject.get("student_technology_future").toString().split(";");
+                int i = 0;
+                while (i != technologies.length){
+                    student.getTechnologyStudentFutureList().add(new Technology(technologies[i]));
+                    i++;
+                }
+            }
             Gson gson = new Gson();
             StudentDAOImpl studentDAO = new StudentDAOImpl();
             String result = "success\" } {\" " + gson.toJson(new StudentVO(studentDAO.createStudent(student, id)));

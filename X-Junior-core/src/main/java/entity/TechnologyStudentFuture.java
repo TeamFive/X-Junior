@@ -7,8 +7,8 @@ import javax.persistence.*;
 /**
  * Created by Administrator on 17.07.2014.
  */
-@Entity
-@Table(name = "technology_student_future")
+//@Entity
+//@Table(name = "technology_student_future")
 public class TechnologyStudentFuture extends BaseEntity {
 
     @Id
