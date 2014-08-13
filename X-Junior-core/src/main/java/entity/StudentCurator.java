@@ -4,8 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Student_Curator")
+//@Entity
+//@Table(name = "Student_Curator")
 public class StudentCurator extends BaseEntity {
     @Id
     @GeneratedValue(generator = "increment")

@@ -2,10 +2,12 @@ package controller;
 
 import DAO.BaseDAO;
 import DAO.Impl.*;
+import VO.CuratorVO;
 import VO.StudentVO;
 import com.google.gson.Gson;
 import entity.*;
 import exceptions.EntityException;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -52,14 +54,30 @@ public class EntityChooser {
         }
         if(entity.equalsIgnoreCase("curator")){
 
-            User user = new User(jsonObject.get("name").toString(),
-                    jsonObject.get("email").toString());
 
-            Curator curator = new Curator(user);
-            List<Student> students = (List<Student>) jsonObject.get("students");
-            curator.setStudentList(students);
+            Curator curator = new Curator();
+            if(id == null){
+                User user = new User(jsonObject.get("name").toString(),
+                        jsonObject.get("email").toString());
+                curator.setUser(user);
+            }
+            if(jsonObject.get("students") != null){
+                JSONArray jsonArray = (JSONArray) jsonObject.get("students");
+                curator.setStudentList(new ArrayList<Student>());
+                for(int i = 0; i < jsonArray.size(); i++){
+                    curator.getStudentList().add(new Student());
+                    curator.getStudentList().get(i).setId(Long.parseLong(jsonArray.get(i).toString()));
+                }
+            }
+
+            curator.setId(id);
+
+
+
+            Gson gson = new Gson();
             CuratorDAOImpl curatorDAO = new CuratorDAOImpl();
-            return curatorDAO.saveCurator(curator);
+            String result = "success\"} " + "{" + gson.toJson(new CuratorVO(curatorDAO.saveCurator(curator)));
+            return result;
         }
         if(entity.equalsIgnoreCase("hr")){
             User user = new User(jsonObject.get("name").toString(),
@@ -163,6 +181,7 @@ public class EntityChooser {
         if(entity.equalsIgnoreCase("student")){
             Student student = new Student();
             student.setCertificateList(new ArrayList<Certificate>());
+            //student.getTechnologyStudentNowList(new ArrayList<Technology>());
 
             if(id == null)
                 student.setUser(new User(jsonObject.get("name").toString(), jsonObject.get("email").toString()));
@@ -191,15 +210,29 @@ public class EntityChooser {
             if(jsonObject.get("current_english_training") != null)
                 student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
             if(jsonObject.get("student_certificate") != null){
-
                 String[] certificates = jsonObject.get("student_certificate").toString().split(";");
                 int i = 0;
                 while (i != certificates.length){
                     student.getCertificateList().add(new Certificate(certificates[i]));
                     i++;
                 }
-                //student.setCertificateList(Arrays.asList(certificates));
             }
+//            if(jsonObject.get("student_technology_now") != null){
+//                String[] technologies = jsonObject.get("student_technology_now").toString().split(";");
+//                int i = 0;
+//                while (i != technologies.length){
+//                    student.getTechnologyStudentNowList().add(new Technology(technologies[i]));
+//                    i++;
+//                }
+//            }
+//            if(jsonObject.get("student_technology_future") != null){
+//                String[] technologies = jsonObject.get("student_technology_future").toString().split(";");
+//                int i = 0;
+//                while (i != technologies.length){
+//                    student.getTechnologyStudentFutureList().add(new Technology(technologies[i]));
+//                    i++;
+//                }
+//            }
             Gson gson = new Gson();
             StudentDAOImpl studentDAO = new StudentDAOImpl();
             String result = "success\" } {\" " + gson.toJson(new StudentVO(studentDAO.createStudent(student, id)));

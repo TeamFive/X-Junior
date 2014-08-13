@@ -82,15 +82,29 @@ public class CuratorDAOImpl extends BaseDAOImpl<Curator> {
         return curator;
     }
 
-    public String saveCurator(Curator curator){
+    public Curator saveCurator(Curator curator){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        if(curator.getId() != null){
+            Curator curator1 = entityManager.find(Curator.class, curator.getId());
+            curator1.setStudentList(new ArrayList<Student>());
+            for(int i = 0; i < curator.getStudentList().size(); i++){
+                curator1.getStudentList().add(entityManager.find(Student.class, curator.getStudentList().get(i).getId()));
+            }
+
+            entityManager.getTransaction().begin();
+            entityManager.merge(curator1);
+            entityManager.getTransaction().commit();
+
+            return  curator1;
+
+        }
 
         entityManager.getTransaction().begin();
         entityManager.merge(curator);
         entityManager.getTransaction().commit();
 
-        return  "success";
+        return  null;
     }
 
 }

@@ -82,6 +82,9 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
                         student1.getCertificateList().add(student.getCertificateList().get(i));
                 }
             }
+            if(student.getTechnologyStudentNowList().size() != 0){
+
+            }
 
 
 
@@ -99,7 +102,11 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         entityManager.merge(student);
         entityManager.getTransaction().commit();
 
-        return null;
+
+        List<Student> students = getListByName(student.getUser().getName());
+
+
+        return students.get(0);
 
     }
 
