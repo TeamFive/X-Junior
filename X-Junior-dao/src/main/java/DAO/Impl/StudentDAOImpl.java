@@ -1,31 +1,18 @@
 package DAO.Impl;
 
-import DAO.BaseDAO;
-import com.mysema.util.ArrayUtils;
-import com.sun.deploy.util.ArrayUtil;
-import entity.BaseEntity;
 import com.google.gson.Gson;
-import entity.Certificate;
 import entity.Student;
-import entity.User;
-import exceptions.EntityException;
-import org.hibernate.ejb.criteria.ExpressionImplementor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class StudentDAOImpl extends BaseDAOImpl<Student> {
@@ -46,7 +33,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         return student;
     }
 
-    public Student createStudent(Student student, Long studentId) throws EntityException {
+    public Student createStudent(Student student, Long studentId){
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -77,40 +64,19 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             if(student.getCurrentEnglishTraining() != null)
                 student1.setCurrentEnglishTraining(student.getCurrentEnglishTraining());
             if(student.getCertificateList().size() != 0) {
-
-                List<Certificate> certificates = new ArrayList<Certificate>();
-                certificates.addAll(student1.getCertificateList());
-                certificates.addAll(student.getCertificateList());
-                student1.setCertificateList(certificates);
-
-                Query query = entityManager.createQuery("from " + Certificate.class.getName());
-                List<Certificate> certificateList = query.getResultList();
-
-                boolean checkExists = false;
-                for(int i = 0; i < certificates.size(); i++){
-                    if(!certificateList.contains(certificates.get(i))){
-                        //certificateList.
+                for(int i = 0; i < student.getCertificateList().size(); i++){
+                    int tmp = 0;
+                    for(int j = 0; j < student1.getCertificateList().size(); j++){
+                        if(student1.getCertificateList().get(j).getName().equals(student.getCertificateList().get(i).getName()))
+                            tmp++;
                     }
+                    if(tmp == 0)
+                        student1.getCertificateList().add(student.getCertificateList().get(i));
                 }
-//                for(int i = 0; i < student.getCertificateList().size(); i++){
-//                    int tmp = 0;
-//                    for(int j = 0; j < student1.getCertificateList().size(); j++){
-//                        if(student1.getCertificateList().get(j).getName().equals(student.getCertificateList().get(i).getName()))
-//                            tmp++;
-//                    }
-//                    if(tmp == 0){
-//                        List<Certificate> certificates = new ArrayList<Certificate>();
-//                        BaseDAO<Certificate> certificateBaseDAO = (CertificateDAOImpl) new CertificateDAOImpl();
-//                        certificates = certificateBaseDAO.getList();
-//
-//                        student1.getCertificateList().add(student.getCertificateList().get(i));
-//                    }
-//
-//                }
             }
-//            if(student.getTechnologyStudentNowList().size() != 0){
-//
-//            }
+            if(student.getTechnologyStudentNowList().size() != 0){
+
+            }
 
 
 
@@ -151,15 +117,15 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         return resultList;
     }
 
-    public List<Student> getStudentsByFilter(String str) throws ParseException {
+    public String getStudentsByFilter(String str) throws ParseException {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Student> query = builder.createQuery(Student.class);
-        Root<Student> cust = query.from(Student.class);
-        query.select(cust);
+        Root<Student> studentRoot = query.from(Student.class);
+        query.select(studentRoot);
 
         List<Predicate> predicateList = new ArrayList<Predicate>();
 
@@ -170,60 +136,65 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         JSONObject jsonObject = (JSONObject) jsonParser.parse(str);
         String curParam = new String();
 
+        if(jsonObject.get("name") != null) {
+            curParam = jsonObject.get("name").toString();
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("user").<String>get("name")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
 
         if(jsonObject.get("started_work_date") != null) {
             curParam = jsonObject.get("started_work_date").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("startedWorkDate")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("had_probation") != null) {
             curParam = jsonObject.get("had_probation").toString();
-            curPredicate = builder.equal(builder.upper(cust.<String>get("hadProbation")),Boolean.parseBoolean(curParam));
+            curPredicate = builder.equal(builder.upper(studentRoot.<String>get("hadProbation")), Boolean.parseBoolean(curParam));
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("start_at_course") != null) {
             curParam = jsonObject.get("start_at_course").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startAtCourse")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("startAtCourse")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("wanted_work_hours") != null) {
             curParam = jsonObject.get("wanted_work_hours").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("wantedWorkHours")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("wantedWorkHours")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("change_hours_date") != null) {
             curParam = jsonObject.get("change_hours_date").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("changeHoursDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("changeHoursDate")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("english_level") != null) {
             curParam = jsonObject.get("english_level").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("englishLevel")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("englishLevel")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("wanted_courses") != null) {
             curParam = jsonObject.get("wanted_courses").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("wantedCourses")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("wantedCourses")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("phone_number") != null) {
             curParam = jsonObject.get("phone_number").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("phoneNumber")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("phoneNumber")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("skype") != null) {
             curParam = jsonObject.get("skype").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("skype")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("skype")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("want_english_training") != null) {
             curParam = jsonObject.get("want_english_training").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("wantEnglishTraining")), "%"+curParam+"%");
+            curPredicate = builder.equal(builder.upper(studentRoot.<String>get("wantEnglishTraining")), Boolean.parseBoolean(curParam));
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("current_english_training") != null) {
             curParam = jsonObject.get("current_english_training").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("currentEnglishTraining")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(studentRoot.<String>get("currentEnglishTraining")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
 
@@ -231,6 +202,59 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         predicateList.toArray(predicates);
         query.where(predicates);
 
-        return entityManager.createQuery(query).getResultList();
+        List<Student> students = entityManager.createQuery(query).getResultList();
+
+        boolean isFirstArrayItem = true;
+        JSONObject jsonItem = null;
+        JSONArray jsonArray = new JSONArray();
+
+        if (students.isEmpty()){
+            return "[]";
+        } else {
+            for (Student item : students){
+                jsonItem = new JSONObject();
+
+                jsonItem.put("id", item.getId());
+
+                if(jsonObject.get("name") != null) {
+                    jsonItem.put("name", item.getUser().getName());
+                }
+                if(jsonObject.get("started_work_date") != null) {
+                    jsonItem.put("started_work_date", item.getStartedWorkDate());
+                }
+                if(jsonObject.get("had_probation") != null) {
+                    jsonItem.put("had_probation", item.isHadProbation());
+                }
+                if(jsonObject.get("start_at_course") != null) {
+                    jsonItem.put("start_at_course", item.getStartAtCourse());
+                }
+                if(jsonObject.get("wanted_work_hours") != null) {
+                    jsonItem.put("wanted_work_hours", item.getWantedWorkHours());
+                }
+                if(jsonObject.get("change_hours_date") != null) {
+                    jsonItem.put("change_hours_date", item.getChangeHoursDate());
+                }
+                if(jsonObject.get("english_level") != null) {
+                    jsonItem.put("english_level", item.getEnglishLevel());
+                }
+                if(jsonObject.get("wanted_courses") != null) {
+                    jsonItem.put("wanted_courses", item.getWantedCourses());
+                }
+                if(jsonObject.get("phone_number") != null) {
+                    jsonItem.put("phone_number", item.getPhoneNumber());
+                }
+                if(jsonObject.get("skype") != null) {
+                    jsonItem.put("skype", item.getSkype());
+                }
+                if(jsonObject.get("want_english_training") != null) {
+                    jsonItem.put("want_english_training", item.isWantEnglishTraining());
+                }
+                if(jsonObject.get("current_english_training") != null) {
+                    jsonItem.put("current_english_training", item.getCurrentEnglishTraining());
+                }
+                jsonArray.add(jsonItem);
+            }
+        }
+        return jsonArray.toString();
     }
 }

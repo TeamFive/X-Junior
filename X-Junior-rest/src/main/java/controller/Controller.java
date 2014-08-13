@@ -157,14 +157,17 @@ public class Controller {
         logger.info("Method: getStudentsByFilter; params: str = " + str);
         StudentDAOImpl studentDAO = new StudentDAOImpl();
 
-        List<Student> students = studentDAO.getStudentsByFilter(str);
+//        List<Student> students = studentDAO.getStudentsByFilter(str);
+        String json = studentDAO.getStudentsByFilter(str);
+        return json;
 
-        List<StudentVO> studentVOs = new ArrayList<StudentVO>();
-        for (Student item : students) {
-            studentVOs.add(new StudentVO(item));
-        }
-        Gson gson = new Gson();
-        return gson.toJson(studentVOs);
+//        List<StudentVO> studentVOs = new ArrayList<StudentVO>();
+//        for (Student item : students) {
+//            studentVOs.add(new StudentVO(item));
+//        }
+//        JSONObject jsonObject = new JSONObject();
+//        Gson gson = new Gson();
+//        return gson.toJson(studentVOs);
     }
 //    @RequestMapping(value = "/students", method = RequestMethod.PUT, produces = "application/json")
 //    @ResponseBody
