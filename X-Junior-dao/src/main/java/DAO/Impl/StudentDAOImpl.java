@@ -1,5 +1,6 @@
 package DAO.Impl;
 
+import com.google.gson.Gson;
 import entity.Certificate;
 import entity.Student;
 import entity.User;
@@ -30,12 +31,12 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         return student;
     }
 
-    public String createStudent(Student student, Long studentId){
+    public Student createStudent(Student student, Long studentId){
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Student student1;
-
+        Gson gson = new Gson();
         if(studentId != null){
             student1 = entityManager.find(Student.class, studentId);
             if(student.getChangeHoursDate() != null)
@@ -79,7 +80,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             entityManager.merge(student1);
             entityManager.getTransaction().commit();
 
-            return "success";
+            return student1;
 
         }
 
@@ -88,7 +89,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         entityManager.merge(student);
         entityManager.getTransaction().commit();
 
-        return "success";
+        return null;
 
     }
 

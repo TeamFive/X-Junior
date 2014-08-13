@@ -2,6 +2,8 @@ package controller;
 
 import DAO.BaseDAO;
 import DAO.Impl.*;
+import VO.StudentVO;
+import com.google.gson.Gson;
 import entity.*;
 import exceptions.EntityException;
 import org.json.simple.JSONObject;
@@ -160,6 +162,7 @@ public class EntityChooser {
         }
         if(entity.equalsIgnoreCase("student")){
             Student student = new Student();
+            student.setCertificateList(new ArrayList<Certificate>());
 
             if(id == null)
                 student.setUser(new User(jsonObject.get("name").toString(), jsonObject.get("email").toString()));
@@ -188,7 +191,7 @@ public class EntityChooser {
             if(jsonObject.get("current_english_training") != null)
                 student.setCurrentEnglishTraining(jsonObject.get("current_english_training").toString());
             if(jsonObject.get("student_certificate") != null){
-                student.setCertificateList(new ArrayList<Certificate>());
+
                 String[] certificates = jsonObject.get("student_certificate").toString().split(";");
                 int i = 0;
                 while (i != certificates.length){
@@ -197,9 +200,11 @@ public class EntityChooser {
                 }
                 //student.setCertificateList(Arrays.asList(certificates));
             }
-
+            Gson gson = new Gson();
             StudentDAOImpl studentDAO = new StudentDAOImpl();
-            return studentDAO.createStudent(student, id);
+            String result = "success\" } {\" " + gson.toJson(new StudentVO(studentDAO.createStudent(student, id)));
+
+            return result;
         }
         if(entity.equalsIgnoreCase("teamleader")){
             TeamLeader teamLeader = new TeamLeader();
