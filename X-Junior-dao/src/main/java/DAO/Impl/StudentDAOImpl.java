@@ -1,7 +1,10 @@
 package DAO.Impl;
 
+import DAO.BaseDAO;
 import com.google.gson.Gson;
+import entity.Certificate;
 import entity.Student;
+import exceptions.EntityException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
+import javax.swing.plaf.ListUI;
 import java.util.*;
 
 @Repository
@@ -33,7 +37,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         return student;
     }
 
-    public Student createStudent(Student student, Long studentId){
+    public Student createStudent(Student student, Long studentId) throws EntityException {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -64,19 +68,23 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             if(student.getCurrentEnglishTraining() != null)
                 student1.setCurrentEnglishTraining(student.getCurrentEnglishTraining());
             if(student.getCertificateList().size() != 0) {
+
+                Query query = entityManager.createQuery("from " + Certificate.class.getName());
+                List<Certificate> databaseCert = query.getResultList();
+
                 for(int i = 0; i < student.getCertificateList().size(); i++){
-                    int tmp = 0;
-                    for(int j = 0; j < student1.getCertificateList().size(); j++){
-                        if(student1.getCertificateList().get(j).getName().equals(student.getCertificateList().get(i).getName()))
-                            tmp++;
-                    }
-                    if(tmp == 0)
+                    if(!databaseCert.contains(student.getCertificateList().get(i))){
                         student1.getCertificateList().add(student.getCertificateList().get(i));
+                    } else if(!student1.getCertificateList().contains(student.getCertificateList().get(i))){
+                        int tmp = databaseCert.indexOf(student.getCertificateList().get(i));
+                        student1.getCertificateList().add(databaseCert.get(tmp));
+                    }
                 }
-            }
-            if(student.getTechnologyStudentNowList().size() != 0){
 
             }
+//            if(student.getTechnologyStudentNowList().size() != 0){
+//
+//            }
 
 
 
