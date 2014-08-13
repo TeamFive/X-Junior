@@ -150,47 +150,47 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         }
         if(jsonObject.get("start_at_course") != null) {
             curParam = jsonObject.get("start_at_course").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("startAtCourse")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("wanted_work_hours") != null) {
             curParam = jsonObject.get("wanted_work_hours").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("wantedWorkHours")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("change_hours_date") != null) {
             curParam = jsonObject.get("change_hours_date").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("changeHoursDate")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("english_level") != null) {
             curParam = jsonObject.get("english_level").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("englishLevel")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("wanted_courses") != null) {
             curParam = jsonObject.get("wanted_courses").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("wantedCourses")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("phone_number") != null) {
             curParam = jsonObject.get("phone_number").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("phoneNumber")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("skype") != null) {
             curParam = jsonObject.get("skype").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("skype")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("want_english_training") != null) {
             curParam = jsonObject.get("want_english_training").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("wantEnglishTraining")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
         if(jsonObject.get("current_english_training") != null) {
             curParam = jsonObject.get("current_english_training").toString();
-            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            curPredicate = builder.like(builder.upper(cust.<String>get("currentEnglishTraining")), "%"+curParam+"%");
             predicateList.add(curPredicate);
         }
 
