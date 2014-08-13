@@ -146,24 +146,4 @@ public class Controller {
         }
     }
 
-//    @RequestMapping(value = "/students", method = RequestMethod.PUT, produces = "application/json")
-//    @ResponseBody
-//    public String getStudents(){
-//        try {
-//            BaseService studentService = new StudentServiceImpl();
-//            List<Student> studentList = new ArrayList<Student>();
-//
-//            return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
-//        } catch (JDBCConnectionException ex) {
-//            return "{\"status\":\"error\"," +
-//                    "\"message\":\"Database is offline\"}";
-//        }
-//        catch (ParseException ex){
-//            return "{\"status\":\"error\"," +
-//                    "\"message\":\"invalid JSON\"}";
-//        } catch (EntityException ex){
-//            return "{\"status\":\"error\"," +
-//                    "\"message\":\"invalid JSON\"}";
-//        }
-//    }
 }
