@@ -1,6 +1,7 @@
 package DAO.Impl;
 
 import entity.BaseEntity;
+import com.google.gson.Gson;
 import entity.Certificate;
 import entity.Student;
 import entity.User;
@@ -40,12 +41,12 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         return student;
     }
 
-    public String createStudent(Student student, Long studentId){
+    public Student createStudent(Student student, Long studentId){
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Student student1;
-
+        Gson gson = new Gson();
         if(studentId != null){
             student1 = entityManager.find(Student.class, studentId);
             if(student.getChangeHoursDate() != null)
@@ -71,9 +72,15 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             if(student.getCurrentEnglishTraining() != null)
                 student1.setCurrentEnglishTraining(student.getCurrentEnglishTraining());
             if(student.getCertificateList().size() != 0) {
-                for (int i = 0; i < student.getCertificateList().size(); i++)
-                    if (!student1.getCertificateList().contains(student.getCertificateList().get(i)))
+                for(int i = 0; i < student.getCertificateList().size(); i++){
+                    int tmp = 0;
+                    for(int j = 0; j < student1.getCertificateList().size(); j++){
+                        if(student1.getCertificateList().get(j).getName().equals(student.getCertificateList().get(i).getName()))
+                            tmp++;
+                    }
+                    if(tmp == 0)
                         student1.getCertificateList().add(student.getCertificateList().get(i));
+                }
             }
 
 
@@ -83,7 +90,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             entityManager.merge(student1);
             entityManager.getTransaction().commit();
 
-            return "success";
+            return student1;
 
         }
 
@@ -92,7 +99,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
         entityManager.merge(student);
         entityManager.getTransaction().commit();
 
-        return "success";
+        return null;
 
     }
 
