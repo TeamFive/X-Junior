@@ -1,14 +1,24 @@
 package DAO.Impl;
 
+import entity.BaseEntity;
 import entity.Certificate;
 import entity.Student;
 import entity.User;
+import exceptions.EntityException;
+import org.hibernate.ejb.criteria.ExpressionImplementor;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -86,11 +96,101 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
 
     }
 
-    public List<Student> getStudents(){
+    public List<Student> getListByName(String name){
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        return null;
+        Query query = entityManager.createNamedQuery("findAllStudentsByName");
+        query.setParameter("name", name);
+        List<Student> resultList = query.getResultList();
+
+        logger.info("Find " + resultList.getClass());
+        return resultList;
+    }
+
+    public List<Student> getStudentsByFilter(String str) throws ParseException {
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Student> query = builder.createQuery(Student.class);
+        Root<Student> cust = query.from(Student.class);
+        query.select(cust);
+
+        List<Predicate> predicateList = new ArrayList<Predicate>();
+
+        Predicate curPredicate;
+
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(str);
+        String curParam = new String();
+
+
+        if(jsonObject.get("started_work_date") != null) {
+            curParam = jsonObject.get("started_work_date").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("had_probation") != null) {
+            curParam = jsonObject.get("had_probation").toString();
+            curPredicate = builder.equal(builder.upper(cust.<String>get("hadProbation")),Boolean.parseBoolean(curParam));
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("start_at_course") != null) {
+            curParam = jsonObject.get("start_at_course").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("wanted_work_hours") != null) {
+            curParam = jsonObject.get("wanted_work_hours").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("change_hours_date") != null) {
+            curParam = jsonObject.get("change_hours_date").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("english_level") != null) {
+            curParam = jsonObject.get("english_level").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("wanted_courses") != null) {
+            curParam = jsonObject.get("wanted_courses").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("phone_number") != null) {
+            curParam = jsonObject.get("phone_number").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("skype") != null) {
+            curParam = jsonObject.get("skype").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("want_english_training") != null) {
+            curParam = jsonObject.get("want_english_training").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+        if(jsonObject.get("current_english_training") != null) {
+            curParam = jsonObject.get("current_english_training").toString();
+            curPredicate = builder.like(builder.upper(cust.<String>get("startedWorkDate")), "%"+curParam+"%");
+            predicateList.add(curPredicate);
+        }
+
+        Predicate[] predicates = new Predicate[predicateList.size()];
+        predicateList.toArray(predicates);
+        query.where(predicates);
+
+        return entityManager.createQuery(query).getResultList();
     }
 }

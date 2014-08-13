@@ -10,6 +10,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "Student")
+@NamedQuery(
+        name = "findAllStudentsByName",
+        query = "Select stud from Student stud where stud.user.name = :name"
+)
 public class Student extends BaseEntity {
 
     @Id
