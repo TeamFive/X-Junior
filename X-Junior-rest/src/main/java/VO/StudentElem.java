@@ -8,10 +8,12 @@ import entity.Student;
 public class StudentElem implements BaseVO{
     private Long id;
     private String name;
+    private String status;
 
     public StudentElem (Student student) {
         this.id = student.getId();
         this.name = student.getUser().getName();
+        this.status = student.getStatus();
     }
 
     public Long getId() {
@@ -28,5 +30,13 @@ public class StudentElem implements BaseVO{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

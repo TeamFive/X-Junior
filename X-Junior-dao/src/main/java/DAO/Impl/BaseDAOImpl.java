@@ -1,6 +1,7 @@
 package DAO.Impl;
 
 import DAO.BaseDAO;
+import com.google.gson.Gson;
 import entity.Admin;
 import entity.Feedback;
 import entity.User;
@@ -58,6 +59,7 @@ public class BaseDAOImpl<T> implements BaseDAO<T> {
     @Override
     @Transactional
     public String delete(Long id) throws EntityException {
+        Gson gson = new Gson();
         Logger logger = LoggerFactory.getLogger(this.getClass());
         try {
             T t = find(id);

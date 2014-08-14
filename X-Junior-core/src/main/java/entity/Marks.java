@@ -6,6 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Marks")
+@NamedQuery(
+        name = "findCuratorByName",
+        query = "Select cur from Curator cur where cur.user.name = :name"
+)
 public class Marks extends BaseEntity {
     @Id
     @GeneratedValue(generator = "increment")

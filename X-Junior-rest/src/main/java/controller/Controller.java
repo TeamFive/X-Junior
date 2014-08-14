@@ -116,7 +116,7 @@ public class Controller {
     public String createEntity(@PathVariable("entity") String entity, @RequestBody String str)  {
         logger.info("Method: createEntity; params: entity = " + entity + ", str = " + str);
             try {
-                return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
+                return entityChooser.choseEntity(entity, str);
             } catch (JDBCConnectionException ex) {
                 return "{\"status\":\"error\"," +
                         "\"message\":\"Database is offline\"}";
@@ -131,13 +131,21 @@ public class Controller {
     }
 
 
+    @RequestMapping(value = "/student/{id}/info", method = RequestMethod.GET)
+    @ResponseBody
+    public String getStudentInfo(@PathVariable("id") Long id){
+        GetStudentInfos studentInfos = new GetStudentInfos();
+        return studentInfos.getStudentInfo(id);
+    }
+
+
     @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.PUT, produces = "application/json")
     @ResponseBody
     public String updateEntity(@PathVariable("entity") String entity, @PathVariable("id") long id, @RequestBody String str){
         logger.info("Method: updateEntity; params: entity = " + entity + ", id = " + id + ", str = " + str);
         try {
             entityChooser.setId(id);
-            return "{\"status\":\"" + entityChooser.choseEntity(entity, str) + "\"}";
+            return entityChooser.choseEntity(entity, str);
         } catch (JDBCConnectionException ex) {
             return "{\"status\":\"error\"," +
                     "\"message\":\"Database is offline\"}";

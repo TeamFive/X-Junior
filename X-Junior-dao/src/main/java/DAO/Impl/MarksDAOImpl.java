@@ -21,7 +21,7 @@ public class MarksDAOImpl extends BaseDAOImpl<Marks> {
     }
 
 
-    public String addMark(long group_id, long student_id, Marks mark){
+    public Marks addMark(long group_id, long student_id, Marks mark){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -34,7 +34,41 @@ public class MarksDAOImpl extends BaseDAOImpl<Marks> {
         entityManager.merge(mark);
         entityManager.getTransaction().commit();
 
-        return "success";
+
+
+        return mark;
+    }
+
+    public Marks updateMark(Marks mark){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Marks mark1 = entityManager.find(Marks.class, mark.getId());
+
+        if(!mark.getDate().equals(mark1.getDate())){
+            mark1.setDate(mark.getDate());
+        }
+
+        if(!mark.getMark().equals(mark1.getMark())){
+            mark1.setMark(mark.getMark());
+        }
+
+        if(!mark.getStudent().getId().equals(mark1.getStudent().getId())){
+            mark1.setStudent(mark.getStudent());
+        }
+
+        if(!mark.getGroup().getId().equals(mark1.getGroup().getId())){
+            mark1.setGroup(mark.getGroup());
+        }
+
+        entityManager.getTransaction().begin();
+        entityManager.merge(mark);
+        entityManager.getTransaction().commit();
+
+        return mark1;
+
+
     }
 
 }

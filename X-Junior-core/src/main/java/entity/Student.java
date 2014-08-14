@@ -24,8 +24,19 @@ public class Student extends BaseEntity {
     @Column(name = "started_work_date")
     private String startedWorkDate;
 
+    @Column(name = "status")
+    private String status;
+
     @Column(name = "had_probation")
     private boolean hadProbation;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Column(name = "start_at_course")
     private int startAtCourse;
@@ -94,8 +105,8 @@ public class Student extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name = "technology_student_future",
-            joinColumns = {@JoinColumn(name = "Student_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "Technology_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "Student_id", insertable = false, updatable = false, nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "Technology_id", insertable = false, updatable = false, nullable = false)})
     private List<Technology> technologyStudentFutureList;
 
     @Fetch(FetchMode.SELECT)
@@ -125,7 +136,7 @@ public class Student extends BaseEntity {
     public Student() {
     }
 
-    public Student(String startedWorkDate, boolean hadProbation, int startAtCourse, int wantedWorkHours, String changeHoursDate, String englishLevel, String wantedCourses, String phoneNumber, String skype, boolean wantEnglishTraining, String currentEnglishTraining, User user, List<Group> groupList, List<CustomField> customFieldList, List<Certificate> certificateList, List<Technology> technologyStudentNowList, List<Technology> technologyStudentFutureList, List<Interview> interviewList, List<Project> projectList, List<Feedback> feedbackList, List<Marks> marksList) {
+    public Student(String startedWorkDate, boolean hadProbation, int startAtCourse, int wantedWorkHours, String changeHoursDate, String englishLevel, String wantedCourses, String phoneNumber, String skype, boolean wantEnglishTraining, String currentEnglishTraining, User user, List<Group> groupList, List<CustomField> customFieldList, List<Certificate> certificateList, List<Technology> technologyStudentNowList, List<Technology> technologyStudentFutureList, List<Interview> interviewList, List<Project> projectList, List<Feedback> feedbackList, List<Marks> marksList, String status) {
         this.startedWorkDate = startedWorkDate;
         this.hadProbation = hadProbation;
         this.startAtCourse = startAtCourse;
@@ -147,6 +158,7 @@ public class Student extends BaseEntity {
         this.projectList = projectList;
         this.feedbackList = feedbackList;
         this.marksList = marksList;
+        this.status = status;
     }
 
     public Long getId() {
@@ -323,5 +335,25 @@ public class Student extends BaseEntity {
 
     public void setMarksList(List<Marks> marksList) {
         this.marksList = marksList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+
+        Student student = (Student) o;
+
+        if (!user.getName().equals(student.getUser().getName())) return false;
+
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user != null ? user.getName().hashCode() : 0;
+
+        return result;
     }
 }

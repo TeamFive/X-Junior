@@ -2,9 +2,7 @@ package DAO.Impl;
 
 import DAO.BaseDAO;
 import com.google.gson.Gson;
-import entity.Certificate;
-import entity.Student;
-import entity.Technology;
+import entity.*;
 import exceptions.EntityException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -68,6 +66,12 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
                 student1.setWantEnglishTraining(student.isWantEnglishTraining());
             if(student.getCurrentEnglishTraining() != null)
                 student1.setCurrentEnglishTraining(student.getCurrentEnglishTraining());
+            if(student.getStatus() != null){
+                student1.setStatus(student.getStatus());
+
+            } else {
+                student1.setStatus("enabled");
+            }
             if(student.getCertificateList().size() != 0) {
 
                 Query query = entityManager.createQuery("from " + Certificate.class.getName());
@@ -114,29 +118,110 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
             }
 
 
+
+
             entityManager.getTransaction().begin();
             entityManager.merge(student1);
             entityManager.getTransaction().commit();
-            entityManager.close();
 
             return student1;
 
         }
 
+        student.setStatus("enabled");
 
         entityManager.getTransaction().begin();
         entityManager.persist(student);
         entityManager.getTransaction().commit();
-        entityManager.close();
 
-        List<Student> students = getListByName(student.getUser().getName());
+        Query query = entityManager.createQuery("from " + Student.class.getName());
+        List<Student> resultList = query.getResultList();
+        Student student2 = new Student();
+        for(int i = 0; i < resultList.size(); i++){
+            if(student.getUser().getName().equals(resultList.get(i).getUser().getName())){
+                student2 = resultList.get(i);
+            }
+        }
 
+        student2.setMarksList(getMarksList(student2));
+        student2.setInterviewList(getInterviewList(student2));
+        student2.setFeedbackList(getFeedbackList(student2));
 
-
-
-        return students.get(0);
+        return student2;
 
     }
+
+    public Student getStudentInfo(Long id){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Student student = new Student();
+
+        student = entityManager.find(Student.class, id);
+
+        return student;
+    }
+
+    public List<Marks> getMarksList(Student student){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Query query = entityManager.createQuery("from " + Marks.class.getName());
+        List<Marks> resultList = query.getResultList();
+
+        List<Marks> studentMarks = new ArrayList<Marks>();
+
+        for(int i = 0; i < resultList.size(); i++){
+            if(student.getId().equals(resultList.get(i).getStudent().getId())){
+                studentMarks.add(resultList.get(i));
+            }
+        }
+
+        return studentMarks;
+
+    }
+
+    public List<Interview> getInterviewList(Student student){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Query query = entityManager.createQuery("from " + Interview.class.getName());
+        List<Interview> resultList = query.getResultList();
+
+        List<Interview> studentInterview = new ArrayList<Interview>();
+
+        for(int i = 0; i < resultList.size(); i++){
+            if(student.getId().equals(resultList.get(i).getStudent().getId())){
+                studentInterview.add(resultList.get(i));
+            }
+        }
+
+        return studentInterview;
+    }
+
+    public List<Feedback> getFeedbackList(Student student){
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Query query = entityManager.createQuery("from " + Interview.class.getName());
+        List<Feedback> resultList = query.getResultList();
+
+        List<Feedback> studentFeedback = new ArrayList<Feedback>();
+
+        for(int i = 0; i < resultList.size(); i++){
+            if(student.getId().equals(resultList.get(i).getStudent().getId())){
+                studentFeedback.add(resultList.get(i));
+            }
+        }
+
+        return studentFeedback;
+
+    }
+
 
     public List<Student> getListByName(String name){
         Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -2,8 +2,7 @@ package controller;
 
 import DAO.BaseDAO;
 import DAO.Impl.*;
-import VO.CuratorVO;
-import VO.StudentVO;
+import VO.*;
 import com.google.gson.Gson;
 import entity.*;
 import exceptions.EntityException;
@@ -11,10 +10,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import service.BaseService;
-import service.CertificateService;
-import service.Impl.BaseServiceImpl;
-import service.Impl.CertificateServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,21 +23,95 @@ public class EntityChooser {
     public String choseEntity(String entity, String json) throws ParseException, EntityException{
         JSONParser jsonParser = new JSONParser();
         Object object = jsonParser.parse(json);
+        Gson gson = new Gson();
         JSONObject jsonObject = (JSONObject) object;
         if(entity.equalsIgnoreCase("marks")){
+            Marks mark = new Marks();
             MarksDAOImpl marksDAO = new MarksDAOImpl();
 
-            Marks mark = new Marks();
-            mark.setId(id);
+            if(id != null){
+                mark.setId(id);
+                if(jsonObject.get("date") != null){
+                    mark.setDate(jsonObject.get("date").toString());
+                }
+
+                if(jsonObject.get("mark") != null){
+                    mark.setMark(jsonObject.get("mark").toString());
+                }
+
+                if(jsonObject.get("group_id") != null){
+                    Group group = new Group();
+                    group.setId(Long.parseLong(jsonObject.get("group_id").toString()));
+                    mark.setGroup(group);
+                }
+
+                if(jsonObject.get("student_id") != null){
+                    Student student = new Student();
+                    student.setId(Long.parseLong(jsonObject.get("student_id").toString()));
+                    mark.setStudent(student);
+                }
+
+                return "{\"status\":\"success\", \"data\":" + gson.toJson(marksDAO.updateMark(mark)) + "}";
+            }
+
+
+
             mark.setDate(jsonObject.get("date").toString());
             mark.setMark(jsonObject.get("mark").toString());
 
-            return marksDAO.addMark(Long.parseLong(jsonObject.get("group_id").toString()),
-                    (Long.parseLong(jsonObject.get("student_id").toString())), mark);
+//            return marksDAO.addMark(Long.parseLong(jsonObject.get("group_id").toString()),
+   //                 (Long.parseLong(jsonObject.get("student_id").toString())), mark);
         }
 
         if(entity.equalsIgnoreCase("feedback")){
             Feedback feedback = new Feedback();
+            FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+            if(id != null){
+                feedback.setId(id);
+                if(jsonObject.get("date") != null){
+                    feedback.setDate(jsonObject.get("date").toString());
+                }
+
+                if(jsonObject.get("extra") != null){
+                    feedback.setExtra(jsonObject.get("extra").toString());
+                }
+
+                if(jsonObject.get("increase_hours") != null){
+                    feedback.setIncreaseHours(Boolean.parseBoolean(jsonObject.get("increase_hours").toString()));
+                }
+
+                if(jsonObject.get("people_relation") != null){
+                    feedback.setPeopleRelation(Integer.parseInt(jsonObject.get("people_relation").toString()));
+                }
+
+                if(jsonObject.get("proff_suitab") != null){
+                    feedback.setProffSuitab(Integer.parseInt(jsonObject.get("proff_suitab").toString()));
+                }
+
+                if(jsonObject.get("real_project") != null){
+                    feedback.setRealProject(jsonObject.get("real_project").toString());
+                }
+
+                if(jsonObject.get("work_attitude") != null){
+                    feedback.setWorkAttitude(Integer.parseInt(jsonObject.get("work_attitude").toString()));
+                }
+
+                if(jsonObject.get("curator_id") != null){
+                    Curator curator = new Curator();
+                    curator.setId(Long.parseLong(jsonObject.get("curator_id").toString()));
+                    feedback.setCurator(curator);
+                }
+
+                if(jsonObject.get("student_id") != null){
+                    Student student = new Student();
+                    student.setId(Long.parseLong(jsonObject.get("student_id").toString()));
+                    feedback.setStudent(student);
+                }
+
+                return "{\"status\":\"success\", \"data\":" + gson.toJson(new FeedbackVO(feedbackDAO.updateFeedback(feedback))) + "}";
+
+            }
+
             feedback.setDate(jsonObject.get("date").toString());  //String
             feedback.setExtra(jsonObject.get("extra").toString());  //String
             feedback.setIncreaseHours(Boolean.parseBoolean(jsonObject.get("increase_hours").toString()));  //Boolean
@@ -51,13 +120,15 @@ public class EntityChooser {
             feedback.setRealProject(jsonObject.get("real_project").toString());     //String
             feedback.setWorkAttitude(Integer.parseInt(jsonObject.get("work_attitude").toString()));   //int
 
-            FeedbackDAOImpl feedbackDAO = new FeedbackDAOImpl();
+
             return feedbackDAO.createFeedback(feedback,
                     Long.parseLong(jsonObject.get("curator_id").toString()),
                     Long.parseLong(jsonObject.get("student_id").toString()));
         }
         if(entity.equalsIgnoreCase("curator")){
+
             Curator curator = new Curator();
+            curator.setStudentList(new ArrayList<Student>());
 
             if(id == null){
                 User user = new User(jsonObject.get("name").toString(),
@@ -67,7 +138,7 @@ public class EntityChooser {
 
             if(jsonObject.get("students") != null){
                 JSONArray jsonArray = (JSONArray) jsonObject.get("students");
-                curator.setStudentList(new ArrayList<Student>());
+
                 for(int i = 0; i < jsonArray.size(); i++){
                     curator.getStudentList().add(new Student());
                     curator.getStudentList().get(i).setId(Long.parseLong(jsonArray.get(i).toString()));
@@ -75,9 +146,9 @@ public class EntityChooser {
             }
             curator.setId(id);
 
-            Gson gson = new Gson();
             CuratorDAOImpl curatorDAO = new CuratorDAOImpl();
-            String result = "success\"} " + "{" + gson.toJson(new CuratorVO(curatorDAO.saveCurator(curator)));
+            id = null;
+            String result = "{\"status\":\"success\" \"data\":" + gson.toJson(new CuratorVO(curatorDAO.saveCurator(curator))) + "}";
             return result;
         }
         if(entity.equalsIgnoreCase("hr")){
@@ -110,13 +181,14 @@ public class EntityChooser {
         if(entity.equalsIgnoreCase("customfield")){
             CustomField customField = new CustomField();
             customField.setName(jsonObject.get("customfield_name").toString());
-            customField.setDefaultValue(jsonObject.get("default_value").toString());
             customField.setFieldType(jsonObject.get("field_type").toString());
+            customField.setOptions(jsonObject.get("options").toString());
 
             CustomFieldDAOImpl customFieldDAO = new CustomFieldDAOImpl();
 
-            return customFieldDAO.createCustomField(customField,
-                    Long.parseLong(jsonObject.get("fieldsgroup_id").toString()));
+            CustomField customField1 = customFieldDAO.createCustomField(customField);
+
+            return "{\"status\":\"success\", \"data\":" + gson.toJson(new CustomFieldVO(customField1));
         }
         if(entity.equalsIgnoreCase("faculty")){
             Faculty faculty = new Faculty();
@@ -187,7 +259,9 @@ public class EntityChooser {
             if(id == null)
                 student.setUser(new User(jsonObject.get("name").toString(), jsonObject.get("email").toString()));
 
-
+            if(jsonObject.get("status") != null){
+                student.setStatus(jsonObject.get("status").toString());
+            }
             if(jsonObject.get("started_work_date") != null)
                 student.setStartedWorkDate(jsonObject.get("started_work_date").toString());
             if(jsonObject.get("had_probation") != null)
@@ -234,10 +308,15 @@ public class EntityChooser {
                     i++;
                 }
             }
-            Gson gson = new Gson();
-            StudentDAOImpl studentDAO = new StudentDAOImpl();
-            String result = "success\" } {\" " + gson.toJson(new StudentVO(studentDAO.createStudent(student, id)));
 
+            StudentDAOImpl studentDAO = new StudentDAOImpl();
+
+            //String result = "success\" } {\" " + gson.toJson(new StudentVO(studentDAO.createStudent(student, id)));
+            if(id == null){
+                return "{\"status\":\"success\", \"data\": " + gson.toJson(new StudentElem(studentDAO.createStudent(student, id))) + "}";
+            }
+            String result = "{\"status\":\"success\", \"data\": " + gson.toJson(new StudentVO(studentDAO.createStudent(student, id))) + "}";
+            id = null;
             return result;
         }
         if(entity.equalsIgnoreCase("teamleader")){
@@ -261,7 +340,11 @@ public class EntityChooser {
             university.setUniversity_name((jsonObject.get("university_name").toString()));
 
             UniversityDAOImpl universityDAO = new UniversityDAOImpl();
-            return universityDAO.createUniversity(university);
+
+
+            String result = "{\" status\":\"success\", \"data\":" + gson.toJson(new UniversityVO(universityDAO.createUniversity(university)))
+                    + "}";
+            return result;
         }
 
         return null;

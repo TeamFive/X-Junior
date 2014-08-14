@@ -32,6 +32,7 @@ public class StudentVO implements BaseVO {
     private List<ProjectVO> projectList;
     private List<FeedbackListItem> feedbackList;
     private List<MarksListItem> marksList;
+    private String status;
 
     private class FeedbackListItem{
         private Long id;
@@ -162,9 +163,6 @@ public class StudentVO implements BaseVO {
             this.interviewList.add(new InterviewListItem(item));
         }
         this.projectList = new ArrayList<ProjectVO>();
-        for (Project item : student.getProjectList()){
-            this.projectList.add(new ProjectVO(item));
-        }
         this.feedbackList = new ArrayList<FeedbackListItem>();
         for (Feedback item : student.getFeedbackList()){
             this.feedbackList.add(new FeedbackListItem(item));
@@ -173,5 +171,6 @@ public class StudentVO implements BaseVO {
         for (Marks item : student.getMarksList()){
             this.marksList.add(new MarksListItem(item));
         }
+        this.status = student.getStatus();
     }
 }

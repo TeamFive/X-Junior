@@ -15,9 +15,6 @@ public class CustomField extends BaseEntity {
     @Column(name = "custom_field_name")
     private String name;
 
-    @Column(name = "default_value")
-    private String defaultValue;
-
     @Column(name = "field_type")
     private String fieldType;
 
@@ -25,12 +22,15 @@ public class CustomField extends BaseEntity {
     @JoinColumn(name = "FieldsGroup_id")
     private FieldsGroup fieldsGroup;
 
+    @Column(name = "options")
+    private String options;
+
     public CustomField() {
     }
 
-    public CustomField(String name, String defaultValue, FieldsGroup fieldsGroup, String fieldType) {
+    public CustomField(String name, FieldsGroup fieldsGroup, String fieldType, String options) {
         this.name = name;
-        this.defaultValue = defaultValue;
+        this.options = options;
         this.fieldsGroup = fieldsGroup;
         this.fieldType = fieldType;
     }
@@ -59,19 +59,19 @@ public class CustomField extends BaseEntity {
         this.name = name;
     }
 
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
     public FieldsGroup getFieldsGroup() {
         return fieldsGroup;
     }
 
     public void setFieldsGroup(FieldsGroup fieldsGroup) {
         this.fieldsGroup = fieldsGroup;
+    }
+
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
     }
 }

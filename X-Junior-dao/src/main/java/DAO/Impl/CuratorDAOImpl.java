@@ -13,10 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,63 +30,55 @@ public class CuratorDAOImpl extends BaseDAOImpl<Curator> {
 
 
 
-    @Transactional
-    public Curator getCuratorByName(String name) throws EntityException{
-        Logger logger = LoggerFactory.getLogger(this.getClass());
-        try {
-            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-            Root<User> root = criteriaQuery.from(User.class);
-            criteriaQuery.select(root);
+//    @Transactional
+//    public Curator getCuratorByName(String name) throws EntityException{
+//        Logger logger = LoggerFactory.getLogger(this.getClass());
+//        try {
+//
+//            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+//            EntityManager entityManager = entityManagerFactory.createEntityManager();
+//
+//            Query query = entityManager.createNamedQuery("findCuratorByName");
+//            query.setParameter("name", name);
+//            Curator curator = (Curator) query.getSingleResult();
+//
+//
+//            return curator;
+//
+//        } catch (NoResultException ex){
+//            throw new EntityException("Entity not found");
+//        } catch (PersistenceException ex){
+//            throw new EntityException("Database is offline");
+//        }
+//    }
 
-            ParameterExpression<String> parameterExpression = criteriaBuilder.parameter(String.class);
-            criteriaQuery.where(criteriaBuilder.equal(root.get("name"), parameterExpression));
+//    public Curator getCuratorByUser(User user){
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//
+//        Query query = entityManager.createNamedQuery("findAllStudentsByName");
+//        query.setParameter("name", name);
+//        List<Student> resultList = query.getResultList();
+//
+//        logger.info("Find " + resultList.getClass());
+//        return resultList;
+//
+//        //Curator curator = query.getSingleResult();
+//        return null;
+//    }
 
-            TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
-            query.setParameter(parameterExpression, name);
+    public Curator saveCurator(Curator curator) throws EntityException {
 
-
-
-            User user = query.getSingleResult();
-
-            return getCuratorByUser(user);
-        } catch (NoResultException ex){
-            throw new EntityException("Entity not found");
-        } catch (PersistenceException ex){
-            throw new EntityException("Database is offline");
-        }
-    }
-
-    public Curator getCuratorByUser(User user){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Curator> criteriaQuery = criteriaBuilder.createQuery(Curator.class);
-
-        Root<Curator> root = criteriaQuery.from(Curator.class);
-        criteriaQuery.select(root);
-
-        ParameterExpression<User> parameterExpression = criteriaBuilder.parameter(User.class);
-        criteriaQuery.where(criteriaBuilder.equal(root.get("User_id"), parameterExpression));
-
-        TypedQuery<Curator> query = entityManager.createQuery(criteriaQuery);
-        query.setParameter(parameterExpression, user);
-
-        Curator curator = query.getSingleResult();
-        return curator;
-    }
-
-    public Curator saveCurator(Curator curator){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         if(curator.getId() != null){
             Curator curator1 = entityManager.find(Curator.class, curator.getId());
-            curator1.setStudentList(new ArrayList<Student>());
             for(int i = 0; i < curator.getStudentList().size(); i++){
-                curator1.getStudentList().add(entityManager.find(Student.class, curator.getStudentList().get(i).getId()));
+                Student student = entityManager.find(Student.class, curator.getStudentList().get(i).getId());
+                if(!curator1.getStudentList().contains(student)){
+                    curator1.getStudentList().add(student);
+                }
             }
 
             entityManager.getTransaction().begin();
@@ -104,7 +93,27 @@ public class CuratorDAOImpl extends BaseDAOImpl<Curator> {
         entityManager.merge(curator);
         entityManager.getTransaction().commit();
 
-        return  null;
+        List<Curator> curators = getListByName(curator.getUser().getName());
+
+
+        //Curator curator1 = getCuratorByName(curator.getUser().getName());
+
+        return  curators.get(0);
+    }
+
+    public List<Curator> getListByName(String name){
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Query query = entityManager.createQuery("select c from Curator c where c.user.name = :name");
+        query.setParameter("name", name);
+        List<Curator> resultList = query.getResultList();
+
+        logger.info("Find " + resultList.getClass());
+        return resultList;
     }
 
 }

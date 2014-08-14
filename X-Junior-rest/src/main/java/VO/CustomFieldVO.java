@@ -9,16 +9,16 @@ import entity.FieldsGroup;
 public class CustomFieldVO implements BaseVO {
     private Long id;
     private String name;
-    private String defaultValue;
     private String fieldType;
     private FieldsGroup fieldsGroup;
+    private String options;
 
     public CustomFieldVO(CustomField customField) {
         this.id = customField.getId();
         this.name = customField.getName();
-        this.defaultValue = customField.getDefaultValue();
         this.fieldType = customField.getFieldType();
         this.fieldsGroup = customField.getFieldsGroup();
+        this.options = customField.getOptions();
     }
 
     public Long getId() {
@@ -37,14 +37,6 @@ public class CustomFieldVO implements BaseVO {
         this.name = name;
     }
 
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
     public String getFieldType() {
         return fieldType;
     }
@@ -59,5 +51,13 @@ public class CustomFieldVO implements BaseVO {
 
     public void setFieldsGroup(FieldsGroup fieldsGroup) {
         this.fieldsGroup = fieldsGroup;
+    }
+
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
     }
 }

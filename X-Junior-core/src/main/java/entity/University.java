@@ -6,6 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "University")
+@NamedQuery(
+        name = "findUniversityByName",
+        query = "Select uni from University uni where uni.university_name = :name"
+)
 public class University extends BaseEntity {
     private Long id;
     private String university_name;

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Curator")
+
 public class Curator extends BaseEntity {
     @Id
     @GeneratedValue(generator = "increment")
