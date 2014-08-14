@@ -1,6 +1,5 @@
 package DAO.Impl;
 
-import DAO.BaseDAO;
 import com.google.gson.Gson;
 import entity.*;
 import exceptions.EntityException;
@@ -14,11 +13,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
-import javax.swing.plaf.ListUI;
 import java.util.*;
 
 @Repository
 public class StudentDAOImpl extends BaseDAOImpl<Student> {
+
     public StudentDAOImpl() {
         super(Student.class);
     }
@@ -40,6 +39,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JaneList");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         Student student1;
         Gson gson = new Gson();
         if(studentId != null){
@@ -325,8 +325,7 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
 
         List<Student> students = entityManager.createQuery(query).getResultList();
 
-        boolean isFirstArrayItem = true;
-        JSONObject jsonItem = null;
+        JSONObject jsonItem;
         JSONArray jsonArray = new JSONArray();
 
         if (students.isEmpty()){
@@ -376,6 +375,6 @@ public class StudentDAOImpl extends BaseDAOImpl<Student> {
                 jsonArray.add(jsonItem);
             }
         }
-        return jsonArray.toString();
+        return "{\"status\":\"success\",\"data\":" + jsonArray.toString() + "}";
     }
 }
